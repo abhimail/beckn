@@ -1,0 +1,28 @@
+notes:
+  - "API remains bound to core Item. Domain specifics move into beckn:attributes."
+  - "Equivalence declared in JSON-LD: ev:stationId ≡ beckn:id (alias)."
+  - "Locations belong in core: beckn:locations[] (do not duplicate in attributes)."
+
+mappings:
+  - from: "StationId (e.g., provider's CS ID)"
+    to:   "Item['beckn:id']"
+    equivalence: true
+    context: "schema-context.jsonld (ev:stationId -> beckn:id)"
+
+  - from: "Station location (lat/lng/address)"
+    to:   "Item['beckn:locations'][*]"
+
+  - from: "Connector type (e.g., intent tag 'connector-type')"
+    to:   "Item['beckn:attributes']['ev:connectorType']"
+
+  - from: "Energy/price (Order/quote)"
+    to:   "Item['beckn:attributes']['ev:tariff']"
+
+  - from: "Session/port status (fulfillment / stops START/END)"
+    to:   "Item['beckn:attributes']['ev:availability'], Item['beckn:attributes']['ev:slotsAvailable']"
+
+  - from: "Provider-level attributes/tags"
+    to:   "Item['beckn:attributes']['ev:providerTags'][]"
+
+  - from: "Station operating window"
+    to:   "Item['beckn:attributes']['ev:openingHours']"

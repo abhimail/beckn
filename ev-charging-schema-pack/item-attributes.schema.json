@@ -1,0 +1,51 @@
+{
+  "$id": "https://example.org/schema/items/v1/EVCharging/item-attributes.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EV Charging Item Attributes",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "@context": {
+      "oneOf": [
+        { "type": "string", "format": "uri" },
+        { "type": "array", "items": { "type": "string", "format": "uri" } }
+      ]
+    },
+    "@type": { "type": "string" },
+
+    "ev:connectorType": {
+      "type": "string",
+      "enum": ["CCS2", "CHAdeMO", "Type2", "GB/T", "Tesla", "Other"]
+    },
+    "ev:currentType": { "type": "string", "enum": ["AC", "DC"] },
+    "ev:maxPowerKW":  { "type": "number", "minimum": 0 },
+    "ev:maxCurrentA": { "type": "number", "minimum": 0 },
+    "ev:voltageV":    { "type": "number", "minimum": 0 },
+
+    "ev:availability": {
+      "type": "string",
+      "enum": ["AVAILABLE", "OCCUPIED", "OUT_OF_SERVICE", "UNKNOWN"]
+    },
+    "ev:slotsAvailable": { "type": "integer", "minimum": 0 },
+
+    "ev:tariff": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "schema:price": { "type": "number", "minimum": 0 },
+        "schema:priceCurrency": { "type": "string", "minLength": 3, "maxLength": 3 },
+        "ev:pricingUnit": {
+          "type": "string",
+          "enum": ["PER_KWH", "PER_MINUTE", "SESSION", "HYBRID"]
+        },
+        "ev:idleFeePerMinute": { "type": "number", "minimum": 0 }
+      }
+    },
+
+    "ev:openingHours": { "type": "string" },
+    "ev:amenities": { "type": "array", "items": { "type": "string" } },
+
+    "ev:providerTags": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["ev:connectorType", "ev:currentType", "ev:maxPowerKW"]
+}

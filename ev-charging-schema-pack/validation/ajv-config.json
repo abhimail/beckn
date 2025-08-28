@@ -1,0 +1,8 @@
+{
+  "strict": true,
+  "strictSchema": false,
+  "allowUnionTypes": true,
+  "allErrors": true,
+  "verbose": true,
+  "code": { "esm": true }
+}

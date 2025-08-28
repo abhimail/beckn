@@ -1,0 +1,14 @@
+{
+  "@context": {
+    "beckn": "https://becknprotocol.io/ontology#",
+    "schema": "https://schema.org/",
+    "ev": "https://example.org/ontology/ev#",
+    "geo": "https://purl.org/geojson/vocab#",
+
+    /* Equivalence: ev:stationId ≡ beckn:id (alias) */
+    "ev:stationId": {
+      "@id": "beckn:id",
+      "@type": "@id"
+    }
+  }
+}

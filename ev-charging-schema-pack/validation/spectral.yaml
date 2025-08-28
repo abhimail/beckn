@@ -1,0 +1,26 @@
+extends: ["spectral:oas"]
+rules:
+  beckn-operationId-style:
+    description: "operationId should be lowerCamelCase verbNoun"
+    given: "$.paths[*][*].operationId"
+    severity: warn
+    then:
+      function: pattern
+      functionOptions: { match: "^[a-z]+[A-Za-z0-9]*$" }
+
+  beckn-has-security:
+    description: "All operations should declare security (HttpSig or equivalent)"
+    given: "$.paths[*][post,get,put,patch,delete]"
+    severity: error
+    then:
+      field: security
+      function: truthy
+
+  beckn-jsonpath-rfc:
+    description: "Descriptions referencing JSONPath should point to RFC 9535"
+    given: "$..[?(@property=='description' || @property=='summary')]^"
+    severity: warn
+    then:
+      function: pattern
+      functionOptions:
+        match: "RFC 9535|JSONPath"

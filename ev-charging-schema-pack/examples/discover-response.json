@@ -1,0 +1,50 @@
+{
+  "context": {
+    "ts": "2025-08-28T12:00:00Z",
+    "msgid": "8f0a42c4-3f3f-4a7e-8d9c-82b0fe0d9c77",
+    "traceid": "8f0a42c4-3f3f-4a7e-8d9c-82b0fe0d9c77",
+    "network_id": ["uei.energy/ev"]
+  },
+  "catalogs": [
+    {
+      "@type": "beckn:Catalog",
+      "beckn:descriptor": {
+        "@type": "beckn:Descriptor",
+        "schema:name": "UEI EV Network — Koramangala Cluster"
+      },
+      "beckn:items": [
+        {
+          "@context": "https://becknprotocol.io/schemas/core/v1/Item/schema-context.jsonld",
+          "beckn:id": "KRM-001",
+          "beckn:descriptor": {
+            "@type": "beckn:Descriptor",
+            "schema:name": "CCS2 Fast Charger (120kW)"
+          },
+          "beckn:rating": { "beckn:ratingValue": 4.6, "beckn:ratingCount": 112 },
+          "beckn:rateable": true,
+          "beckn:networkId": ["uei.energy/ev"],
+          "beckn:provider": {
+            "beckn:id": "provider-acme-ev",
+            "beckn:descriptor": { "schema:name": "ACME EV Infra" }
+          },
+          "beckn:locations": [
+            { "schema:address": "Koramangala, BLR", "geo:lat": 12.934, "geo:lng": 77.614 }
+          ],
+          "beckn:attributes": {
+            "@context": "https://example.org/schema/items/v1/EVCharging/schema-context.jsonld",
+            "@type": "beckn:EVChargingItem",
+            "ev:stationId": "KRM-001",
+            "ev:connectorType": "CCS2",
+            "ev:currentType": "DC",
+            "ev:maxPowerKW": 120,
+            "ev:availability": "AVAILABLE",
+            "ev:slotsAvailable": 2,
+            "ev:tariff": { "schema:price": 18.5, "schema:priceCurrency": "INR", "ev:pricingUnit": "PER_KWH" },
+            "ev:openingHours": "24x7",
+            "ev:amenities": ["Parking", "Restroom"]
+          }
+        }
+      ]
+    }
+  ]
+}

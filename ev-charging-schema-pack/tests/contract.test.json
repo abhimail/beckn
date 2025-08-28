@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Positive - CCS2 DC Fast",
+    "data": {
+      "beckn:attributes": {
+        "@context": "https://example.org/schema/items/v1/EVCharging/schema-context.jsonld",
+        "@type": "beckn:EVChargingItem",
+        "ev:connectorType": "CCS2",
+        "ev:currentType": "DC",
+        "ev:maxPowerKW": 120
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "Negative - Missing connectorType",
+    "data": {
+      "beckn:attributes": {
+        "@context": "https://example.org/schema/items/v1/EVCharging/schema-context.jsonld",
+        "@type": "beckn:EVChargingItem",
+        "ev:currentType": "DC",
+        "ev:maxPowerKW": 120
+      }
+    },
+    "valid": false
+  }
+]

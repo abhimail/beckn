@@ -1,0 +1,14 @@
+{
+  "context": {
+    "ts": "2025-08-28T12:00:00Z",
+    "msgid": "d7d7e8a1-1111-4444-8888-abcdefabcdef",
+    "traceid": "d7d7e8a1-1111-4444-8888-abcdefabcdef",
+    "network_id": ["uei.energy/ev"]
+  },
+  "schema_context": [
+    "https://example.org/schema/items/v1/EVCharging/schema-context.jsonld"
+  ],
+  "text_search": "fast dc charging koramangala",
+  "filters": "$[?(@['beckn:attributes']['ev:currentType']=='DC' && @['beckn:attributes']['ev:maxPowerKW']>=60)]",
+  "pagination": { "page": 1, "limit": 10 }
+}
