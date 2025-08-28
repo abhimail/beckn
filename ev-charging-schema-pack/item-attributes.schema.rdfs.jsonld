@@ -1,0 +1,169 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "rdf":  "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl":  "http://www.w3.org/2002/07/owl#",
+    "xsd":  "http://www.w3.org/2001/XMLSchema#",
+
+    "beckn":  "https://becknprotocol.io/ontology#",
+    "schema": "https://schema.org/",
+    "ev":     "https://example.org/ontology/ev#",
+    "geo":    "https://purl.org/geojson/vocab#"
+  },
+
+  "@graph": [
+    {
+      "@id": "ev:EVChargingOntology",
+      "@type": "owl:Ontology",
+      "rdfs:comment": "Ontology defining EV Charging attributes attachable to Beckn Items via beckn:attributes."
+    },
+
+    /* ======= Classes ======= */
+
+    {
+      "@id": "ev:EVCharging",
+      "@type": "owl:Class",
+      "rdfs:label": "EV Charging Attributes",
+      "rdfs:comment": "Attribute set representing EV charging–specific data that may appear under Item['beckn:attributes']."
+    },
+    {
+      "@id": "ev:Tariff",
+      "@type": "owl:Class",
+      "rdfs:label": "EV Tariff",
+      "rdfs:comment": "Represents charging tariff details for an EV charging offer."
+    },
+
+    /* ======= Object Properties ======= */
+
+    {
+      "@id": "ev:tariff",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": { "@id": "ev:EVCharging" },
+      "rdfs:range":  { "@id": "ev:Tariff" },
+      "rdfs:comment": "Pricing information for EV charging."
+    },
+    {
+      "@id": "ev:location",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": { "@id": "ev:EVCharging" },
+      "rdfs:range":  { "@id": "schema:Place" },
+      "rdfs:comment": "Geographic location of the charging station."
+    },
+
+    /* ======= Datatype Properties on ev:EVCharging ======= */
+
+    {
+      "@id": "ev:connectorType",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": { "@id": "ev:EVCharging" },
+      "rdfs:range":  { "@id": "xsd:string" },
+      "rdfs:comment": "Connector type (e.g., CCS2, CHAdeMO, Type2, GB/T, Tesla, Other)."
+    },
+    {
+      "@id": "ev:currentType",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": { "@id": "ev:EVCharging" },
+      "rdfs:range":  { "@id": "xsd:string" },
+      "rdfs:comment": "Electrical current type (AC or DC)."
+    },
+    {
+      "@id": "ev:maxPowerKW",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": { "@id": "ev:EVCharging" },
+      "rdfs:range":  { "@id": "xsd:decimal" },
+      "rdfs:comment": "Maximum charging power in kilowatts."
+    },
+    {
+      "@id": "ev:maxCurrentA",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": { "@id": "ev:EVCharging" },
+      "rdfs:range":  { "@id": "xsd:decimal" },
+      "rdfs:comment": "Maximum current in Amperes."
+    },
+    {
+      "@id": "ev:voltageV",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": { "@id": "ev:EVCharging" },
+      "rdfs:range":  { "@id": "xsd:decimal" },
+      "rdfs:comment": "Voltage in Volts."
+    },
+    {
+      "@id": "ev:availability",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": { "@id": "ev:EVCharging" },
+      "rdfs:range":  { "@id": "xsd:string" },
+      "rdfs:comment": "Current availability status (e.g., AVAILABLE, OCCUPIED, OUT_OF_SERVICE, UNKNOWN)."
+    },
+    {
+      "@id": "ev:slotsAvailable",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": { "@id": "ev:EVCharging" },
+      "rdfs:range":  { "@id": "xsd:integer" },
+      "rdfs:comment": "Number of available charging slots/ports."
+    },
+    {
+      "@id": "ev:openingHours",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": { "@id": "ev:EVCharging" },
+      "rdfs:range":  { "@id": "xsd:string" },
+      "rdfs:comment": "Operating hours for the station."
+    },
+    {
+      "@id": "ev:amenities",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": { "@id": "ev:EVCharging" },
+      "rdfs:range":  { "@id": "xsd:string" },
+      "rdfs:comment": "Amenities available at or near the station (e.g., Parking, Restroom)."
+    },
+    {
+      "@id": "ev:providerTags",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": { "@id": "ev:EVCharging" },
+      "rdfs:range":  { "@id": "xsd:string" },
+      "rdfs:comment": "Provider-defined tags relevant for discovery/filtering."
+    },
+
+    /* ======= Datatype Properties on ev:Tariff ======= */
+
+    {
+      "@id": "schema:price",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": { "@id": "ev:Tariff" },
+      "rdfs:range":  { "@id": "xsd:decimal" },
+      "rdfs:comment": "Numeric price value."
+    },
+    {
+      "@id": "schema:priceCurrency",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": { "@id": "ev:Tariff" },
+      "rdfs:range":  { "@id": "xsd:string" },
+      "rdfs:comment": "ISO 4217 currency code (e.g., INR, USD)."
+    },
+    {
+      "@id": "ev:pricingUnit",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": { "@id": "ev:Tariff" },
+      "rdfs:range":  { "@id": "xsd:string" },
+      "rdfs:comment": "Unit of pricing (e.g., PER_KWH, PER_MINUTE, SESSION, HYBRID)."
+    },
+    {
+      "@id": "ev:idleFeePerMinute",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": { "@id": "ev:Tariff" },
+      "rdfs:range":  { "@id": "xsd:decimal" },
+      "rdfs:comment": "Idle fee per minute, if applicable."
+    },
+
+    /* ======= Equivalence: stationId ↔ beckn:id ======= */
+
+    {
+      "@id": "ev:stationId",
+      "@type": "owl:DatatypeProperty",
+      "owl:equivalentProperty": { "@id": "beckn:id" },
+      "rdfs:domain": { "@id": "beckn:Item" },
+      "rdfs:range":  { "@id": "xsd:string" },
+      "rdfs:comment": "Provider’s station identifier; semantically equivalent to beckn:id."
+    }
+  ]
+}

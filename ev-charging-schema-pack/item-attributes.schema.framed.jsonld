@@ -1,0 +1,58 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "beckn": "https://becknprotocol.io/ontology#",
+    "schema": "https://schema.org/",
+    "ev": "https://example.org/ontology/ev#",
+    "geo": "https://purl.org/geojson/vocab#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "ev:connectorType":   { "@id": "ev:connectorType",   "@type": "xsd:string" },
+    "ev:currentType":     { "@id": "ev:currentType",     "@type": "xsd:string" },
+    "ev:maxPowerKW":      { "@id": "ev:maxPowerKW",      "@type": "xsd:decimal" },
+    "ev:maxCurrentA":     { "@id": "ev:maxCurrentA",     "@type": "xsd:decimal" },
+    "ev:voltageV":        { "@id": "ev:voltageV",        "@type": "xsd:decimal" },
+
+    "ev:availability":    { "@id": "ev:availability",    "@type": "xsd:string" },
+    "ev:slotsAvailable":  { "@id": "ev:slotsAvailable",  "@type": "xsd:integer" },
+
+    "ev:tariff":          { "@id": "ev:tariff",          "@type": "@json" },
+    "schema:price":       { "@id": "schema:price",       "@type": "xsd:decimal" },
+    "schema:priceCurrency": { "@id": "schema:priceCurrency", "@type": "xsd:string" },
+    "ev:pricingUnit":     { "@id": "ev:pricingUnit",     "@type": "xsd:string" },
+    "ev:idleFeePerMinute":{ "@id": "ev:idleFeePerMinute","@type": "xsd:decimal" },
+
+    "ev:location":        { "@id": "ev:location",        "@type": "@json" },
+    "schema:address":     { "@id": "schema:address",     "@type": "xsd:string" },
+    "geo:lat":            { "@id": "geo:lat",            "@type": "xsd:decimal" },
+    "geo:lng":            { "@id": "geo:lng",            "@type": "xsd:decimal" },
+
+    "ev:openingHours":    { "@id": "ev:openingHours",    "@type": "xsd:string" },
+    "ev:amenities":       { "@id": "ev:amenities",       "@container": "@set", "@type": "xsd:string" },
+    "ev:providerTags":    { "@id": "ev:providerTags",    "@container": "@set", "@type": "xsd:string" }
+  },
+
+  "@type": "beckn:EVCharging",
+
+  "ev:connectorType":   {},
+  "ev:currentType":     {},
+  "ev:maxPowerKW":      {},
+
+  "ev:maxCurrentA":     { "@optional": true },
+  "ev:voltageV":        { "@optional": true },
+  "ev:availability":    { "@optional": true },
+  "ev:slotsAvailable":  { "@optional": true },
+
+  "ev:tariff": {
+
+    "@embed": "@always",
+    "schema:price":        { "@optional": true },
+    "schema:priceCurrency":{ "@optional": true },
+    "ev:pricingUnit":      { "@optional": true },
+    "ev:idleFeePerMinute": { "@optional": true }
+  },
+
+  "ev:openingHours":   { "@optional": true },
+  "ev:amenities":      { "@optional": true },
+  "ev:providerTags":   { "@optional": true }
+}

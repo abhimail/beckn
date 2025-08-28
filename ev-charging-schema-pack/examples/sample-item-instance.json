@@ -1,0 +1,51 @@
+{
+  "@context": [
+    "https://becknprotocol.io/ontology#",
+    "https://schema.org/",
+    "https://example.org/ontology/ev#"
+  ],
+
+  "@type": "beckn:Item",
+
+  "beckn:id": "KRM-001",
+
+  "beckn:descriptor": {
+    "@type": "beckn:Descriptor",
+    "schema:name": "CCS2 Fast Charger (120kW)"
+  },
+
+  "beckn:provider": {
+    "beckn:id": "provider-acme-ev",
+    "beckn:descriptor": { "schema:name": "ACME EV Infra" }
+  },
+
+  "beckn:locations": [
+    {
+      "@type": "schema:Place",
+      "schema:address": "Koramangala, Bengaluru",
+      "geo:lat": 12.934,
+      "geo:lng": 77.614
+    }
+  ],
+
+  "beckn:attributes": {
+    "@type": "ev:EVCharging",
+
+    "ev:stationId": "KRM-001",
+
+    "ev:connectorType": "CCS2",
+    "ev:currentType": "DC",
+    "ev:maxPowerKW": 120,
+    "ev:availability": "AVAILABLE",
+    "ev:slotsAvailable": 2,
+    "ev:openingHours": "24x7",
+    "ev:amenities": ["Parking", "Restroom"],
+
+    "ev:tariff": {
+      "@type": "ev:Tariff",
+      "schema:price": 18.5,
+      "schema:priceCurrency": "INR",
+      "ev:pricingUnit": "PER_KWH"
+    }
+  }
+}
