@@ -1,0 +1,40 @@
+{
+  "$id": "https://example.org/schema/items/v1/EVCharging/rules/jsonschema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EV Charging Business Rules",
+  "type": "object",
+  "properties": {
+    "beckn:attributes": {
+      "type": "object",
+      "properties": {
+        "ev:currentType": { "type": "string", "enum": ["AC", "DC"] },
+        "ev:maxPowerKW": { "type": "number", "minimum": 0 },
+        "ev:availability": { "type": "string", "enum": ["AVAILABLE","OCCUPIED","OUT_OF_SERVICE","UNKNOWN"] },
+        "ev:tariff": {
+          "type": "object",
+          "properties": {
+            "schema:price": { "type": "number", "minimum": 0 },
+            "schema:priceCurrency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+            "ev:pricingUnit": { "type": "string", "enum": ["PER_KWH","PER_MINUTE","SESSION","HYBRID"] },
+            "ev:idleFeePerMinute": { "type": "number", "minimum": 0 }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "ev:currentType": { "const": "DC" } }, "required": ["ev:currentType"] },
+          "then": { "properties": { "ev:maxPowerKW": { "minimum": 20 } } },
+          "else": { "properties": { "ev:maxPowerKW": { "minimum": 3.3 } } }
+        },
+        {
+          "if": { "properties": { "ev:availability": { "const": "AVAILABLE" } }, "required": ["ev:availability"] },
+          "then": { "properties": { "ev:slotsAvailable": { "type": "integer", "minimum": 1 } }, "required": ["ev:slotsAvailable"] }
+        },
+        {
+          "if": { "properties": { "ev:tariff": { "properties": { "ev:pricingUnit": { "const": "PER_KWH" } }, "required": ["ev:pricingUnit"] } } },
+          "then": { "properties": { "ev:tariff": { "required": ["schema:price","schema:priceCurrency"] } } }
+        }
+      ]
+    }
+  }
+}

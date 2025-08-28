@@ -1,0 +1,95 @@
+{
+  "$id": "https://example.org/schema/items/v1/EVCharging/renderer.json",
+  "title": "EV Charging — UI Hints",
+  "groups": [
+    {
+      "id": "station",
+      "label": "Station",
+      "fields": [
+        "beckn:descriptor.schema:name",
+        "beckn:provider.beckn:descriptor.schema:name",
+        "beckn:locations[0].schema:address"
+      ]
+    },
+    {
+      "id": "capability",
+      "label": "Capability",
+      "fields": [
+        "beckn:attributes.ev:connectorType",
+        "beckn:attributes.ev:currentType",
+        "beckn:attributes.ev:maxPowerKW",
+        "beckn:attributes.ev:maxCurrentA",
+        "beckn:attributes.ev:voltageV"
+      ]
+    },
+    {
+      "id": "status",
+      "label": "Live Status",
+      "fields": [
+        "beckn:attributes.ev:availability",
+        "beckn:attributes.ev:slotsAvailable",
+        "beckn:openingHours"
+      ]
+    },
+    {
+      "id": "pricing",
+      "label": "Pricing",
+      "fields": [
+        "beckn:attributes.ev:tariff.schema:price",
+        "beckn:attributes.ev:tariff.schema:priceCurrency",
+        "beckn:attributes.ev:tariff.ev:pricingUnit",
+        "beckn:attributes.ev:tariff.ev:idleFeePerMinute"
+      ]
+    },
+    {
+      "id": "extras",
+      "label": "Extras",
+      "fields": [
+        "beckn:attributes.ev:amenities[]",
+        "beckn:attributes.ev:providerTags[]"
+      ]
+    }
+  ],
+  "labels": {
+    "beckn:descriptor.schema:name": "Station",
+    "beckn:provider.beckn:descriptor.schema:name": "Operator",
+    "beckn:locations[0].schema:address": "Address",
+    "beckn:attributes.ev:connectorType": "Connector",
+    "beckn:attributes.ev:currentType": "Current",
+    "beckn:attributes.ev:maxPowerKW": "Max kW",
+    "beckn:attributes.ev:maxCurrentA": "Max A",
+    "beckn:attributes.ev:voltageV": "Voltage (V)",
+    "beckn:attributes.ev:availability": "Availability",
+    "beckn:attributes.ev:slotsAvailable": "Slots",
+    "beckn:openingHours": "Hours",
+    "beckn:attributes.ev:tariff.schema:price": "Price",
+    "beckn:attributes.ev:tariff.schema:priceCurrency": "Currency",
+    "beckn:attributes.ev:tariff.ev:pricingUnit": "Unit",
+    "beckn:attributes.ev:tariff.ev:idleFeePerMinute": "Idle Fee (/min)",
+    "beckn:attributes.ev:amenities[]": "Amenities",
+    "beckn:attributes.ev:providerTags[]": "Provider Tags"
+  },
+  "widgets": {
+    "beckn:attributes.ev:connectorType": { "type": "select", "options": ["CCS2","CHAdeMO","Type2","GB/T","Tesla","Other"] },
+    "beckn:attributes.ev:currentType":   { "type": "segmented", "options": ["AC","DC"] },
+    "beckn:attributes.ev:maxPowerKW":    { "type": "number", "step": 1, "min": 0 },
+    "beckn:attributes.ev:maxCurrentA":   { "type": "number", "step": 1, "min": 0 },
+    "beckn:attributes.ev:voltageV":      { "type": "number", "step": 1, "min": 0 },
+    "beckn:attributes.ev:availability":  { "type": "badge", "colors": { "AVAILABLE":"green","OCCUPIED":"orange","OUT_OF_SERVICE":"red","UNKNOWN":"gray" } },
+    "beckn:attributes.ev:tariff.schema:price": { "type": "currency-amount" },
+    "beckn:attributes.ev:tariff.schema:priceCurrency": { "type": "select", "options": ["INR","USD","EUR","GBP","AED","SGD"] },
+    "beckn:attributes.ev:tariff.ev:pricingUnit": { "type": "select", "options": ["PER_KWH","PER_MINUTE","SESSION","HYBRID"] },
+    "beckn:attributes.ev:amenities[]": { "type": "tags" },
+    "beckn:attributes.ev:providerTags[]": { "type": "tags" }
+  },
+  "listCard": {
+    "title": "beckn:descriptor.schema:name",
+    "subtitle": "beckn:provider.beckn:descriptor.schema:name",
+    "pillRight": "beckn:attributes.ev:connectorType",
+    "meta": [
+      "beckn:attributes.ev:maxPowerKW",
+      "beckn:attributes.ev:tariff.schema:price",
+      "beckn:attributes.ev:availability"
+    ]
+  }
+}

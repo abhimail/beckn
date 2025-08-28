@@ -1,0 +1,62 @@
+{
+  "$id": "https://example.org/schema/items/v1/EVCharging/profile.json",
+  "name": "EV Charging — Beckn Attributes Profile",
+  "version": "1.0.0",
+  "about": "Profile manifest for EV Charging attribute set attached to Beckn Item via beckn:attributes.",
+  "schema": {
+    "attributesSchema": "./item-attributes.schema.json",
+    "jsonldContext": "./ev-ontology.jsonld"
+  },
+
+  "indexHints": {
+    "primaryKey": "beckn:id",
+    "unique": ["beckn:id"],
+    "search": [
+      "beckn:descriptor.schema:name",
+      "beckn:provider.beckn:descriptor.schema:name",
+      "beckn:attributes.ev:connectorType",
+      "beckn:attributes.ev:currentType"
+    ],
+    "filterable": [
+      "beckn:attributes.ev:connectorType",
+      "beckn:attributes.ev:currentType",
+      "beckn:attributes.ev:maxPowerKW",
+      "beckn:attributes.ev:availability"
+    ],
+    "sortable": [
+      "beckn:attributes.ev:maxPowerKW",
+      "beckn:rating.beckn:ratingValue",
+      "beckn:attributes.ev:tariff.schema:price"
+    ],
+    "geo": {
+      "latPath": "beckn:locations[0].geo:lat",
+      "lngPath": "beckn:locations[0].geo:lng"
+    }
+  },
+
+  "piiHints": {
+    "containsPII": false,
+    "fields": [],
+    "notes": "Station identity and location are not personal data; review provider tags for accidental PII before ingestion."
+  },
+
+  "compatibility": {
+    "core": {
+      "itemModel": "Beckn V2 Item",
+      "attributesSlot": "beckn:attributes",
+      "jsonpath": "RFC 9535"
+    },
+    "legacyMappings": [
+      {
+        "from": "intent.fulfillment.tags[?(@.descriptor.code=='connector-type')].list[*].descriptor.value",
+        "to": "beckn:attributes.ev:connectorType"
+      },
+      {
+        "from": "StationId / provider CS ID",
+        "to": "beckn:id (alias via ev:stationId ≡ beckn:id)"
+      }
+    ],
+    "wireFormat": ["application/json"],
+    "testedWith": ["AJV >= 8", "Spectral >= 6", "jsonld >= 5"]
+  }
+}

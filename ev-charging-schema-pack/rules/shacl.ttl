@@ -1,0 +1,97 @@
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix ev:    <https://example.org/ontology/ev#> .
+@prefix schema:<https://schema.org/> .
+@prefix beckn: <https://becknprotocol.io/ontology#> .
+
+# Node shape for the EV attribute set
+ev:EVChargingShape
+  a sh:NodeShape ;
+  sh:targetClass ev:EVCharging ;
+
+  # Required fields
+  sh:property [
+    sh:path ev:connectorType ;
+    sh:datatype xsd:string ;
+    sh:minCount 1
+  ] ;
+  sh:property [
+    sh:path ev:currentType ;
+    sh:in ( "AC" "DC" ) ;
+    sh:minCount 1
+  ] ;
+  sh:property [
+    sh:path ev:maxPowerKW ;
+    sh:datatype xsd:decimal ;
+    sh:minInclusive 0 ;
+    sh:minCount 1
+  ] ;
+
+  # Optional numeric fields
+  sh:property [
+    sh:path ev:maxCurrentA ;
+    sh:datatype xsd:decimal ;
+    sh:minInclusive 0
+  ] ;
+  sh:property [
+    sh:path ev:voltageV ;
+    sh:datatype xsd:decimal ;
+    sh:minInclusive 0
+  ] ;
+
+  # Availability and slots
+  sh:property [
+    sh:path ev:availability ;
+    sh:in ( "AVAILABLE" "OCCUPIED" "OUT_OF_SERVICE" "UNKNOWN" )
+  ] ;
+  sh:property [
+    sh:path ev:slotsAvailable ;
+    sh:datatype xsd:integer ;
+    sh:minInclusive 0
+  ] ;
+
+  # Tariff as nested node
+  sh:property [
+    sh:path ev:tariff ;
+    sh:node ev:TariffShape
+  ] .
+
+# Tariff shape
+ev:TariffShape
+  a sh:NodeShape ;
+  sh:targetClass ev:Tariff ;
+  sh:property [
+    sh:path schema:price ;
+    sh:datatype xsd:decimal ;
+    sh:minInclusive 0
+  ] ;
+  sh:property [
+    sh:path schema:priceCurrency ;
+    sh:pattern "^[A-Z]{3}$"
+  ] ;
+  sh:property [
+    sh:path ev:pricingUnit ;
+    sh:in ( "PER_KWH" "PER_MINUTE" "SESSION" "HYBRID" )
+  ] ;
+  sh:property [
+    sh:path ev:idleFeePerMinute ;
+    sh:datatype xsd:decimal ;
+    sh:minInclusive 0
+  ] .
+
+# Conditional: if availability is AVAILABLE, slotsAvailable >= 1
+ev:EVChargingAvailableRule
+  a sh:NodeShape ;
+  sh:targetClass ev:EVCharging ;
+  sh:rule [
+    a sh:SPARQLRule ;
+    sh:prefixes [ sh:declare [ sh:prefix "ev" ; sh:namespace "https://example.org/ontology/ev#" ] ] ;
+    sh:construct """
+      CONSTRUCT { ?this ev:slotsAvailable ?slots . }
+      WHERE {
+        ?this ev:availability "AVAILABLE" .
+        OPTIONAL { ?this ev:slotsAvailable ?slots . }
+        FILTER ( !bound(?slots) || xsd:integer(?slots) < 1 )
+      }
+    """ ;
+  ] .
