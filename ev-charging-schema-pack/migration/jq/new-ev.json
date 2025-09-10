@@ -1,0 +1,97 @@
+{
+  "catalogs": [
+    {
+      "@type": "beckn:Catalog",
+      "beckn:descriptor": {
+        "@type": "beckn:Descriptor",
+        "schema:name": "EV Catalog"
+      },
+      "beckn:items": {
+        "@context": "https://becknprotocol.io/schemas/core/v1/Item/schema-context.jsonld",
+        "beckn:id": "pe-charging-01",
+        "beckn:descriptor": {
+          "@type": "beckn:Descriptor",
+          "schema:name": "VoltCharge Inc."
+        },
+        "beckn:provider": {
+          "beckn:id": "voltcharge_inc",
+          "beckn:descriptor": {
+            "schema:name": "VoltCharge Inc."
+          }
+        },
+        "beckn:locations": [
+          {
+            "@type": "schema:Place",
+            "schema:address": "123, Plaza House, Street 23",
+            "geo:lat": 12.345345,
+            "geo:lng": 77.389754
+          }
+        ],
+        "beckn:attributes": {
+          "@context": "https://example.org/ontology/ev#",
+          "@type": "ev:EVCharging",
+          "ev:stationId": "pe-charging-01",
+          "ev:connectorType": "CCS2",
+          "ev:currentType": "DC",
+          "ev:maxPowerKW": 30,
+          "ev:availability": "AVAILABLE",
+          "ev:openingHours": null,
+          "ev:amenities": [],
+          "ev:providerTags": [],
+          "ev:tariff": {
+            "@type": "ev:Tariff",
+            "schema:price": 8,
+            "schema:priceCurrency": "INR",
+            "ev:pricingUnit": "PER_KWH"
+          }
+        }
+      }
+    },
+    {
+      "@type": "beckn:Catalog",
+      "beckn:descriptor": {
+        "@type": "beckn:Descriptor",
+        "schema:name": "EV Catalog"
+      },
+      "beckn:items": {
+        "@context": "https://becknprotocol.io/schemas/core/v1/Item/schema-context.jsonld",
+        "beckn:id": "pe-charging-02",
+        "beckn:descriptor": {
+          "@type": "beckn:Descriptor",
+          "schema:name": "VoltCharge Inc."
+        },
+        "beckn:provider": {
+          "beckn:id": "voltcharge_inc",
+          "beckn:descriptor": {
+            "schema:name": "VoltCharge Inc."
+          }
+        },
+        "beckn:locations": [
+          {
+            "@type": "schema:Place",
+            "schema:address": "123, Plaza House, Street 23",
+            "geo:lat": 12.345345,
+            "geo:lng": 77.389754
+          }
+        ],
+        "beckn:attributes": {
+          "@type": "ev:EVCharging",
+          "ev:stationId": "pe-charging-02",
+          "ev:connectorType": "CCS2",
+          "ev:currentType": "AC",
+          "ev:maxPowerKW": 40,
+          "ev:availability": "AVAILABLE",
+          "ev:openingHours": null,
+          "ev:amenities": [],
+          "ev:providerTags": [],
+          "ev:tariff": {
+            "@type": "ev:Tariff",
+            "schema:price": 8,
+            "schema:priceCurrency": "INR",
+            "ev:pricingUnit": "PER_KWH"
+          }
+        }
+      }
+    }
+  ]
+}

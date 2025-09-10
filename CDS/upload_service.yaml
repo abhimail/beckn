@@ -31,7 +31,7 @@ x-spec-refs:
   DISCOVERY_SPEC_URL: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml
 
 paths:
-  /beckn/v1/catalog/upload:
+  /beckn/v2/catalog/upload:
     post:
       summary: Upload one or more catalogs for indexing
       description: |
@@ -84,7 +84,7 @@ paths:
               schema:
                 $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
 
-  /beckn/v1/catalog/on_upload:
+  /beckn/v2/catalog/on_upload:
     post:
       summary: Callback with catalog upload processing results
       description: |
