@@ -1,0 +1,38 @@
+{
+  "id": "mixed.esg-org-attrs.v1",
+  "name": "Provider + ESG Metric Attributes v1",
+  "version": "1.0.0",
+  "about": "Merged attribute schema pack for Provider and ESG Metric attributes.",
+  "indexHints": {
+    "primaryKey": [
+      "metricId",
+      "providerAttributes.legalName"
+    ],
+    "timeFields": [
+      "reportingPeriod.start",
+      "reportingPeriod.end"
+    ],
+    "facets": [
+      "groupName",
+      "methodology",
+      "verification.status",
+      "entity.type",
+      "unit"
+    ]
+  },
+  "piiHints": {
+    "containsPII": false,
+    "notes": "This pack does not include direct personally identifiable information."
+  },
+  "compatibility": {
+    "coreItemSchema": ">=1.0.0",
+    "coreProviderSchema": ">=1.0.0"
+  },
+  "uris": {
+    "context": "./context.jsonld",
+    "schema": "./attributes.yaml",
+    "spectralRulesItem": "./rules/spectral-item.yaml",
+    "spectralRulesProvider": "./rules/spectral-provider.yaml",
+    "shaclRules": "./rules/item-equality.shacl.ttl"
+  }
+}

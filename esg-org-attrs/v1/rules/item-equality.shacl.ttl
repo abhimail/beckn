@@ -1,0 +1,24 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix schema: <https://schema.org/> .
+@prefix beckn: <https://schema.beckn.org/core/v1/> .
+@prefix esg: <https://schema.example.org/esg#> .
+
+# Validate that an Item's metricId (schema:identifier of the esg:MetricAttributes node)
+# equals the Item's own identifier (schema:identifier).
+# This assumes JSON-LD expands beckn:id -> schema:identifier via your core context.
+
+[] a sh:NodeShape ;
+   sh:targetClass beckn:Item ;
+   sh:property [
+     sh:path schema:identifier ;
+     sh:equals [ sh:path beckn:itemAttributes / schema:identifier ] ;
+     sh:message "metricId must equal Item beckn:id" ;
+   ] .
+
+# Basic provider attribute expectations (optional examples)
+[] a sh:NodeShape ;
+   sh:targetObjectsOf beckn:provider ;
+   sh:property [
+     sh:path ( beckn:providerAttributes schema:url );
+     sh:message "Provider website should be a valid URL" ;
+   ] .

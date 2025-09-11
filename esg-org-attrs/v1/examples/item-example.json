@@ -1,0 +1,61 @@
+{
+  "@context": "https://becknprotocol.io/schemas/core/v1/Item/schema-context.jsonld",
+  "@type": "beckn:Item",
+  "beckn:id": "TotalScope1Emission",
+  "beckn:descriptor": {
+    "name": "Total Scope 1 Emissions"
+  },
+  "beckn:provider": {
+    "beckn:id": "acme:company:001",
+    "beckn:descriptor": {
+      "name": "ACME Energy Pvt Ltd"
+    },
+    "beckn:providerAttributes": {
+      "@context": "https://schema.example.org/mixed/esg-org-attrs/v1/context.jsonld",
+      "@type": "org:ProviderAttributes",
+      "legalName": "ACME Energy Pvt Ltd",
+      "website": "https://www.acme.com",
+      "industry": "Renewable Energy",
+      "classification": {
+        "industryClassification": "GICS"
+      },
+      "yearOfIncorporation": 2012,
+      "identifiers": {
+        "leiNumber": "5493001KJTIIGC8Y1R12",
+        "gstNumber": "29ABCDE1234F2Z5",
+        "isin": "INE123A01016",
+        "cusip": "037833100"
+      }
+    }
+  },
+  "beckn:itemAttributes": {
+    "@context": "https://schema.example.org/mixed/esg-org-attrs/v1/context.jsonld",
+    "@type": "esg:MetricAttributes",
+    "metricId": "TotalScope1Emission",
+    "groupName": [
+      "GHG Emissions",
+      "Climate Risk"
+    ],
+    "metricName": "Total Scope1 Emissions",
+    "description": "Direct GHG emissions from owned or controlled sources",
+    "value": 1500,
+    "unit": "tCO2e",
+    "source": "GHG Inventory System",
+    "methodology": "Directly Reported",
+    "reportingPeriod": {
+      "start": "2024-01-01",
+      "end": "2024-12-31"
+    },
+    "scenario": "Baseline",
+    "verification": {
+      "status": true
+    },
+    "entity": {
+      "name": "Bangalore Manufacturing Plant",
+      "id": "101",
+      "type": "Facility",
+      "state": "Karnataka",
+      "country": "India"
+    }
+  }
+}

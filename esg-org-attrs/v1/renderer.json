@@ -1,0 +1,77 @@
+{
+  "title": "Provider & ESG Metric Attributes",
+  "groups": [
+    {
+      "label": "Provider Identity",
+      "fields": [
+        "legalName",
+        "alternateName",
+        "website",
+        "industry"
+      ]
+    },
+    {
+      "label": "Provider Classification",
+      "fields": [
+        "classification.industryClassification",
+        "classification.industryCode",
+        "classification.industryName"
+      ]
+    },
+    {
+      "label": "Identifiers",
+      "fields": [
+        "identifiers.leiNumber",
+        "identifiers.gstNumber",
+        "identifiers.isin",
+        "identifiers.cusip"
+      ]
+    },
+    {
+      "label": "Metric Core",
+      "fields": [
+        "metricName",
+        "description",
+        "groupName",
+        "scenario"
+      ]
+    },
+    {
+      "label": "Metric Value",
+      "fields": [
+        "value",
+        "unit",
+        "methodology",
+        "source"
+      ]
+    },
+    {
+      "label": "Metric Period & Verification",
+      "fields": [
+        "reportingPeriod.start",
+        "reportingPeriod.end",
+        "verification.status",
+        "verification.by",
+        "verification.standard"
+      ]
+    },
+    {
+      "label": "Entity Scope",
+      "fields": [
+        "entity.name",
+        "entity.type",
+        "entity.state",
+        "entity.country"
+      ]
+    }
+  ],
+  "fieldLabels": {
+    "legalName": "Legal Name",
+    "website": "Website",
+    "metricName": "Metric Name",
+    "groupName": "Groups",
+    "reportingPeriod.start": "Period Start",
+    "reportingPeriod.end": "Period End",
+    "verification.status": "Verified?"
+  }
+}

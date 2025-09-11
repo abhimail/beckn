@@ -1,0 +1,223 @@
+openapi: 3.1.0
+info:
+  title: Provider + ESG Metric — Attribute Schema Pack
+  version: 1.0.0
+  description: >
+    JSON-LD aware attributes for Providers (organization metadata) and ESG Metrics.
+    Mount under core Provider.beckn:providerAttributes and Item.beckn:itemAttributes respectively.
+components:
+  schemas:
+
+    ProviderAttributes:
+      type: object
+      additionalProperties: true
+      required: ["@context", "@type", "legalName"]
+      properties:
+        "@context":
+          type: string
+          format: uri
+          enum: ["https://schema.example.org/mixed/esg-org-attrs/v1/context.jsonld"]
+          description: JSON-LD context for this pack
+        "@type":
+          type: string
+          enum: ["org:ProviderAttributes"]
+          description: JSON-LD type for this attribute object
+        legalName:
+          type: string
+          description: Registered legal name
+          x-jsonld: { "@id": "schema:legalName" }
+          x-jsonild: { "@id": "schema:legalName" }
+        alternateName:
+          type: string
+          description: Trading/common name
+          x-jsonld: { "@id": "schema:alternateName" }
+          x-jsonild: { "@id": "schema:alternateName" }
+        website:
+          type: string
+          format: uri
+          x-jsonld: { "@id": "schema:url" }
+          x-jsonild: { "@id": "schema:url" }
+        industry:
+          type: string
+          description: Free-text sector/line of business
+          x-jsonld: { "@id": "schema:industry" }
+          x-jsonild: { "@id": "schema:industry" }
+        classification:
+          type: object
+          description: Industry classification bundle (e.g., GICS/NAICS)
+          properties:
+            industryClassification:
+              type: string
+              description: Classification scheme name/URI
+              x-jsonld: { "@id": "schema:inDefinedTermSet" }
+              x-jsonild: { "@id": "schema:inDefinedTermSet" }
+            industryCode:
+              type: string
+              description: Code within the scheme
+              x-jsonld: { "@id": "schema:termCode" }
+              x-jsonild: { "@id": "schema:termCode" }
+            industryName:
+              type: string
+              description: Human-readable label for the code
+              x-jsonld: { "@id": "schema:name" }
+              x-jsonild: { "@id": "schema:name" }
+        yearOfIncorporation:
+          type: integer
+          minimum: 1800
+          maximum: 2100
+          x-jsonld: { "@id": "schema:foundingDate" }
+          x-jsonild: { "@id": "schema:foundingDate" }
+        identifiers:
+          type: object
+          description: Business/securities identifiers
+          properties:
+            leiNumber:
+              type: string
+              pattern: "^[A-Z0-9]{18}[0-9]{2}$"
+              description: LEI (20 characters; ISO 17442)
+              x-jsonld: { "@id": "schema:leiCode" }
+              x-jsonild: { "@id": "schema:leiCode" }
+            gstNumber:
+              type: string
+              pattern: "^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
+              description: India GSTIN pattern
+              x-jsonld: { "@id": "schema:taxID" }
+              x-jsonild: { "@id": "schema:taxID" }
+            isin:
+              type: string
+              pattern: "^[A-Z]{2}[A-Z0-9]{9}[0-9]$"
+              description: ISIN
+              x-jsonld: { "@id": "schema:identifier" }
+              x-jsonild: { "@id": "schema:identifier" }
+            cusip:
+              type: string
+              pattern: "^[0-9A-Z]{9}$"
+              description: CUSIP
+              x-jsonld: { "@id": "schema:identifier" }
+              x-jsonild: { "@id": "schema:identifier" }
+
+    ESGMetricAttributes:
+      type: object
+      additionalProperties: true
+      required: ["@context", "@type", "metricName", "value", "reportingPeriod"]
+      properties:
+        "@context":
+          type: string
+          format: uri
+          enum: ["https://schema.example.org/mixed/esg-org-attrs/v1/context.jsonld"]
+          description: JSON-LD context for this pack
+        "@type":
+          type: string
+          enum: ["esg:MetricAttributes"]
+          description: JSON-LD type for this attribute object
+        metricId:
+          type: string
+          description: A stable identifier for this metric (SHOULD equal parent Item's beckn:id)
+          x-jsonld: { "@id": "schema:identifier" }
+          x-jsonild: { "@id": "schema:identifier" }
+          x-beckn-constraints:
+            equals:
+              jsonpath: "$.['beckn:id']"
+        groupName:
+          type: array
+          items: { type: string }
+          description: Taxonomy labels (e.g., ["GHG Emissions","Climate Risk"])
+          x-jsonld: { "@id": "schema:category" }
+          x-jsonild: { "@id": "schema:category" }
+        metricName:
+          type: string
+          description: Human-readable name for the metric
+          x-jsonld: { "@id": "schema:name" }
+          x-jsonild: { "@id": "schema:name" }
+        description:
+          type: string
+          description: Definition/context for the metric
+          x-jsonld: { "@id": "schema:description" }
+          x-jsonild: { "@id": "schema:description" }
+        value:
+          oneOf:
+            - type: number
+            - type: string
+          description: Metric value (numeric preferred)
+          x-jsonld: { "@id": "schema:value" }
+          x-jsonild: { "@id": "schema:value" }
+        unit:
+          type: string
+          description: Unit of measure (prefer UCUM/UNECE codes)
+          x-jsonld: { "@id": "schema:unitText" }
+          x-jsonild: { "@id": "schema:unitText" }
+        source:
+          type: string
+          description: Underlying system/report (e.g., GHG Inventory, BRSR)
+          x-jsonld: { "@id": "schema:isBasedOn" }
+          x-jsonild: { "@id": "schema:isBasedOn" }
+        methodology:
+          type: string
+          description: Method used to derive value
+          enum: [Directly Reported, Estimated, Calculated, Modeled, Survey, Other]
+          default: Directly Reported
+          x-jsonld: { "@id": "schema:measurementTechnique" }
+          x-jsonild: { "@id": "schema:measurementTechnique" }
+        reportingPeriod:
+          type: object
+          required: ["start", "end"]
+          properties:
+            start:
+              type: string
+              format: date
+              x-jsonld: { "@id": "schema:validFrom" }
+              x-jsonild: { "@id": "schema:validFrom" }
+            end:
+              type: string
+              format: date
+              x-jsonld: { "@id": "schema:validThrough" }
+              x-jsonild: { "@id": "schema:validThrough" }
+        scenario:
+          type: string
+          description: Scenario/baseline label
+          x-jsonld: { "@id": "schema:variableMeasured" }
+          x-jsonild: { "@id": "schema:variableMeasured" }
+        verification:
+          type: object
+          properties:
+            status:
+              type: boolean
+              description: true if verified
+              x-jsonld: { "@id": "schema:validity" }
+              x-jsonild: { "@id": "schema:validity" }
+            by:
+              type: string
+              description: Verifier name/org
+              x-jsonld: { "@id": "schema:reviewedBy" }
+              x-jsonild: { "@id": "schema:reviewedBy" }
+            standard:
+              type: string
+              description: Verification standard/framework
+              x-jsonld: { "@id": "schema:about" }
+              x-jsonild: { "@id": "schema:about" }
+        entity:
+          type: object
+          description: The entity the metric pertains to (facility/company/BU)
+          properties:
+            id:
+              type: string
+              x-jsonld: { "@id": "schema:identifier" }
+              x-jsonild: { "@id": "schema:identifier" }
+            name:
+              type: string
+              x-jsonld: { "@id": "schema:name" }
+              x-jsonild: { "@id": "schema:name" }
+            type:
+              type: string
+              description: Facility|Company|BusinessUnit|Site
+              x-jsonld: { "@id": "schema:additionalType" }
+              x-jsonild: { "@id": "schema:additionalType" }
+            state:
+              type: string
+              x-jsonld: { "@id": "schema:addressRegion" }
+              x-jsonild: { "@id": "schema:addressRegion" }
+            country:
+              type: string
+              x-jsonld: { "@id": "schema:addressCountry" }
+              x-jsonild: { "@id": "schema:addressCountry" }
+
