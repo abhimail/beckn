@@ -31,7 +31,7 @@ paths:
     post:
       summary: Discover items across multiple schemas
       description: |
-        Search and discover items across any schemas in beckn Schema regsirty. Supports text search, JSONPath-based filtering (RFC 9535), or both together with automatic schema adaptation. **This endpoint returns only an ACK/NACK** confirming receipt and validation of the discover request. The actual catalog results are delivered asynchronously via **/beckn/on_discover**.
+        Search and discover items across any schemas in Beckn Schema registry. Supports text search, JSONPath-based filtering (RFC 9535), or both together with automatic schema adaptation. **This endpoint returns only an ACK/NACK** confirming receipt and validation of the discover request. The actual catalog results are delivered asynchronously via **/beckn/on_discover**.
       operationId: discoverItems
       tags: [Discovery]
       requestBody:
@@ -152,61 +152,66 @@ paths:
             Response format preference.
             - Accept: text/html → Returns browser-friendly HTML page (default)
             - Accept: application/json → Returns structured JSON data in same format as structured query API
-          example: "text/html"
+          examples:
+            default:
+              value: "text/html"
         - name: filters
           in: query
           required: false
           schema:
             type: string
           description: URL-encoded JSONPath expression for complex filtering
-          example: "%24%5B%3F%28%40.price%20%3C%3D%201000%20%26%26%20%40.brand%20%3D%3D%20%27Premium%20Tech%27%29%5D"
+          examples:
+            sample:
+              value: "%24%5B%3F%28%40.price%20%3C%3D%201000%20%26%26%20%40.brand%20%3D%3D%20%27Premium%20Tech%27%29%5D"
         - name: pagination
           in: query
           required: false
           schema:
             type: string
           description: URL-encoded pagination object
-          example: "%7B%22page%22%3A1%2C%22limit%22%3A20%7D"
-responses:
-  '200':
-    description: Successful search response
-    content:
-      text/html:
-        schema:
-          type: string
-        examples:
-          html_example:
-            summary: Browser-friendly HTML page
-            value: |
-              Search Results - Premium Tech Electronics | Beckn Catalog
-              Search
+          examples:
+            sample:
+              value: "%7B%22page%22%3A1%2C%22limit%22%3A20%7D"
+      responses:
+        '200':
+          description: Successful search response
+          content:
+            text/html:
+              schema:
+                type: string
+              examples:
+                html_example:
+                  summary: Browser-friendly HTML page
+                  value: |
+                    Search Results - Premium Tech Electronics | Beckn Catalog
+                    Search
 
-              # Premium Tech Electronics Store
+                    # Premium Tech Electronics Store
 
-              High-quality electronics and gaming equipment
+                    High-quality electronics and gaming equipment
 
-              Available from Jan 27, 2025 to Dec 31, 2026
+                    Available from Jan 27, 2025 to Dec 31, 2026
 
-              ## Premium Gaming Laptop Pro
+                    ## Premium Gaming Laptop Pro
 
-              High-performance gaming laptop with RTX graphics
+                    High-performance gaming laptop with RTX graphics
 
-              ★★★★★ 4.8 (156 reviews)
+                    ★★★★★ 4.8 (156 reviews)
 
-              $1,499.99 USD
+                    $1,499.99 USD
 
-              Brand: Premium Tech
+                    Brand: Premium Tech
 
-              ID: laptop-item-001
+                    ID: laptop-item-001
 
-              © 2024 Beckn Catalog. Powered by Beckn Protocol.
-      application/json:
-        schema:
-          $ref: '#/components/schemas/DiscoverResponse'
-        examples:
-          electronic_items:
-            $ref: '#/components/examples/browser_search_electronic_items'
-
+                    © 2024 Beckn Catalog. Powered by Beckn Protocol.
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscoverResponse'
+              examples:
+                electronic_items:
+                  $ref: '#/components/examples/browser_search_electronic_items'
         '400':
           description: Bad request - Invalid parameters
           content:
@@ -312,7 +317,7 @@ components:
         - type: object
           description: >
             Beckn Context extended for Discovery. Adds network_id and schema_context.
-            Note: action is constrained per-envelope (DiscoverRequest / OnDiscoverRequest).
+            Note: action is constrained per-envelope (DiscoverRequest / DiscoverResponse).
           properties:
             network_id:
               type: array
@@ -392,7 +397,7 @@ components:
 
     Item:
       type: object
-      required: ["@context", "@type", "beckn:id", "beckn:descriptor", "beckn:provider", "beckn:attributes"]
+      required: ["@context", "@type", "beckn:id", "beckn:descriptor", "beckn:provider", "beckn:itemAttributes"]
       additionalProperties: false
       properties:
         "@context":
@@ -470,7 +475,7 @@ components:
           example: "tech-store-001"
         "beckn:descriptor":
           $ref: '#/components/schemas/Descriptor'
-        "beckn:timePeriod":
+        "beckn:validity":
           $ref: '#/components/schemas/TimePeriod'
         "beckn:locations":
           type: array
@@ -860,7 +865,7 @@ components:
                     "beckn:ratingCount": 156
                   "beckn:rateable": true
                   "beckn:networkId": ["bap.net/electronics"]
-                  "beckn:attributes":
+                  "beckn:itemAttributes":
                     "@context": "https://example.org/schema/items/v1/ElectronicItem/schema-context.jsonld"
                     "@type": "beckn:ElectronicItem"
                     "electronic:brand": "ASUS"
