@@ -425,11 +425,6 @@ components:
           example: true
         "beckn:rating":
           $ref: '#/components/schemas/Rating'
-        "beckn:labels":
-          type: array
-          items:
-            $ref: '#/components/schemas/PropertyValue'
-          description: Additional labels and metadata for the item
         "beckn:networkId":
           type: array
           items:
@@ -441,10 +436,10 @@ components:
           description: Pricing, availability, and terms of the item offer (uses schema:Offer)
         "beckn:provider":
           $ref: '#/components/schemas/Provider'
-        "beckn:attributes":
-          $ref: '#/components/schemas/ItemAttributes'
+        "beckn:itemAttributes":
+          $ref: '#/components/schemas/Attributes'
               
-    ItemAttributes:
+    Attributes:
       type: object
       description: >
         JSON-LD aware bag for domain-specific attributes of an Item.
@@ -467,6 +462,7 @@ components:
     Provider:
       type: object
       required: ["beckn:id", "beckn:descriptor"]
+      additionalProperties: false
       properties:
         "beckn:id":
           type: string
@@ -487,11 +483,8 @@ components:
           example: true
         "beckn:rating":
           $ref: '#/components/schemas/Rating'
-        "beckn:labels":
-          type: array
-          items:
-            $ref: '#/components/schemas/PropertyValue'
-          description: Additional labels and metadata for the provider
+        "beckn:providerAttributes":
+          $ref: '#/components/schemas/Attributes'
 
     Descriptor:
       type: object
@@ -580,29 +573,6 @@ components:
           minimum: 0
           description: Number of ratings
           example: 1250
-
-    PropertyValue:
-      type: object
-      required: ["@type"]
-      properties:
-        "@type":
-          type: string
-          enum: ["schema:PropertyValue"]
-          description: Type of the property value
-          example: "schema:PropertyValue"
-        "schema:name":
-          type: string
-          description: Property name
-          example: "Brand"
-        "schema:value":
-          type: string
-          description: Property value
-          example: "Premium Tech"
-        "schema:valueReference":
-          type: string
-          format: uri
-          description: Reference to the property value
-          example: "https://schema.org/Brand"
 
     Location:
       type: object
