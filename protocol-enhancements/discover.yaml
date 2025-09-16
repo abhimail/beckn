@@ -768,7 +768,89 @@ components:
             "@type": "beckn:Catalog"
             "beckn:id": "catalog-electronics-001"
             "beckn:descriptor": { "@type": "beckn:Descriptor", "schema:name": "Premium Tech Electronics Store" }
-            "beckn:items": []
+            "beckn:items": [
+                {
+                  "@context": "https://becknprotocol.io/schemas/core/v1/Item/schema-context.jsonld",
+                  "@type": "beckn:Item",
+                  "beckn:id": "laptop-item-002",
+                  "beckn:descriptor": {
+                    "@type": "beckn:Descriptor",
+                    "schema:name": "Premium Gaming Laptop Pro 15”",
+                    "beckn:shortDesc": "Intel i7, 16GB RAM, 512GB SSD, RTX 4060"
+                  },
+                  "beckn:category": {
+                    "@type": "schema:CategoryCode",
+                    "schema:codeValue": "electronics",
+                    "schema:name": "Electronics"
+                  },
+                  "beckn:rateable": true,
+                  "beckn:rating": {
+                    "@type": "beckn:Rating",
+                    "beckn:ratingValue": 4.7,
+                    "beckn:ratingCount": 932
+                  },
+                  "beckn:networkId": ["bap.net/electronics"],
+                  "beckn:itemAttributes": {
+                    "@context": "https://example.org/schema/items/v1/ElectronicItem/schema-context.jsonld",
+                    "@type": "beckn:ElectronicItem",
+                    "electronic:brand": "Premium Tech",
+                    "electronic:model": "G15-Pro-2025",
+                    "electronic:processor": "Intel Core i7-13700H",
+                    "electronic:ram": "16GB DDR5",
+                    "electronic:storage": "512GB NVMe SSD",
+                    "electronic:graphics": "NVIDIA GeForce RTX 4060",
+                    "electronic:display": "15.6\" 240Hz QHD",
+                    "electronic:warranty": "24 months"
+                  },
+                  "beckn:provider": {
+                    "beckn:id": "tech-store-001",
+                    "beckn:descriptor": {
+                      "@type": "beckn:Descriptor",
+                      "schema:name": "Premium Tech Electronics Store"
+                    }
+                  }
+                },
+                {
+                  "@context": "https://becknprotocol.io/schemas/core/v1/Item/schema-context.jsonld",
+                  "@type": "beckn:Item",
+                  "beckn:id": "headphones-item-001",
+                  "beckn:descriptor": {
+                    "@type": "beckn:Descriptor",
+                    "schema:name": "Aurora X200 Noise-Cancelling Headphones",
+                    "beckn:shortDesc": "Over-ear ANC, 40h battery, BT 5.3, multipoint"
+                  },
+                  "beckn:category": {
+                    "@type": "schema:CategoryCode",
+                    "schema:codeValue": "electronics",
+                    "schema:name": "Electronics"
+                  },
+                  "beckn:rateable": true,
+                  "beckn:rating": {
+                    "@type": "beckn:Rating",
+                    "beckn:ratingValue": 4.5,
+                    "beckn:ratingCount": 1543
+                  },
+                  "beckn:networkId": ["bap.net/electronics"],
+                  "beckn:itemAttributes": {
+                    "@context": "https://example.org/schema/items/v1/ElectronicItem/schema-context.jsonld",
+                    "@type": "beckn:ElectronicItem",
+                    "electronic:brand": "Aurora",
+                    "electronic:model": "X200",
+                    "electronic:wirelessTech": "Bluetooth 5.3",
+                    "electronic:features": ["ANC", "Transparency Mode", "Multipoint"],
+                    "electronic:batteryLifeHours": 40,
+                    "electronic:chargingPort": "USB-C",
+                    "electronic:warranty": "12 months"
+                  },
+                  "beckn:provider": {
+                    "beckn:id": "tech-store-001",
+                    "beckn:descriptor": {
+                      "@type": "beckn:Descriptor",
+                      "schema:name": "Premium Tech Electronics Store"
+                    }
+                  }
+                }
+              ]
 
     on_discover_grocery_catalog:
       summary: Grocery catalog callback
@@ -788,7 +870,85 @@ components:
             "@type": "beckn:Catalog"
             "beckn:id": "catalog-grocery-001"
             "beckn:descriptor": { "@type": "beckn:Descriptor", "schema:name": "Fresh Grocery Store" }
-            "beckn:items": []
+            "beckn:items": [
+              {
+                "@context": "https://becknprotocol.io/schemas/core/v1/Item/schema-context.jsonld",
+                "@type": "beckn:Item",
+                "beckn:id": "apples-item-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Organic Fuji Apples (1 kg)",
+                  "beckn:shortDesc": "Crisp, sweet USDA Organic apples — farm fresh"
+                },
+                "beckn:category": {
+                  "@type": "schema:CategoryCode",
+                  "schema:codeValue": "grocery",
+                  "schema:name": "Grocery"
+                },
+                "beckn:rateable": true,
+                "beckn:rating": {
+                  "@type": "beckn:Rating",
+                  "beckn:ratingValue": 4.6,
+                  "beckn:ratingCount": 387
+                },
+                "beckn:networkId": ["bap.net/grocery"],
+                "beckn:itemAttributes": {
+                  "@context": "https://example.org/schema/items/v1/GroceryItem/schema-context.jsonld",
+                  "@type": "beckn:GroceryItem",
+                  "grocery:brand": "Fresh Fields",
+                  "grocery:organicCertification": "USDA Organic",
+                  "grocery:variety": "Fuji",
+                  "grocery:unitSize": "1 kg",
+                  "grocery:origin": "Himachal Pradesh, IN",
+                  "grocery:shelfLifeDays": 10
+                },
+                "beckn:provider": {
+                  "beckn:id": "grocery-store-001",
+                  "beckn:descriptor": {
+                    "@type": "beckn:Descriptor",
+                    "schema:name": "Fresh Grocery Store"
+                  }
+                }
+              },
+              {
+                "@context": "https://becknprotocol.io/schemas/core/v1/Item/schema-context.jsonld",
+                "@type": "beckn:Item",
+                "beckn:id": "bread-item-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Whole Wheat Bread (500 g)",
+                  "beckn:shortDesc": "High-fiber artisan loaf, no added sugar"
+                },
+                "beckn:category": {
+                  "@type": "schema:CategoryCode",
+                  "schema:codeValue": "grocery",
+                  "schema:name": "Grocery"
+                },
+                "beckn:rateable": true,
+                "beckn:rating": {
+                  "@type": "beckn:Rating",
+                  "beckn:ratingValue": 4.3,
+                  "beckn:ratingCount": 812
+                },
+                "beckn:networkId": ["bap.net/grocery"],
+                "beckn:itemAttributes": {
+                  "@context": "https://example.org/schema/items/v1/GroceryItem/schema-context.jsonld",
+                  "@type": "beckn:GroceryItem",
+                  "grocery:brand": "BakeHouse",
+                  "grocery:unitSize": "500 g",
+                  "grocery:ingredients": ["Whole wheat flour", "Yeast", "Salt", "Olive oil"],
+                  "grocery:allergens": ["Gluten"],
+                  "grocery:shelfLifeDays": 5
+                },
+                "beckn:provider": {
+                  "beckn:id": "grocery-store-001",
+                  "beckn:descriptor": {
+                    "@type": "beckn:Descriptor",
+                    "schema:name": "Fresh Grocery Store"
+                  }
+                }
+              }
+            ]
 
     # ---------- ACK / NACK examples ----------
     ack_success:
