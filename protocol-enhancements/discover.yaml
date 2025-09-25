@@ -387,13 +387,15 @@ components:
           example: "tech-store-001"
         "beckn:validity":
           $ref: '#/components/schemas/TimePeriod'
-        "beckn:items":
+        beckn:items:  # semantic entities
           type: array
           description: >
             Array of beckn core Item entities in this catalog, returned directly without
             ItemResult wrapper for improved performance and simplified response structure
-          items:
-            $ref: '#/components/schemas/Item'
+          items: { $ref: "#/components/schemas/Item" }
+        beckn:offers: # commercial wrappers referencing items
+          type: array
+          items: { $ref: "#/components/schemas/Offer" }
 
     Item:
       type: object
@@ -436,13 +438,92 @@ components:
             type: string
           description: Array of network identifiers for the BAP (Beckn App Provider) that offers this item
           example: ["bap.net/electronics", "bap.net/tech"]
-        "beckn:offer":
-          type: object
-          description: Pricing, availability, and terms of the item offer (uses schema:Offer)
         "beckn:provider":
           $ref: '#/components/schemas/Provider'
         "beckn:itemAttributes":
           $ref: '#/components/schemas/Attributes'
+
+    Offer:
+      type: object
+      additionalProperties: false
+      required:
+        - "@context"
+        - "@type"
+        - beckn:id
+        - beckn:descriptor
+        - beckn:provider
+        - beckn:items
+      properties:
+        "@context":
+          type: string
+          format: uri
+          example: "https://becknprotocol.io/schemas/core/v1/Offer/schema-context.jsonld"
+        "@type":
+          type: string
+          enum: ["beckn:Offer"]
+          x-jsonld: { "@id": "schema:Offer" }
+          x-jsonild: { "@id": "schema:Offer" }
+
+        beckn:id:
+          type: string
+          description: Unique id for this offer
+          x-jsonld: { "@id": "schema:identifier" }
+          x-jsonild: { "@id": "schema:identifier" }
+
+        beckn:descriptor:
+          $ref: "#/components/schemas/Descriptor"
+
+        beckn:provider:
+          $ref: "#/components/schemas/Provider/properties/beckn:id"
+          description: Seller / provider of this offer
+          x-jsonld: { "@id": "schema:seller" }
+          x-jsonild: { "@id": "schema:seller" }
+
+        # Single source of truth for base item(s)
+        beckn:items:
+          type: array
+          minItems: 1
+          items: { $ref: "#/components/schemas/Item/properties/beckn:id" }
+          description: Base item(s) the offer applies to (single or bundle)
+          x-jsonld: { "@id": "schema:itemOffered" }
+          x-jsonild: { "@id": "schema:itemOffered" }
+
+        # Optional extras
+        beckn:addOns:
+          type: array
+          items: { $ref: "#/components/schemas/Offer/properties/beckn:id" }
+          description: Optional extra Offers that can be attached (e.g., warranty, gift wrap)
+          x-jsonld: { "@id": "schema:addOn" }
+          x-jsonild: { "@id": "schema:addOn" }
+
+        beckn:addOnItems:
+          type: array
+          items: { $ref: "#/components/schemas/Item/properties/beckn:id" }
+          description: Optional extras modeled as items (e.g., toppings, accessories)
+          x-jsonld: { "@id": "schema:addOn" }
+          x-jsonild: { "@id": "schema:addOn" }
+
+        beckn:validity:
+          $ref: "#/components/schemas/TimePeriod"
+          description: Offer validity window
+          x-jsonld: { "@id": "schema:availabilityStarts|schema:availabilityEnds" }
+          x-jsonild: { "@id": "schema:availabilityStarts|schema:availabilityEnds" }
+
+        beckn:price:
+          $ref: "#/components/schemas/PriceSpecification"
+          description: Price snapshot; detailed models can live in offerAttributes
+          x-jsonld: { "@id": "schema:priceSpecification" }
+          x-jsonild: { "@id": "schema:priceSpecification" }
+
+        beckn:eligibility:
+          $ref: "#/components/schemas/Eligibility"
+          description: Optional eligibility (regions, quantities, audiences)
+          x-jsonld: { "@id": "schema:eligibleRegion|schema:eligibleQuantity|schema:eligibleCustomerType" }
+          x-jsonild: { "@id": "schema:eligibleRegion|schema:eligibleQuantity|schema:eligibleCustomerType" }
+
+        beckn:offerAttributes:
+          $ref: "#/components/schemas/Attributes"
+          description: Attribute Pack attachment (pricing models, discounts, rail terms, etc.)          
               
     Attributes:
       type: object
@@ -491,6 +572,38 @@ components:
         "beckn:providerAttributes":
           $ref: '#/components/schemas/Attributes'
 
+    PriceSpecification:
+      type: object
+      additionalProperties: true
+      properties:
+        currency: { type: string, description: ISO 4217 code }
+        value:    { type: number, description: Total value for this spec node }
+        components:
+          type: array
+          description: Optional components (tax, shipping, discount, fee, surcharge)
+          items:
+            type: object
+            properties:
+              type: { type: string, enum: ["UNIT","TAX","DELIVERY","DISCOUNT","FEE","SURCHARGE"] }
+              value: { type: number }
+              currency: { type: string }
+              description: { type: string }
+      x-jsonld: { "@id": "schema:PriceSpecification" }
+      x-jsonild: { "@id": "schema:PriceSpecification" }
+
+    Eligibility:
+      type: object
+      properties:
+        eligibleRegion: { type: string }
+        eligibleQuantity:
+          type: object
+          properties:
+            min: { type: number }
+            max: { type: number }
+      x-jsonld: { "@id": "schema:DefinedRegion|schema:QuantitativeValue" }
+      x-jsonild: { "@id": "schema:DefinedRegion|schema:QuantitativeValue" }          
+
+    
     Descriptor:
       type: object
       required: ["@type"]
@@ -512,6 +625,9 @@ components:
           type: string
           description: Detailed description of the item
           example: "Powerful gaming laptop with NVIDIA RTX graphics, fast SSD storage, and high-refresh display"
+        "schema:image":
+          type: array
+          items: { type: string, format: uri }
 
     CategoryCode:
       type: object
