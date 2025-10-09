@@ -462,13 +462,11 @@ components:
           type: string
           enum: ["beckn:Offer"]
           x-jsonld: { "@id": "schema:Offer" }
-          x-jsonild: { "@id": "schema:Offer" }
 
         beckn:id:
           type: string
           description: Unique id for this offer
           x-jsonld: { "@id": "schema:identifier" }
-          x-jsonild: { "@id": "schema:identifier" }
 
         beckn:descriptor:
           $ref: "#/components/schemas/Descriptor"
@@ -477,7 +475,6 @@ components:
           $ref: "#/components/schemas/Provider/properties/beckn:id"
           description: Seller / provider of this offer
           x-jsonld: { "@id": "schema:seller" }
-          x-jsonild: { "@id": "schema:seller" }
 
         # Single source of truth for base item(s)
         beckn:items:
@@ -486,7 +483,6 @@ components:
           items: { $ref: "#/components/schemas/Item/properties/beckn:id" }
           description: Base item(s) the offer applies to (single or bundle)
           x-jsonld: { "@id": "schema:itemOffered" }
-          x-jsonild: { "@id": "schema:itemOffered" }
 
         # Optional extras
         beckn:addOns:
@@ -494,32 +490,27 @@ components:
           items: { $ref: "#/components/schemas/Offer/properties/beckn:id" }
           description: Optional extra Offers that can be attached (e.g., warranty, gift wrap)
           x-jsonld: { "@id": "schema:addOn" }
-          x-jsonild: { "@id": "schema:addOn" }
 
         beckn:addOnItems:
           type: array
           items: { $ref: "#/components/schemas/Item/properties/beckn:id" }
           description: Optional extras modeled as items (e.g., toppings, accessories)
           x-jsonld: { "@id": "schema:addOn" }
-          x-jsonild: { "@id": "schema:addOn" }
 
         beckn:validity:
           $ref: "#/components/schemas/TimePeriod"
           description: Offer validity window
           x-jsonld: { "@id": "schema:availabilityStarts|schema:availabilityEnds" }
-          x-jsonild: { "@id": "schema:availabilityStarts|schema:availabilityEnds" }
 
         beckn:price:
           $ref: "#/components/schemas/PriceSpecification"
           description: Price snapshot; detailed models can live in offerAttributes
           x-jsonld: { "@id": "schema:priceSpecification" }
-          x-jsonild: { "@id": "schema:priceSpecification" }
 
         beckn:eligibility:
           $ref: "#/components/schemas/Eligibility"
           description: Optional eligibility (regions, quantities, audiences)
           x-jsonld: { "@id": "schema:eligibleRegion|schema:eligibleQuantity|schema:eligibleCustomerType" }
-          x-jsonild: { "@id": "schema:eligibleRegion|schema:eligibleQuantity|schema:eligibleCustomerType" }
 
         beckn:offerAttributes:
           $ref: "#/components/schemas/Attributes"
@@ -589,8 +580,7 @@ components:
               currency: { type: string }
               description: { type: string }
       x-jsonld: { "@id": "schema:PriceSpecification" }
-      x-jsonild: { "@id": "schema:PriceSpecification" }
-
+      
     Eligibility:
       type: object
       properties:
@@ -601,8 +591,7 @@ components:
             min: { type: number }
             max: { type: number }
       x-jsonld: { "@id": "schema:DefinedRegion|schema:QuantitativeValue" }
-      x-jsonild: { "@id": "schema:DefinedRegion|schema:QuantitativeValue" }          
-
+      
     
     Descriptor:
       type: object

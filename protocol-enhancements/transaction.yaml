@@ -42,28 +42,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 success_ack:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_success
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_success'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 bad_request:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_bad_request
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_bad_request'
         '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 server_error:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_server_error
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_server_error'
   /on_select:
     post:
       summary: Provider returns priced order (quote)
@@ -97,28 +97,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 success_ack:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_success
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_success'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 bad_request:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_bad_request
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_bad_request'
         '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 server_error:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_server_error
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_server_error'
   
   /get_offer:
     post:
@@ -185,28 +185,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse"
+                $ref: "{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse"
               examples:
                 success_ack:
-                  $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_success"
+                  $ref: "{DISCOVERY_SPEC_URL}#/components/examples/ack_success"
         "400":
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse"
+                $ref: "{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse"
               examples:
                 bad_request:
-                  $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_bad_request"
+                  $ref: "{DISCOVERY_SPEC_URL}#/components/examples/ack_bad_request"
         "500":
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse"
+                $ref: "{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse"
               examples:
                 server_error:
-                  $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_server_error"
+                  $ref: "{DISCOVERY_SPEC_URL}#/components/examples/ack_server_error"
 
   /on_get_offer:
     post:
@@ -244,28 +244,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse"
+                $ref: "{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse"
               examples:
                 success_ack:
-                  $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_success"
+                  $ref: "{DISCOVERY_SPEC_URL}#/components/examples/ack_success"
         "400":
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse"
+                $ref: "{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse"
               examples:
                 bad_request:
-                  $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_bad_request"
+                  $ref: "{DISCOVERY_SPEC_URL}#/components/examples/ack_bad_request"
         "500":
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse"
+                $ref: "{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse"
               examples:
                 server_error:
-                  $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_server_error"  
+                  $ref: "{DISCOVERY_SPEC_URL}#/components/examples/ack_server_error"  
   
   /init:
     post:
@@ -300,28 +300,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 success_ack:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_success
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_success'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 bad_request:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_bad_request
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_bad_request'
         '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 server_error:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_server_error
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_server_error'
   /on_init:
     post:
       summary: Provider echoes initialized order (with refs populated)
@@ -355,28 +355,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 success_ack:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_success
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_success'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 bad_request:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_bad_request
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_bad_request'
         '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 server_error:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_server_error
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_server_error'
   /confirm:
     post:
       summary: Confirm order (final selections; payment/fulfillment committed)
@@ -410,28 +410,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 success_ack:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_success
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_success'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 bad_request:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_bad_request
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_bad_request'
         '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 server_error:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_server_error
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_server_error'
   /on_confirm:
     post:
       summary: Provider returns confirmed order
@@ -465,28 +465,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 success_ack:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_success
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_success'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 bad_request:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_bad_request
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_bad_request'
         '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 server_error:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_server_error
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_server_error'
   /status:
     post:
       summary: Fetch order status by id
@@ -527,28 +527,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 success_ack:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_success
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_success'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 bad_request:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_bad_request
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_bad_request'
         '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 server_error:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_server_error
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_server_error'
   /on_status:
     post:
       summary: Provider returns current order (or tracking via fulfillment packs)
@@ -584,28 +584,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 success_ack:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_success
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_success'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 bad_request:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_bad_request
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_bad_request'
         '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 server_error:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_server_error
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_server_error'
   /update:
     post:
       summary: Request order mutation (replace, cancel line, address change, etc.)
@@ -639,28 +639,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 success_ack:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_success
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_success'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 bad_request:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_bad_request
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_bad_request'
         '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 server_error:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_server_error
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_server_error'
   /on_update:
     post:
       summary: Provider returns mutated order
@@ -694,28 +694,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 success_ack:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_success
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_success'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 bad_request:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_bad_request
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_bad_request'
         '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 server_error:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_server_error
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_server_error'
   /cancel:
     post:
       summary: Request to cancel an order
@@ -756,28 +756,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 success_ack:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_success
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_success'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 bad_request:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_bad_request
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_bad_request'
         '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 server_error:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_server_error
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_server_error'
   /on_cancel:
     post:
       summary: Provider returns cancelled order (may reflect refund/payment update
@@ -812,28 +812,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 success_ack:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_success
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_success'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 bad_request:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_bad_request
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_bad_request'
         '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/AckResponse
+                $ref: '{DISCOVERY_SPEC_URL}#/components/schemas/AckResponse'
               examples:
                 server_error:
-                  $ref: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/examples/ack_server_error
+                  $ref: '{DISCOVERY_SPEC_URL}#/components/examples/ack_server_error'
 
 
 components:
@@ -881,75 +881,63 @@ components:
           type: string
           enum: ["beckn:Order"]
           x-jsonld: { "@id": "schema:Order" }
-          x-jsonild: { "@id": "schema:Order" }
 
         beckn:id:
           type: string
           x-jsonld: { "@id": "schema:identifier" }
-          x-jsonild: { "@id": "schema:identifier" }
 
         beckn:state:
           type: string
           description: Order status/state
           x-jsonld: { "@id": "schema:orderStatus" }
-          x-jsonild: { "@id": "schema:orderStatus" }
 
         beckn:orderNumber:
           type: string
           description: Human-visible order number
           x-jsonld: { "@id": "schema:orderNumber" }
-          x-jsonild: { "@id": "schema:orderNumber" }
 
         beckn:seller:
-          $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#components/schemas/Provider/properties/beckn:id"
+          $ref: "{DISCOVERY_SPEC_URL}#components/schemas/Provider/properties/beckn:id"
           x-jsonld: { "@id": "schema:seller" }
-          x-jsonild: { "@id": "schema:seller" }
 
         beckn:buyer:
           $ref: "#/components/schemas/Party/properties/beckn:id"
           x-jsonld: { "@id": "schema:customer" }
-          x-jsonild: { "@id": "schema:customer" }
 
         beckn:orderItems:
           type: array
           minItems: 1
           items: { $ref: "#/components/schemas/OrderItem" }
           x-jsonld: { "@id": "schema:orderItem" }
-          x-jsonild: { "@id": "schema:orderItem" }
 
         beckn:acceptedOffers:
           type: array
-          items: { $ref: 'https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#components/schemas/Offer/properties/beckn:id' }
+          items: { $ref: '{DISCOVERY_SPEC_URL}#components/schemas/Offer/properties/beckn:id' }
           description: Offers accepted at order-level (optional if captured per line)
           x-jsonld: { "@id": "schema:acceptedOffer" }
-          x-jsonild: { "@id": "schema:acceptedOffer" }
 
         beckn:totals:
-          $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#components/schemas/PriceSpecification"
+          $ref: "{DISCOVERY_SPEC_URL}#components/schemas/PriceSpecification"
           description: Order totals snapshot (derivable from lines; optional)
           x-jsonld: { "@id": "schema:priceSpecification" }
-          x-jsonild: { "@id": "schema:priceSpecification" }
 
         beckn:billing:
           $ref: '#/components/schemas/Invoice/properties/beckn:id'
           description: Invoice reference/summary
           x-jsonld: { "@id": "schema:Invoice" }
-          x-jsonild: { "@id": "schema:Invoice" }
 
         beckn:payment:
           $ref: "#/components/schemas/Payment/properties/beckn:id"
           description: Method/status; rail-specific payloads go to packs
           x-jsonld: { "@id": "schema:PaymentMethod|schema:PaymentStatusType" }
-          x-jsonild: { "@id": "schema:PaymentMethod|schema:PaymentStatusType" }
 
         beckn:fulfillment:
           $ref: "#/components/schemas/Fulfillment/properties/beckn:id"
           description: Parcel delivery or reservation summary
           x-jsonld: { "@id": "schema:ParcelDelivery|schema:Reservation" }
-          x-jsonild: { "@id": "schema:ParcelDelivery|schema:Reservation" }
 
         beckn:orderAttributes:
-          $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#components/schemas/Attributes"
+          $ref: "{DISCOVERY_SPEC_URL}#components/schemas/Attributes"
           description: Order-level Attribute Pack (vertical/regulatory specifics)
 
     OrderItem:
@@ -960,25 +948,21 @@ components:
           type: string
           description: Unique line id within order
         beckn:orderedItem:
-          $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#components/schemas/Item/properties/beckn:id"
+          $ref: "{DISCOVERY_SPEC_URL}#components/schemas/Item/properties/beckn:id"
           x-jsonld: { "@id": "schema:orderedItem" }
-          x-jsonild: { "@id": "schema:orderedItem" }
         beckn:acceptedOffer:
-          $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#components/schemas/Offer/properties/beckn:id"
+          $ref: "{DISCOVERY_SPEC_URL}#components/schemas/Offer/properties/beckn:id"
           description: Offer applied to this line (if different from order-level)
           x-jsonld: { "@id": "schema:acceptedOffer" }
-          x-jsonild: { "@id": "schema:acceptedOffer" }
         beckn:quantity:
           type: number
           x-jsonld: { "@id": "schema:orderQuantity" }
-          x-jsonild: { "@id": "schema:orderQuantity" }
         beckn:price:
-          $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#components/schemas/PriceSpecification"
+          $ref: "{DISCOVERY_SPEC_URL}#components/schemas/PriceSpecification"
           description: Line price composition (unit/tax/delivery/discount)
           x-jsonld: { "@id": "schema:priceSpecification" }
-          x-jsonild: { "@id": "schema:priceSpecification" }
         beckn:orderItemAttributes:
-          $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#components/schemas/Attributes"
+          $ref: "{DISCOVERY_SPEC_URL}#components/schemas/Attributes"
           description: Line-level Attribute Pack (options, substitutions, ESG, etc.)
 
     # --------------------------------
@@ -1017,7 +1001,7 @@ components:
           nullable: true
           x-jsonld: { "@id": "schema:paymentDueDate" }
         beckn:payee:
-          $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/Provider/properties/beckn:id"
+          $ref: "{DISCOVERY_SPEC_URL}#/components/schemas/Provider/properties/beckn:id"
           description: Seller / issuer of the invoice
           x-jsonld: { "@id": "schema:provider" }
         beckn:payer:
@@ -1025,11 +1009,11 @@ components:
           description: Buyer being invoiced
           x-jsonld: { "@id": "schema:customer" }
         beckn:totals:
-          $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/PriceSpecification"
+          $ref: "{DISCOVERY_SPEC_URL}#/components/schemas/PriceSpecification"
           description: Invoice grand totals (tax/shipping/discount components inside)
           x-jsonld: { "@id": "schema:priceSpecification" }
         beckn:invoiceAttributes:
-          $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/Attributes"
+          $ref: "{DISCOVERY_SPEC_URL}#/components/schemas/Attributes"
           description: Attribute Pack for tax regime (e.g., GST/VAT), e-invoice refs, legal boilerplate, etc. 
 
     # ---------------------------------
