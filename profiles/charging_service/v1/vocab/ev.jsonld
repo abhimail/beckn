@@ -41,6 +41,15 @@
       "schema:rangeIncludes": "schema:Integer"
     },
     {
+      "@id": "ev:serviceLocation",
+      "@type": "rdf:Property",
+      "rdfs:label": "Service location",
+      "rdfs:comment": "Physical location where the charging service is available.",
+      "schema:domainIncludes": "schema:Service",
+      "schema:rangeIncludes": "schema:Place",
+      "owl:equivalentProperty": "beckn:availableAt"
+    },    
+    {
       "@id": "ev:reservationSupported",
       "@type": "rdf:Property",
       "rdfs:label": "Reservation supported",
