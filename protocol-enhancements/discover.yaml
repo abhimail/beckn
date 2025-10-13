@@ -686,17 +686,27 @@ components:
 
     Location:
       type: object
-      required: ["@type"]
+      description: A location specified by either a point (GeoCoordinates) or a geometry (GeoShape).
       properties:
-        "@type":
-          type: string
-          enum: ["beckn:Location"]
-          description: Type of the location
-          example: "beckn:Location"
-        "beckn:gps":
-          $ref: '#/components/schemas/GPS'
-        "beckn:address":
-          $ref: '#/components/schemas/Address'
+        address:
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/Address'
+          description: Human-readable address or postal address.
+          x-jsonld: "schema:address"
+        geo:
+          $ref: '#/components/schemas/GeoCoordinates'
+          description: Structured point geometry (schema.org GeoCoordinates).
+          x-jsonld: "schema:geo"
+        shape:
+          $ref: '#/components/schemas/GeoShape'
+          description: Structured area/line geometry (schema.org GeoShape).
+          x-jsonld: "schema:geo"
+      anyOf:
+        - required: [geo]
+        - required: [shape]
+        - required: [address] 
+      additionalProperties: false
 
     GPS:
       type: object
@@ -713,6 +723,10 @@ components:
     Address:
       type: object
       properties:
+        "schema:extendedAddress":
+          type: string
+          description: SAn address extension such as an apartment number, C/O or alternative name.
+          example: "123 Tech Street"
         "schema:streetAddress":
           type: string
           description: Street address
@@ -733,6 +747,51 @@ components:
           type: string
           description: Country
           example: "US"
+
+    GeoCoordinates:
+      type: object
+      description: Schema.org GeoCoordinates for a point.
+      x-jsonld:
+        "@type": "schema:GeoCoordinates"
+      properties:
+        latitude:
+          oneOf: [{ type: number }, { type: string }]
+          description: Latitude in decimal degrees.
+          x-jsonld: "schema:latitude"
+        longitude:
+          oneOf: [{ type: number }, { type: string }]
+          description: Longitude in decimal degrees.
+          x-jsonld: "schema:longitude"
+        elevation:
+          oneOf: [{ type: number }, { type: string }]
+          description: Elevation in meters (WGS84).
+          x-jsonld: "schema:elevation"
+      required: [latitude, longitude]
+      additionalProperties: false
+
+    GeoShape:
+      type: object
+      description: Schema.org GeoShape for areas/lines/circles/boxes.
+      x-jsonld:
+        "@type": "schema:GeoShape"
+      properties:
+        circle:
+          type: string
+          description: "Format: 'lat lon radius', e.g., '12.9716 77.5946 10km'."
+          x-jsonld: "schema:circle"
+        box:
+          type: string
+          description: "Format: 'south west north east' (decimal degrees)."
+          x-jsonld: "schema:box"
+        polygon:
+          type: string
+          description: "Whitespace-separated 'lat lon' pairs forming a closed polygon."
+          x-jsonld: "schema:polygon"
+        line:
+          type: string
+          description: "Whitespace-separated 'lat lon' pairs forming a line."
+          x-jsonld: "schema:line"
+      additionalProperties: false          
 
     ErrorResponse:
       type: object
