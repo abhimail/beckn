@@ -1038,30 +1038,18 @@ components:
           type: string
           description: Fulfillment identifier
           x-jsonld: { "@id": "schema:identifier" }
-        beckn:mode:
-          type: string
-          enum: ["DELIVERY","PICKUP","RESERVATION","DIGITAL"]
-          description: |
-            DELIVERY    → last-mile / parcel logistics
-            PICKUP      → customer collects from a place
-            RESERVATION → entitlement/booking is fulfilled (tickets, seats, appointments)
-            DIGITAL     → digital good / license access
         # Optional minimal status/links that are mode-agnostic. Rich details live in packs.
         beckn:status:
           type: string
           description: Network-defined status code (e.g., OutForDelivery, ReadyForPickup, Confirmed)
           x-jsonld: { "@id": "schema:orderStatus" } # closest general status anchor
-        beckn:trackingUrl:
-          type: string
-          format: uri
-          nullable: true
-          description: Tracking link (DELIVERY)
-          x-jsonld: { "@id": "schema:trackingUrl" }
-        beckn:reservationNumber:
-          type: string
-          nullable: true
-          description: Confirmation/PNR/etc. (RESERVATION)
-          x-jsonld: { "@id": "schema:reservationNumber" }
+        trackingAction:
+          $ref: '#/components/schemas/TrackAction'
+          description: >
+            Tracking entrypoint for this fulfillment, modeled as schema.org TrackAction.
+            Use target.url for a clickable tracking URL; may also include deliveryMethod.
+          x-jsonld:
+            '@type': 'schema:TrackAction'
         beckn:deliveryAttributes:
           $ref: "#/components/schemas/Attributes"
           description: > 
@@ -1070,6 +1058,42 @@ components:
             # PICKUP: pickupPlace, counter codes, time windows → map to schema:Place + schema:openingHoursSpecification
             # RESERVATION: reservationStatus, reservedTicket → map to schema:Reservation
             # DIGITAL: contentUrl/license/expiry → map to schema:DataDownload/schema:MediaObject
+
+    TrackAction:
+      type: object
+      description: Minimal schema.org TrackAction for clickable tracking.
+      x-jsonld:
+        '@type': 'schema:TrackAction'
+      properties:
+        target:
+          type: object
+          description: schema.org EntryPoint
+          x-jsonld:
+            '@type': 'schema:EntryPoint'
+          properties:
+            url:
+              type: string
+              format: uri
+              description: Tracking page URL
+              x-jsonld:
+                '@id': 'schema:url'
+          additionalProperties: true
+        deliveryMethod:
+          type: string
+          enum: ["DELIVERY","PICKUP","RESERVATION","DIGITAL"]
+          description: |
+            DELIVERY    → last-mile / parcel logistics
+            PICKUP      → customer collects from a place
+            RESERVATION → entitlement/booking is fulfilled (tickets, seats, appointments)
+            DIGITAL     → digital good / license access
+          x-jsonld:
+            '@id': 'schema:deliveryMethod'    
+        reservationId:
+          type: string
+          description: Unique identifier for the reservation (schema.org Reservation.reservationId).
+          x-jsonld:
+            '@id': 'schema:reservationId'
+      additionalProperties: true            
 
     # -----------------------------
     # PAYMENT (core)
