@@ -1,0 +1,20 @@
+{
+  "@context": "../context.jsonld",
+  "@type": "ChargingOfferAttributes",
+  "priceSpecification": {
+    "price": 18.0,
+    "priceCurrency": "INR",
+    "unitText": "kWh"
+  },
+  "tariffModel": "PER_KWH",
+  "idleFeePolicy": "\u20b92/min after 10 min post-charge",
+  "validFrom": "2025-10-01T00:00:00Z",
+  "validThrough": "2025-10-31T23:59:59Z",
+  "eligibleRegion": "IN-KA",
+  "eligibleCustomerType": "RETAIL",
+  "paymentAccepted": "UPI, Card, Wallet",
+  "buyerFinderFee": {
+    "feeType": "PERCENTAGE",
+    "feeValue": 2.5
+  }
+}

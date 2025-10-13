@@ -1,0 +1,42 @@
+{
+  "@context": "../context.jsonld",
+  "@type": "ChargingServiceAttributes",
+  "name": "EcoPower Highway Hub \u2013 Mandya Food Court",
+  "category": "DC_Fast",
+  "connectorType": "CCS2",
+  "maxPowerKW": 60,
+  "socketCount": 2,
+  "reservationSupported": true,
+  "paymentAccepted": [
+    "UPI",
+    "Card",
+    "Wallet"
+  ],
+  "openingHours": "24x7",
+  "serviceLocation": {
+    "geo": {
+      "latitude": 12.5445,
+      "longitude": 76.8763
+    },
+    "address": "NH275, Mandya Food Court Complex"
+  },
+  "amenityFeature": [
+    "Restaurant",
+    "Restroom"
+  ],
+  "image": "https://cpo.example.org/images/mandya-hub.jpg",
+  "url": "https://cpo.example.org/site/mandya",
+  "ocppId": "IN-ECO-MDY-01",
+  "evseId": "IN*ECO*01*CCS2*A",
+  "tariffModel": "PER_KWH",
+  "supportedUnits": [
+    "kWh"
+  ],
+  "roamingNetwork": "GreenRoam",
+  "parkingType": "Mall",
+  "connectorId": "CCS2-A",
+  "powerType": "DC",
+  "connectorFormat": "CABLE",
+  "chargingSpeed": "FAST",
+  "stationStatus": "Available"
+}

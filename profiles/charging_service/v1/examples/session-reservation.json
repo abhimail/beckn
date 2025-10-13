@@ -1,0 +1,14 @@
+{
+  "@context": "../context.jsonld",
+  "@type": "ChargingSessionAttributes",
+  "reservationId": "RESV-984532",
+  "authorizationMode": "APP_QR",
+  "startTime": "2025-10-13T12:45:00Z",
+  "gracePeriodMinutes": 10,
+  "orderStatus": "OrderProcessing",
+  "trackingId": "TRK-984532",
+  "trackingUrl": "https://cpo.example.org/session/RESV-984532",
+  "trackingStatus": "ACTIVE",
+  "tariffModel": "PER_KWH",
+  "currency": "INR"
+}

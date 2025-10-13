@@ -1,0 +1,46 @@
+{
+  "@context": "../context.jsonld",
+  "@type": "ChargingSessionAttributes",
+  "reservationId": "RESV-984532",
+  "startTime": "2025-10-13T12:45:00Z",
+  "sessionStatus": "ACTIVE",
+  "authorizationMode": "APP_QR",
+  "connectorType": "CCS2",
+  "maxPowerKW": 60,
+  "chargingPeriods": [
+    {
+      "startDateTime": "2025-10-13T12:45:00Z",
+      "dimensions": [
+        {
+          "dimensionType": "ENERGY",
+          "volume": 4.5
+        },
+        {
+          "dimensionType": "POWER",
+          "volume": 55.0
+        }
+      ]
+    },
+    {
+      "startDateTime": "2025-10-13T13:00:00Z",
+      "dimensions": [
+        {
+          "dimensionType": "ENERGY",
+          "volume": 9.1
+        },
+        {
+          "dimensionType": "POWER",
+          "volume": 53.5
+        }
+      ]
+    }
+  ],
+  "totalCost": {
+    "exclVat": 240.0,
+    "inclVat": 283.2
+  },
+  "currency": "INR",
+  "lastUpdated": "2025-10-13T13:20:00Z",
+  "vehicleMake": "Tata",
+  "vehicleModel": "Nexon EV"
+}
