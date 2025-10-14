@@ -1,0 +1,407 @@
+openapi: 3.1.1
+info:
+  title: Beckn Discover API — Examples
+  version: 2.0.0
+
+components:
+  examples:
+
+    # ---------- /discover request examples ----------
+    discover_structured_query:
+      summary: Structured discover (electronics)
+      value:
+        context:
+          version: "2.0.0"
+          action: "discover"
+          timestamp: "2025-01-27T10:00:00+05:30"
+          message_id: "a1111111-1111-1111-1111-111111111111"
+          transaction_id: "t-11111111-1111-1111-1111-111111111111"
+          network_id: ["bap.net/electronics"]
+          bap_id: "bap.example.com"
+          bap_uri: "https://bap.example.com"
+          ttl: "PT30S"
+          schema_context:
+            - "https://example.org/schema/items/v1/ElectronicItem/schema-context.jsonld"
+        text_search: "gaming laptop premium tech"
+        # Align JSONPath with your Rating + itemAttributes models:
+        filters: "$[?(@['beckn:rating']['beckn:ratingValue'] >= 4.0 && @['beckn:itemAttributes']['electronic:brand']=='Premium Tech')]"
+        pagination: { page: 1, limit: 20 }
+
+    discover_natural_language:
+      summary: Natural-language discover (electronics)
+      value:
+        context:
+          version: "2.0.0"
+          action: "discover"
+          timestamp: "2025-01-27T10:00:00+05:30"
+          message_id: "a2222222-2222-2222-2222-222222222222"
+          transaction_id: "t-22222222-2222-2222-2222-222222222222"
+          network_id: ["bap.net/electronics"]
+          bap_id: "bap.example.com"
+          bap_uri: "https://bap.example.com"
+          ttl: "PT30S"
+          schema_context:
+            - "https://example.org/schema/items/v1/ElectronicItem/schema-context.jsonld"
+        text_search: "Looking for a premium gaming laptop under $2000 near San Francisco"
+        pagination: { page: 1, limit: 20 }
+
+    discover_grocery_search:
+      summary: Structured discover (grocery)
+      value:
+        context:
+          version: "2.0.0"
+          action: "discover"
+          timestamp: "2025-01-27T10:00:00+05:30"
+          message_id: "a3333333-3333-3333-3333-333333333333"
+          transaction_id: "t-33333333-3333-3333-3333-333333333333"
+          network_id: ["bap.net/grocery"]
+          bap_id: "bap.example.com"
+          bap_uri: "https://bap.example.com"
+          ttl: "PT30S"
+          schema_context:
+            - "https://example.org/schema/items/v1/GroceryItem/schema-context.jsonld"
+        text_search: "organic apples fresh"
+        # RFC 9535 regex operator is '=~'
+        filters: "$[?(@['beckn:itemAttributes']['grocery:organicCertification'] =~ /USDA\\s+Organic/)]"
+        pagination: { page: 1, limit: 10 }
+
+    discover_combined_search:
+      summary: Combined text + filters (electronics)
+      value:
+        context:
+          version: "2.0.0"
+          action: "discover"
+          timestamp: "2025-01-27T10:00:00+05:30"
+          message_id: "a4444444-4444-4444-4444-444444444444"
+          transaction_id: "t-44444444-4444-4444-4444-444444444444"
+          network_id: ["bap.net/electronics"]
+          bap_id: "bap.example.com"
+          bap_uri: "https://bap.example.com"
+          ttl: "PT30S"
+          schema_context:
+            - "https://example.org/schema/items/v1/ElectronicItem/schema-context.jsonld"
+        text_search: "gaming laptop"
+        # Example shows a domain attr 'electronic:priceUSD' to keep it simple
+        filters: "$[?(@['beckn:itemAttributes']['electronic:priceUSD'] <= 2000 && @['beckn:itemAttributes']['electronic:brand']=='Premium Tech')]"
+        pagination: { page: 1, limit: 15 }
+
+    discover_multi_schema_search:
+      summary: Multi-schema discover (electronics + grocery)
+      value:
+        context:
+          version: "2.0.0"
+          action: "discover"
+          timestamp: "2025-01-27T10:00:00+05:30"
+          message_id: "a5555555-5555-5555-5555-555555555555"
+          transaction_id: "t-55555555-5555-5555-5555-555555555555"
+          network_id: ["bap.net/mixed", "bap.net/electronics", "bap.net/grocery"]
+          bap_id: "bap.example.com"
+          bap_uri: "https://bap.example.com"
+          ttl: "PT30S"
+          schema_context:
+            - "https://example.org/schema/items/v1/ElectronicItem/schema-context.jsonld"
+            - "https://example.org/schema/items/v1/GroceryItem/schema-context.jsonld"
+        text_search: "premium tech and organic food"
+        filters: "$[?(@['beckn:rating']['beckn:ratingValue'] >= 4 && (@['beckn:itemAttributes']['electronic:brand']=='Premium Tech' || @['beckn:itemAttributes']['grocery:organicCertification'] =~ /USDA\\s+Organic/))]"
+        pagination: { page: 1, limit: 25 }
+
+    # Spatially-rich examples (add these to your /discover examples list)
+    discover_ev_within_5km_and_capability:
+      summary: EV — stations within 5 km AND CCS2 ≥ 60 kW
+      value:
+        context:
+          version: "2.0.0"
+          action: "discover"
+          timestamp: "2025-01-27T10:00:00+05:30"
+          message_id: "a6666666-6666-6666-6666-666666666666"
+          transaction_id: "t-66666666-6666-6666-6666-666666666666"
+          network_id: ["bap.net/ev"]
+          bap_id: "bap.example.com"
+          bap_uri: "https://bap.example.com"
+          ttl: "PT30S"
+          schema_context:
+            - "https://example.org/contexts/ev/schema-context.jsonld"
+        filters: "$[?(@['beckn:itemAttributes']['@type']=='schema:ChargingService' && @['beckn:itemAttributes']['ev:connectors'][?(@['standard']=='CCS2' && @['powerKW']>=60)])]"
+        spatial:
+          - op: s_dwithin
+            targets: "$['beckn:availableAt'][*]['geo']"
+            geometry: { type: Point, coordinates: [77.5946, 12.9716] }
+            distanceMeters: 5000
+        pagination: { page: 1, limit: 20 }
+
+    discover_ride_pickup_and_drop:
+      summary: Ride — pickup within service polygon AND drop zone intersects user box
+      value:
+        context:
+          version: "2.0.0"
+          action: "discover"
+          timestamp: "2025-01-27T10:00:00+05:30"
+          message_id: "a7777777-7777-7777-7777-777777777777"
+          transaction_id: "t-77777777-7777-7777-7777-777777777777"
+          network_id: ["bap.net/ride"]
+          bap_id: "bap.example.com"
+          bap_uri: "https://bap.example.com"
+          ttl: "PT30S"
+          schema_context:
+            - "https://example.org/contexts/ride/schema-context.jsonld"
+        filters: "$[?(@['beckn:itemAttributes']['@type']=='schema:TaxiService')]"
+        spatial:
+          - op: s_within
+            targets: "$['beckn:itemAttributes']['ride:serviceArea']['geo']"
+            geometry: { type: Point, coordinates: [77.5946, 12.9716] }
+          - op: s_intersects
+            targets: "$['beckn:itemAttributes']['ride:dropOff']['geo']"
+            geometry:
+              type: Polygon
+              coordinates:
+                - [[77.6100, 12.9200], [77.6400, 12.9200], [77.6400, 12.9500], [77.6100, 12.9500], [77.6100, 12.9200]]
+        pagination: { page: 1, limit: 10 }
+
+    # ---------- /on_discover callback (DiscoverResponse) examples ----------
+    on_discover_electronics_catalog:
+      summary: Electronics catalog callback
+      value:
+        context:
+          version: "2.0.0"
+          action: "on_discover"
+          timestamp: "2025-01-27T10:00:00+05:30"
+          message_id: "b1111111-1111-1111-1111-111111111111"
+          transaction_id: "t-11111111-1111-1111-1111-111111111111"
+          network_id: ["bap.net/electronics"]
+          bpp_id: "bpp.example.com"
+          bpp_uri: "https://bpp.example.com"
+          ttl: "PT30S"
+        catalogs:
+          - "@context": "https://becknprotocol.io/schemas/core/v1/Catalog/schema-context.jsonld"
+            "@type": "beckn:Catalog"
+            "beckn:id": "catalog-electronics-001"
+            "beckn:descriptor": { "@type": "beckn:Descriptor", "schema:name": "Premium Tech Electronics Store" }
+            "beckn:items":
+              - "@context": "https://becknprotocol.io/schemas/core/v1/Item/schema-context.jsonld"
+                "@type": "beckn:Item"
+                "beckn:id": "laptop-item-002"
+                "beckn:descriptor":
+                  "@type": "beckn:Descriptor"
+                  "schema:name": "Premium Gaming Laptop Pro 15”"
+                  "beckn:shortDesc": "Intel i7, 16GB RAM, 512GB SSD, RTX 4060"
+                "beckn:category":
+                  "@type": "schema:CategoryCode"
+                  "schema:codeValue": "electronics"
+                  "schema:name": "Electronics"
+                "beckn:rateable": true
+                "beckn:rating":
+                  "@type": "beckn:Rating"
+                  "beckn:ratingValue": 4.7
+                  "beckn:ratingCount": 932
+                "beckn:networkId": ["bap.net/electronics"]
+                "beckn:itemAttributes":
+                  "@context": "https://example.org/schema/items/v1/ElectronicItem/schema-context.jsonld"
+                  "@type": "beckn:ElectronicItem"
+                  "electronic:brand": "Premium Tech"
+                  "electronic:model": "G15-Pro-2025"
+                  "electronic:processor": "Intel Core i7-13700H"
+                  "electronic:ram": "16GB DDR5"
+                  "electronic:storage": "512GB NVMe SSD"
+                  "electronic:graphics": "NVIDIA GeForce RTX 4060"
+                  "electronic:display": "15.6\" 240Hz QHD"
+                  "electronic:warranty": "24 months"
+                "beckn:provider":
+                  "beckn:id": "tech-store-001"
+                  "beckn:descriptor": { "@type": "beckn:Descriptor", "schema:name": "Premium Tech Electronics Store" }
+              - "@context": "https://becknprotocol.io/schemas/core/v1/Item/schema-context.jsonld"
+                "@type": "beckn:Item"
+                "beckn:id": "headphones-item-001"
+                "beckn:descriptor":
+                  "@type": "beckn:Descriptor"
+                  "schema:name": "Aurora X200 Noise-Cancelling Headphones"
+                  "beckn:shortDesc": "Over-ear ANC, 40h battery, BT 5.3, multipoint"
+                "beckn:category":
+                  "@type": "schema:CategoryCode"
+                  "schema:codeValue": "electronics"
+                  "schema:name": "Electronics"
+                "beckn:rateable": true
+                "beckn:rating":
+                  "@type": "beckn:Rating"
+                  "beckn:ratingValue": 4.5
+                  "beckn:ratingCount": 1543
+                "beckn:networkId": ["bap.net/electronics"]
+                "beckn:itemAttributes":
+                  "@context": "https://example.org/schema/items/v1/ElectronicItem/schema-context.jsonld"
+                  "@type": "beckn:ElectronicItem"
+                  "electronic:brand": "Aurora"
+                  "electronic:model": "X200"
+                  "electronic:wirelessTech": "Bluetooth 5.3"
+                  "electronic:features": ["ANC", "Transparency Mode", "Multipoint"]
+                  "electronic:batteryLifeHours": 40
+                  "electronic:chargingPort": "USB-C"
+                  "electronic:warranty": "12 months"
+                "beckn:provider":
+                  "beckn:id": "tech-store-001"
+                  "beckn:descriptor": { "@type": "beckn:Descriptor", "schema:name": "Premium Tech Electronics Store" }
+
+    on_discover_grocery_catalog:
+      summary: Grocery catalog callback
+      value:
+        context:
+          version: "2.0.0"
+          action: "on_discover"
+          timestamp: "2025-01-27T10:00:00+05:30"
+          message_id: "b2222222-2222-2222-2222-222222222222"
+          transaction_id: "t-22222222-2222-2222-2222-222222222222"
+          network_id: ["bap.net/grocery"]
+          bpp_id: "bpp.example.com"
+          bpp_uri: "https://bpp.example.com"
+          ttl: "PT30S"
+        catalogs:
+          - "@context": "https://becknprotocol.io/schemas/core/v1/Catalog/schema-context.jsonld"
+            "@type": "beckn:Catalog"
+            "beckn:id": "catalog-grocery-001"
+            "beckn:descriptor": { "@type": "beckn:Descriptor", "schema:name": "Fresh Grocery Store" }
+            "beckn:items":
+              - "@context": "https://becknprotocol.io/schemas/core/v1/Item/schema-context.jsonld"
+                "@type": "beckn:Item"
+                "beckn:id": "apples-item-001"
+                "beckn:descriptor":
+                  "@type": "beckn:Descriptor"
+                  "schema:name": "Organic Fuji Apples (1 kg)"
+                  "beckn:shortDesc": "Crisp, sweet USDA Organic apples — farm fresh"
+                "beckn:category":
+                  "@type": "schema:CategoryCode"
+                  "schema:codeValue": "grocery"
+                  "schema:name": "Grocery"
+                "beckn:rateable": true
+                "beckn:rating":
+                  "@type": "beckn:Rating"
+                  "beckn:ratingValue": 4.6
+                  "beckn:ratingCount": 387
+                "beckn:networkId": ["bap.net/grocery"]
+                "beckn:itemAttributes":
+                  "@context": "https://example.org/schema/items/v1/GroceryItem/schema-context.jsonld"
+                  "@type": "beckn:GroceryItem"
+                  "grocery:brand": "Fresh Fields"
+                  "grocery:organicCertification": "USDA Organic"
+                  "grocery:variety": "Fuji"
+                  "grocery:unitSize": "1 kg"
+                  "grocery:origin": "Himachal Pradesh, IN"
+                  "grocery:shelfLifeDays": 10
+                "beckn:provider":
+                  "beckn:id": "grocery-store-001"
+                  "beckn:descriptor": { "@type": "beckn:Descriptor", "schema:name": "Fresh Grocery Store" }
+              - "@context": "https://becknprotocol.io/schemas/core/v1/Item/schema-context.jsonld"
+                "@type": "beckn:Item"
+                "beckn:id": "bread-item-001"
+                "beckn:descriptor":
+                  "@type": "beckn:Descriptor"
+                  "schema:name": "Whole Wheat Bread (500 g)"
+                  "beckn:shortDesc": "High-fiber artisan loaf, no added sugar"
+                "beckn:category":
+                  "@type": "schema:CategoryCode"
+                  "schema:codeValue": "grocery"
+                  "schema:name": "Grocery"
+                "beckn:rateable": true
+                "beckn:rating":
+                  "@type": "beckn:Rating"
+                  "beckn:ratingValue": 4.3
+                  "beckn:ratingCount": 812
+                "beckn:networkId": ["bap.net/grocery"]
+                "beckn:itemAttributes":
+                  "@context": "https://example.org/schema/items/v1/GroceryItem/schema-context.jsonld"
+                  "@type": "beckn:GroceryItem"
+                  "grocery:brand": "BakeHouse"
+                  "grocery:unitSize": "500 g"
+                  "grocery:ingredients": ["Whole wheat flour", "Yeast", "Salt", "Olive oil"]
+                  "grocery:allergens": ["Gluten"]
+                  "grocery:shelfLifeDays": 5
+                "beckn:provider":
+                  "beckn:id": "grocery-store-001"
+                  "beckn:descriptor": { "@type": "beckn:Descriptor", "schema:name": "Fresh Grocery Store" }
+
+    # ---------- ACK / NACK examples ----------
+    ack_success:
+      summary: ACK
+      value:
+        transaction_id: "t-11111111-1111-1111-1111-111111111111"
+        timestamp: "2025-01-27T10:00:00+05:30"
+        ack_status: "ACK"
+
+    ack_bad_request:
+      summary: NACK — bad request
+      value:
+        transaction_id: "t-11111111-1111-1111-1111-111111111111"
+        timestamp: "2025-01-27T10:00:00+05:30"
+        ack_status: "NACK"
+        error:
+          code: "INVALID_REQUEST"
+          paths: "context.schema_context"
+          message: "Invalid schema context provided"
+
+    ack_server_error:
+      summary: NACK — internal error
+      value:
+        transaction_id: "t-11111111-1111-1111-1111-111111111111"
+        timestamp: "2025-01-27T10:00:00+05:30"
+        ack_status: "NACK"
+        error:
+          code: "INTERNAL_ERROR"
+          paths: "server"
+          message: "Internal server error occurred"
+
+    # ---------- /discover/browser-search JSON example ----------
+    browser_search_electronic_items:
+      summary: Browser-search JSON response (electronics)
+      value:
+        id: "api.beckn.discover.browser-search"
+        ver: "v2"
+        ts: "2025-01-27T10:00:00+05:30"
+        params:
+          msgid: "browser-search-001"
+          traceid: "browser-search-001"
+        response:
+          context:
+            version: "2.0.0"
+            action: "on_discover"
+            network_id: ["bap.net/electronics"]
+          catalogs:
+            - "@context": "https://becknprotocol.io/schemas/core/v1/Catalog/schema-context.jsonld"
+              "@type": "beckn:Catalog"
+              "beckn:id": "catalog-electronics-001"
+              "beckn:descriptor":
+                "@type": "beckn:Descriptor"
+                "schema:name": "Premium Tech Electronics Store"
+                "beckn:shortDesc": "High-quality electronics and gaming equipment"
+              "beckn:validity":
+                "@type": "beckn:TimePeriod"
+                "schema:startDate": "2025-01-27T09:00:00Z"
+                "schema:endDate": "2026-12-31T23:59:59Z"
+              "beckn:items":
+                - "@context": "https://becknprotocol.io/schemas/core/v1/Item/schema-context.jsonld"
+                  "@type": "beckn:Item"
+                  "beckn:id": "laptop-item-001"
+                  "beckn:descriptor":
+                    "@type": "beckn:Descriptor"
+                    "schema:name": "Premium Gaming Laptop Pro"
+                    "beckn:shortDesc": "High-performance gaming laptop with RTX graphics"
+                  "beckn:category":
+                    "@type": "schema:CategoryCode"
+                    "schema:codeValue": "electronics"
+                    "schema:name": "Electronics"
+                  "beckn:rating":
+                    "@type": "beckn:Rating"
+                    "beckn:ratingValue": 4.8
+                    "beckn:ratingCount": 156
+                  "beckn:rateable": true
+                  "beckn:networkId": ["bap.net/electronics"]
+                  "beckn:itemAttributes":
+                    "@context": "https://example.org/schema/items/v1/ElectronicItem/schema-context.jsonld"
+                    "@type": "beckn:ElectronicItem"
+                    "electronic:brand": "ASUS"
+                    "electronic:model": "ROG Strix G15"
+                    "electronic:processor": "Intel Core i7-12700H"
+                    "electronic:ram": "16GB DDR4"
+                    "electronic:storage": "512GB NVMe SSD"
+                    "electronic:graphics": "NVIDIA RTX 3060"
+                  "beckn:provider":
+                    "beckn:id": "tech-store-001"
+                    "beckn:descriptor":
+                      "@type": "beckn:Descriptor"
+                      "schema:name": "Premium Tech Store"

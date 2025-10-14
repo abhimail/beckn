@@ -42,15 +42,15 @@ paths:
               $ref: '#/components/schemas/DiscoverRequest'
             examples:
               structured_query:
-                $ref: '#/components/examples/discover_structured_query'
+                $ref: './examples.yaml#/components/examples/discover_structured_query'
               natural_language:
-                $ref: '#/components/examples/discover_natural_language'
+                $ref: './examples.yaml#/components/examples/discover_natural_language'
               grocery_search:
-                $ref: '#/components/examples/discover_grocery_search'
+                $ref: './examples.yaml#/components/examples/discover_grocery_search'
               combined_search:
-                $ref: '#/components/examples/discover_combined_search'
+                $ref: './examples.yaml#/components/examples/discover_combined_search'
               multi_schema_search:
-                $ref: '#/components/examples/discover_multi_schema_search'
+                $ref: './examples.yaml#/components/examples/discover_multi_schema_search'
       responses:
         '200':
           description: ACK — received the discover request (validation passed)
@@ -60,7 +60,7 @@ paths:
                 $ref: '#/components/schemas/AckResponse'
               examples:
                 success_ack:
-                  $ref: '#/components/examples/ack_success'
+                  $ref: './examples.yaml#/components/examples/ack_success'
         '400':
           description: Bad request
           content:
@@ -69,7 +69,7 @@ paths:
                 $ref: '#/components/schemas/AckResponse'
               examples:
                 bad_request:
-                  $ref: '#/components/examples/ack_bad_request'
+                  $ref: './examples.yaml#/components/examples/ack_bad_request'
         '500':
           description: Internal server error
           content:
@@ -78,7 +78,7 @@ paths:
                 $ref: '#/components/schemas/AckResponse'
               examples:
                 server_error:
-                  $ref: '#/components/examples/ack_server_error'
+                  $ref: './examples.yaml#/components/examples/ack_server_error'
 
   /beckn/on_discover:
     post:
@@ -95,9 +95,9 @@ paths:
               $ref: '#/components/schemas/DiscoverResponse'
             examples:
               electronic_items_catalog:
-                $ref: '#/components/examples/on_discover_electronics_catalog'
+                $ref: './examples.yaml#/components/examples/on_discover_electronics_catalog'
               grocery_items_catalog:
-                $ref: '#/components/examples/on_discover_grocery_catalog'
+                $ref: './examples.yaml#/components/examples/on_discover_grocery_catalog'
       responses:
         '200':
           description: ACK — received catalog data for the corresponding discover request
@@ -107,7 +107,7 @@ paths:
                 $ref: '#/components/schemas/AckResponse'
               examples:
                 success_ack:
-                  $ref: '#/components/examples/ack_success'
+                  $ref: './examples.yaml#/components/examples/ack_success'
         '400':
           description: Bad request
           content:
@@ -116,7 +116,7 @@ paths:
                 $ref: '#/components/schemas/AckResponse'
               examples:
                 bad_request:
-                  $ref: '#/components/examples/ack_bad_request'
+                  $ref: './examples.yaml#/components/examples/ack_bad_request'
         '500':
           description: Internal server error
           content:
@@ -125,7 +125,7 @@ paths:
                 $ref: '#/components/schemas/AckResponse'
               examples:
                 server_error:
-                  $ref: '#/components/examples/ack_server_error'
+                  $ref: './examples.yaml#/components/examples/ack_server_error'
 
   /beckn/discover/browser-search:
     get:
@@ -211,7 +211,7 @@ paths:
                 $ref: '#/components/schemas/DiscoverResponse'
               examples:
                 electronic_items:
-                  $ref: '#/components/examples/browser_search_electronic_items'
+                  $ref: './examples.yaml#/components/examples/browser_search_electronic_items'
         '400':
           description: Bad request - Invalid parameters
           content:
@@ -274,6 +274,11 @@ components:
           type: string
           description: JSONPath expression for filtering items (RFC 9535)
           example: "$[?(@.rating.value >= 4.0 && @.electronic.brand.name == 'Premium Tech')]"
+        spatial:
+          type: array
+          description: Optional array of spatial constraints (CQL2-JSON semantics).
+          items:
+            $ref: '#/components/schemas/SpatialConstraint'          
         pagination:
           $ref: '#/components/schemas/Pagination'
           
@@ -294,6 +299,229 @@ components:
           description: Array of catalogs containing items
           items:
             $ref: '#/components/schemas/Catalog'
+
+    
+    GeoJSONGeometry:
+      type: object
+      description: >
+        **GeoJSON geometry** per RFC 7946. Coordinates are in **EPSG:4326 (WGS-84)**
+        and MUST follow **[longitude, latitude, (altitude?)]** order.
+
+        Supported types:
+        - Point, LineString, Polygon
+        - MultiPoint, MultiLineString, MultiPolygon
+        - GeometryCollection (uses `geometries` instead of `coordinates`)
+
+        Notes:
+        - For rectangles, use a Polygon with a single linear ring where the first
+          and last positions are identical.
+        - Circles are **not native** to GeoJSON. For circular searches, use
+          `SpatialConstraint` with `op: s_dwithin` and a Point + `distanceMeters`,
+          or approximate the circle as a Polygon.
+        - Optional `bbox` is `[west, south, east, north]` in degrees.
+
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum:
+            - Point
+            - LineString
+            - Polygon
+            - MultiPoint
+            - MultiLineString
+            - MultiPolygon
+            - GeometryCollection
+        coordinates:
+          type: array
+          description: >
+            Coordinates per RFC 7946 for all types **except** GeometryCollection.
+            Order is **[lon, lat, (alt)]**. For Polygons, this is an array of
+            linear rings; each ring is an array of positions.
+        geometries:
+          type: array
+          description: >
+            Member geometries when `type` is **GeometryCollection**.
+          items:
+            $ref: '#/components/schemas/GeoJSONGeometry'
+        bbox:
+          type: array
+          description: Optional bounding box `[west, south, east, north]` in degrees.
+          minItems: 4
+          maxItems: 4
+      additionalProperties: true
+      examples:
+        point:
+          value:
+            type: Point
+            coordinates: [77.5946, 12.9716]
+        polygon_rectangle:
+          value:
+            type: Polygon
+            coordinates:
+              - [[77.6100, 12.9200], [77.6400, 12.9200], [77.6400, 12.9500], [77.6100, 12.9500], [77.6100, 12.9200]]
+        geometry_collection:
+          value:
+            type: GeometryCollection
+            geometries:
+              - { type: Point, coordinates: [77.60, 12.95] }
+              - { type: LineString, coordinates: [[77.60, 12.95], [77.62, 12.97]] }
+
+    Address:
+      type: object
+      description: >
+        **Postal address** aligned with schema.org `PostalAddress`. Use for human-readable
+        addresses. Geometry lives in `Location.geo` as GeoJSON.
+      properties:
+        streetAddress:
+          type: string
+          description: Street address (building name/number and street).
+          example: "123 Tech Street"
+        extendedAddress:
+          type: string
+          description: Address extension (apt/suite/floor, C/O).
+          example: "Apt 4B"
+        addressLocality:
+          type: string
+          description: City/locality.
+          example: "Bengaluru"
+        addressRegion:
+          type: string
+          description: State/region/province.
+          example: "Karnataka"
+        postalCode:
+          type: string
+          description: Postal/ZIP code.
+          example: "560001"
+        addressCountry:
+          type: string
+          description: Country name or ISO-3166-1 alpha-2 code.
+          example: "IN"
+      additionalProperties: false
+
+    Location:
+      type: object
+      description: >
+        A **place** represented by **GeoJSON geometry** (Point/Polygon/Multi*) and optional
+        human-readable `address`. This unifies all Beckn location fields into a single,
+        widely-adopted representation (GeoJSON).
+      properties:
+        geo:
+          $ref: '#/components/schemas/GeoJSONGeometry'
+        address:
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/Address'
+          description: Optional human-readable address for the same place/area.
+      required: [geo]
+      additionalProperties: false
+      examples:
+        site_point:
+          value:
+            geo: { type: Point, coordinates: [77.5946, 12.9716] }
+            address: "MG Road, Bengaluru"
+        service_area:
+          value:
+            geo:
+              type: Polygon
+              coordinates:
+                - [[77.6100, 12.9200], [77.6400, 12.9200], [77.6400, 12.9500], [77.6100, 12.9500], [77.6100, 12.9200]]
+
+    SpatialConstraint:
+      type: object
+      description: >
+        **Spatial predicate** using **OGC CQL2 (JSON semantics)** applied to one or
+        more geometry targets in an item. This is where clients express spatial intent.
+
+        Key ideas:
+        - `targets`: one or more **JSONPath-like** pointers that locate geometry
+          fields within each item document (e.g., `$['beckn:availableAt'][*]['geo']`).
+        - `op`: spatial operator (CQL2). Common ones:
+            • `s_within`     (A is completely inside B)
+            • `s_intersects` (A intersects B)
+            • `s_contains`   (A contains B)
+            • `s_dwithin`    (A within distance of B)
+        - `geometry`: **GeoJSON** literal used as the predicate reference geometry.
+        - `distanceMeters`: required for `s_dwithin` when using a GeoJSON Point/shape.
+        - `quantifier`: if a target resolves to an array, choose whether **any** (default),
+          **all**, or **none** of elements must satisfy the predicate.
+
+        CRS: unless otherwise stated, all coordinates are **EPSG:4326**.
+
+      required: [op, targets]
+      properties:
+        op:
+          type: string
+          enum:
+            - s_within
+            - s_contains
+            - s_intersects
+            - s_disjoint
+            - s_overlaps
+            - s_crosses
+            - s_touches
+            - s_equals
+            - s_dwithin
+          description: OGC CQL2 spatial operator.
+        targets:
+          description: >
+            One or more JSONPath-like pointers to geometry fields within the item.
+            Example pointers:
+            - `$['beckn:availableAt'][*]['geo']` (array of site Points)
+            - `$['beckn:itemAttributes']['ride:dropOff']['geo']` (drop zone Polygon)
+          oneOf:
+            - type: string
+            - type: array
+              items: { type: string }
+        geometry:
+          $ref: '#/components/schemas/GeoJSONGeometry'
+        distanceMeters:
+          type: number
+          minimum: 0
+          description: >
+            For `s_dwithin`: maximum distance in meters from the target geometry to
+            `geometry` (e.g., “within 5000 m of this Point”). Ignored for other ops.
+        quantifier:
+          type: string
+          enum: [any, all, none]
+          default: any
+          description: >
+            How to evaluate when `targets` resolves to an array:
+            - **any**: at least one element matches (default)
+            - **all**: every element must match
+            - **none**: no element may match
+        srid:
+          type: string
+          description: >
+            Coordinate Reference System identifier for `geometry`. Default is
+            `"EPSG:4326"`. If provided, servers MAY reproject to EPSG:4326 internally.
+          example: "EPSG:4326"
+      additionalProperties: false
+      examples:
+        within_circle_as_distance:
+          summary: EV sites within 5 km of a center (via s_dwithin)
+          value:
+            op: s_dwithin
+            targets: "$['beckn:availableAt'][*]['geo']"
+            geometry: { type: Point, coordinates: [77.5946, 12.9716] }
+            distanceMeters: 5000
+        pickup_within_polygon:
+          summary: Pickup Point must lie within provider polygon
+          value:
+            op: s_within
+            targets: "$['beckn:itemAttributes']['ride:serviceArea']['geo']"
+            geometry:
+              type: Point
+              coordinates: [77.5946, 12.9716]
+        drop_intersects_user_box:
+          summary: Provider drop zone intersects user’s rectangle
+          value:
+            op: s_intersects
+            targets: "$['beckn:itemAttributes']['ride:dropOff']['geo']"
+            geometry:
+              type: Polygon
+              coordinates:
+                - [[77.6100, 12.9200], [77.6400, 12.9200], [77.6400, 12.9500], [77.6100, 12.9500], [77.6100, 12.9200]]
 
 
     Pagination:
@@ -432,6 +660,12 @@ components:
           example: true
         "beckn:rating":
           $ref: '#/components/schemas/Rating'
+        "beckn:networkId":
+          type: array
+          items:
+            type: string
+          description: Array of network identifiers for the BAP (Beckn App Provider) that offers this item
+          example: ["bap.net/electronics", "bap.net/tech"]
         "beckn:provider":
           $ref: '#/components/schemas/Provider'
         "beckn:itemAttributes":
@@ -677,131 +911,6 @@ components:
           minimum: 0
           description: Number of ratings
           example: 1250
-
-    Location:
-      type: object
-      description: A location specified by either a point (GeoCoordinates) or a geometry (GeoShape).
-      properties:
-        address:
-          $ref: '#/components/schemas/Address'
-          description: Human-readable address or postal address.
-          x-jsonld: "schema:address"
-        geo:
-          $ref: '#/components/schemas/GeoCoordinates'
-          description: Structured point geometry (schema.org GeoCoordinates).
-          x-jsonld: "schema:geo"
-        shape:
-          $ref: '#/components/schemas/GeoShape'
-          description: Structured area/line geometry (schema.org GeoShape).
-          x-jsonld: "schema:geo"
-      anyOf:
-        - required: [geo]
-        - required: [shape]
-        - required: [address] 
-      additionalProperties: false
-
-
-    Address:
-      type: object
-      description: Schema.org PostalAddress — structured, interoperable address object.
-      x-jsonld:
-        "@type": "schema:PostalAddress"
-      properties:
-        streetAddress:
-          type: string
-          description: Street address — may include building name, number, and street.
-          example: "123 Tech Street"
-          x-jsonld: "schema:streetAddress"
-        extendedAddress:
-          type: string
-          description: Address extension such as apartment number, C/O, or floor.
-          example: "Apt 4B, Tech Towers"
-          x-jsonld: "schema:extendedAddress"
-        addressLocality:
-          type: string
-          description: City or locality.
-          example: "San Francisco"
-          x-jsonld: "schema:addressLocality"
-        addressRegion:
-          type: string
-          description: State, province, or region.
-          example: "CA"
-          x-jsonld: "schema:addressRegion"
-        postalCode:
-          type: string
-          description: Postal or ZIP code.
-          example: "94105"
-          x-jsonld: "schema:postalCode"
-        addressCountry:
-          type: string
-          description: Country name or ISO 3166-1 alpha-2 code.
-          example: "US"
-          x-jsonld: "schema:addressCountry"
-      additionalProperties: false
-
-    GeoCoordinates:
-      type: object
-      description: Schema.org GeoCoordinates for a point.
-      x-jsonld:
-        "@type": "schema:GeoCoordinates"
-      properties:
-        latitude:
-          oneOf: [{ type: number }, { type: string }]
-          description: Latitude in decimal degrees.
-          x-jsonld: "schema:latitude"
-        longitude:
-          oneOf: [{ type: number }, { type: string }]
-          description: Longitude in decimal degrees.
-          x-jsonld: "schema:longitude"
-        elevation:
-          oneOf: [{ type: number }, { type: string }]
-          description: Elevation in meters (WGS84).
-          x-jsonld: "schema:elevation"
-      required: [latitude, longitude]
-      additionalProperties: false
-
-    GeoShape:
-      type: object
-      description: Schema.org GeoShape — circle/box plus a derived bbox for indexing.
-      x-jsonld: { "@type": "schema:GeoShape" }
-      properties:
-        circle:
-          description: >
-            Circle geometry. Use either the schema.org string form
-            "lat lon radius" (radius with unit, e.g., "10km"), or a structured
-            object with center+radiusMeters. If both are present, 'circleObj'
-            SHOULD mirror the string value.
-            - type: object
-              x-jsonld: "schema:circle"
-              properties:
-                center:
-                  $ref: "#/components/schemas/GeoCoordinates"
-                radiusMeters:
-                  type: number
-                  minimum: 0
-                  description: Circle radius in meters.
-              required: [center, radiusMeters]
-              additionalProperties: false
-
-        # Polygon (array of GeoCoordinates)
-        polygon:
-          type: array
-          x-jsonld: "schema:polygon"
-          description: >
-            Array of GeoCoordinates forming a closed ring. The first and last
-            points SHOULD be identical to close the polygon. For rectangles,
-            use SW, SE, NE, NW, SW ordering.
-          items:
-            $ref: "#/components/schemas/GeoCoordinates"
-          minItems: 4
-          example:
-            - { "latitude": 12.9200, "longitude": 77.6100 }  # SW
-            - { "latitude": 12.9200, "longitude": 77.6400 }  # SE
-            - { "latitude": 12.9500, "longitude": 77.6400 }  # NE
-            - { "latitude": 12.9500, "longitude": 77.6100 }  # NW
-            - { "latitude": 12.9200, "longitude": 77.6100 }  # SW (close)
-
-      additionalProperties: false          
 
     ErrorResponse:
       type: object
