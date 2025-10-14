@@ -276,6 +276,12 @@ components:
           type: object
           description: Discover payload containing search criteria
           properties:
+            schema_context:
+              type: array
+              items:
+                type: string
+                format: uri
+              description: Optional JSON-LD context URLs indicating item types to search across
             text_search:
               type: string
               description: Free text search query for items
@@ -291,12 +297,10 @@ components:
                 $ref: '#/components/schemas/SpatialConstraint'
             pagination:
               $ref: '#/components/schemas/Pagination'
-            schema_context:
-              type: array
-              items:
-                type: string
-                format: uri
-              description: Optional JSON-LD context URLs indicating item types to search across
+          anyOf:
+            - required: [text_search]
+            - required: [filters]
+            
           
     DiscoverResponse:
       type: object
