@@ -42,15 +42,15 @@ paths:
               $ref: '#/components/schemas/DiscoverRequest'
             examples:
               structured_query:
-                $ref: './examples.yaml#/components/examples/discover_structured_query'
+                $ref: '#/components/examples/discover_structured_query'
               natural_language:
-                $ref: './examples.yaml#/components/examples/discover_natural_language'
+                $ref: '#/components/examples/discover_natural_language'
               grocery_search:
-                $ref: './examples.yaml#/components/examples/discover_grocery_search'
+                $ref: '#/components/examples/discover_grocery_search'
               combined_search:
-                $ref: './examples.yaml#/components/examples/discover_combined_search'
+                $ref: '#/components/examples/discover_combined_search'
               multi_schema_search:
-                $ref: './examples.yaml#/components/examples/discover_multi_schema_search'
+                $ref: '#/components/examples/discover_multi_schema_search'
       responses:
         '200':
           description: ACK — received the discover request (validation passed)
@@ -60,7 +60,7 @@ paths:
                 $ref: '#/components/schemas/AckResponse'
               examples:
                 success_ack:
-                  $ref: './examples.yaml#/components/examples/ack_success'
+                  $ref: '#/components/examples/ack_success'
         '400':
           description: Bad request
           content:
@@ -69,7 +69,7 @@ paths:
                 $ref: '#/components/schemas/AckResponse'
               examples:
                 bad_request:
-                  $ref: './examples.yaml#/components/examples/ack_bad_request'
+                  $ref: '#/components/examples/ack_bad_request'
         '500':
           description: Internal server error
           content:
@@ -78,7 +78,7 @@ paths:
                 $ref: '#/components/schemas/AckResponse'
               examples:
                 server_error:
-                  $ref: './examples.yaml#/components/examples/ack_server_error'
+                  $ref: '#/components/examples/ack_server_error'
 
   /beckn/on_discover:
     post:
@@ -95,9 +95,9 @@ paths:
               $ref: '#/components/schemas/DiscoverResponse'
             examples:
               electronic_items_catalog:
-                $ref: './examples.yaml#/components/examples/on_discover_electronics_catalog'
+                $ref: '#/components/examples/on_discover_electronics_catalog'
               grocery_items_catalog:
-                $ref: './examples.yaml#/components/examples/on_discover_grocery_catalog'
+                $ref: '#/components/examples/on_discover_grocery_catalog'
       responses:
         '200':
           description: ACK — received catalog data for the corresponding discover request
@@ -107,7 +107,7 @@ paths:
                 $ref: '#/components/schemas/AckResponse'
               examples:
                 success_ack:
-                  $ref: './examples.yaml#/components/examples/ack_success'
+                  $ref: '#/components/examples/ack_success'
         '400':
           description: Bad request
           content:
@@ -116,7 +116,7 @@ paths:
                 $ref: '#/components/schemas/AckResponse'
               examples:
                 bad_request:
-                  $ref: './examples.yaml#/components/examples/ack_bad_request'
+                  $ref: '#/components/examples/ack_bad_request'
         '500':
           description: Internal server error
           content:
@@ -125,7 +125,7 @@ paths:
                 $ref: '#/components/schemas/AckResponse'
               examples:
                 server_error:
-                  $ref: './examples.yaml#/components/examples/ack_server_error'
+                  $ref: '#/components/examples/ack_server_error'
 
   /beckn/discover/browser-search:
     get:
@@ -211,7 +211,7 @@ paths:
                 $ref: '#/components/schemas/DiscoverResponse'
               examples:
                 electronic_items:
-                  $ref: './examples.yaml#/components/examples/browser_search_electronic_items'
+                  $ref: '#/components/examples/browser_search_electronic_items'
         '400':
           description: Bad request - Invalid parameters
           content:
