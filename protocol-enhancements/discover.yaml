@@ -31,7 +31,7 @@ paths:
     get:
       summary: Discover items across multiple schemas
       description: |
-        Search and discover items across any schemas in Beckn Schema registry. Supports text search, JSONPath-based filtering (RFC 9535), or both together with automatic schema adaptation. **This endpoint returns only an ACK/NACK** confirming receipt and validation of the discover request. The actual catalog results are delivered asynchronously via **/beckn/on_discover**.
+        Search and discover items across any schemas in Beckn Schema registry. Supports text search, JSONPath-based filtering (RFC 9535), or both together with automatic schema adaptation. This endpoint may return either an **ACK/NACK** confirming receipt/validation or a synchronous **DiscoverResponse** providing discovery results in catalog format. Networks may still choose to deliver results asynchronously via **/beckn/on_discover**.
       operationId: discoverItems
       tags: [Discovery]
       requestBody:
