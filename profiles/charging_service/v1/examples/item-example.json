@@ -1,37 +1,26 @@
 {
   "@context": "../context.jsonld",
   "@type": "ChargingServiceAttributes",
-  "name": "EcoPower Highway Hub \u2013 Mandya Food Court",
-  "category": "DC_Fast",
   "connectorType": "CCS2",
   "maxPowerKW": 60,
+  "minPowerKW": 5,
   "socketCount": 2,
   "reservationSupported": true,
-  "paymentAccepted": [
-    "UPI",
-    "Card",
-    "Wallet"
-  ],
-  "openingHours": "24x7",
+  "paymentAccepted": ["UPI", "Card"],
   "serviceLocation": {
-    "geo": {
-      "latitude": 12.5445,
-      "longitude": 76.8763
-    },
-    "address": "NH275, Mandya Food Court Complex"
+    "gps": "12.9153,77.6104",
+    "address": {
+      "name": "EcoPower BTM Hub",
+      "locality": "100 Ft Rd",
+      "city": "Bengaluru",
+      "state": "KA",
+      "country": "IND",
+      "area_code": "560076"
+    }
   },
-  "amenityFeature": [
-    "Restaurant",
-    "Restroom"
-  ],
-  "image": "https://cpo.example.org/images/mandya-hub.jpg",
-  "url": "https://cpo.example.org/site/mandya",
-  "ocppId": "IN-ECO-MDY-01",
-  "evseId": "IN*ECO*01*CCS2*A",
-  "tariffModel": "PER_KWH",
-  "supportedUnits": [
-    "kWh"
-  ],
+  "amenityFeature": ["Restaurant", "Restroom", "Wi-Fi"],
+  "ocppId": "IN-ECO-BTM-01",
+  "evseId": "IN*ECO*BTM*01*CCS2*A",
   "roamingNetwork": "GreenRoam",
   "parkingType": "Mall",
   "connectorId": "CCS2-A",
