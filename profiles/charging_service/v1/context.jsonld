@@ -5,8 +5,8 @@
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "ev": "./ev#",
-    "evp": "https://schemas.example.org/profiles/ev-charging/charging_service/v1#",
+    "ev": "./vocab/ev#",
+    "evp": "../../charging_service/v1#",
 
     /* ---- Core class mappings ---- */
     "ChargingServiceAttributes": "evp:ChargingServiceAttributes",

@@ -25,6 +25,7 @@
       "price": "beckn:offerAttributes.priceSpecification.price",
       "unitText": "beckn:offerAttributes.priceSpecification.unitText",
       "idleFeePolicy": "beckn:offerAttributes.idleFeePolicy",
+      "paymentAccepted": "beckn:offerAttributes.paymentAccepted",
       "validThrough": "beckn:validity.end"
     },
     "session": {
@@ -102,9 +103,11 @@
     <span class='ev-chip'>⚡ {{format.powerKW item.maxPowerKW}}</span>\
     <span class='ev-chip'>🔌 x{{item.socketCount}}</span>\
   </div>\
-  <div class='ev-card__price'>\
-    <span class='ev-price'>{{offer.priceCurrency}} {{format.price offer.price}} / {{offer.unitText}}</span>\
-  </div>\
+  {{#if offer.paymentAccepted}}
+    <div class='ev-offer__pay'>\
+      {{#each offer.paymentAccepted}}<span class='ev-tag'>{{this}}</span>{{/each}}\
+    </div>\
+  {{/if}}
   <div class='ev-card__amenities'>\
     {{#each item.amenityFeature}}<span class='ev-tag'><i class='i {{format.icons.amenities[this]}}'></i>{{this}}</span>{{/each}}\
   </div>\

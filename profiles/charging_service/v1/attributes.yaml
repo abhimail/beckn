@@ -5,195 +5,166 @@ info:
   x-profile-id: profiles/ev-charging/charging_service/v1
   description: >
     Attribute schemas for EV charging services (Item.attributes), offers (Offer.attributes),
-    sessions (Order/ Fulfillment attributes), and providers (Provider.attributes).
-    NOTE: This pack defines attributes only; it does NOT define Beckn core objects.
+    sessions (Order/Fulfillment attributes), and providers (Provider.attributes).
+
+    NOTES:
+    • This pack only defines attributes that are NOT already modeled by core Beckn schemas.
+    • Core fields (name/descriptor, images/URL, category, availableAt/location, validity windows,
+      item availability window, offer price snapshot, eligibility, order state, fulfillment start/end times, etc.)
+      should be taken from the core Beckn objects (Catalog/Item/Offer/Order/Fulfillment).
+    • Where applicable, this pack REUSES core schemas via $ref to the forked specs you provided.
+
 components:
   schemas:
-
+    ########################################################################
+    # ITEM.ATTRIBUTES — ChargingServiceAttributes (pruned; EV-specific only)
+    ########################################################################
     ChargingServiceAttributes:
       type: object
       additionalProperties: false
-      required: [connectorType, maxPowerKW, socketCount]
+      required:
+        - connectorType
+        - maxPowerKW
+        - socketCount
       x-jsonld:
         "@context": ./context.jsonld
         "@type": ChargingServiceAttributes
       properties:
-        serviceType:
-          type: string
-          enum: [EVCharging]
-          default: EVCharging
-          description: Fixed service classification for EV charging.
-          example: EVCharging
-          x-jsonld: { "@id": serviceType }
-        category:
-          type: string
-          enum: [AC_Slow, AC_Fast, DC_Fast, DC_Ultra]
-          description: High-level charger category based on speed/technology.
-          example: DC_Fast
-          x-jsonld: { "@id": category }
+
+        # EV-specific technicals
         connectorType:
           type: string
           enum: [CCS2, Type2, CHAdeMO, GB_T]
-          description: Physical connector standard supported by the outlet.
+          description: Physical connector type supported by this EVSE.
           example: CCS2
           x-jsonld: { "@id": connectorType }
+
         maxPowerKW:
           type: number
           minimum: 1
           maximum: 500
-          description: Maximum deliverable charging power in kilowatts.
+          description: Maximum output power of the connector (kW).
           example: 60
           x-jsonld: { "@id": maxPowerKW }
+
         minPowerKW:
           type: number
           minimum: 0
           maximum: 500
-          description: Minimum effective charging power in kilowatts (if applicable).
-          example: 7.4
+          description: Minimum controllable power if throttling supported (kW).
+          example: 5
           x-jsonld: { "@id": minPowerKW }
+
         socketCount:
           type: integer
           minimum: 1
-          description: Number of simultaneously usable connectors at this EVSE.
+          description: Number of simultaneously usable outlets for this connector type.
           example: 2
           x-jsonld: { "@id": socketCount }
+
         reservationSupported:
           type: boolean
           default: true
-          description: Whether users can reserve a slot/connector in advance.
-          example: true
+          description: Whether advance reservations are supported.
           x-jsonld: { "@id": reservationSupported }
+
         paymentAccepted:
           type: array
-          description: Accepted payment instruments for on-site or in-app payment.
+          description: Accepted payment methods for this offer.
           items:
             type: string
             enum: [UPI, Card, Wallet, NetBanking, Cash]
-          example: [UPI, Card, Wallet]
+          minItems: 1
+          uniqueItems: true
+          example: ["UPI", "Card", "Wallet"]
           x-jsonld: { "@id": paymentAccepted }
-        openingHours:
-          type: string
-          description: Simple hours text when detailed spec isn’t provided.
-          example: 24x7
-          x-jsonld: { "@id": openingHours }
-        openingHoursSpecification:
-          type: string
-          description: Detailed hours string per schema.org pattern.
-          example: Mo-Su 00:00-24:00
-          x-jsonld: { "@id": openingHoursSpecification }
+
+        # Location: REUSE Beckn Location (discover.yaml) via $ref
         serviceLocation:
-          type: object
-          additionalProperties: false
-          description: Location details of the charging site.
+          allOf:
+            - $ref: "https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml#/components/schemas/Location"
+            - type: object
+              description: Location of the charging site (reuses Beckn Location).
+              x-jsonld: { "@id": serviceLocation }
           example:
-            geo: { latitude: 16.704, longitude: 74.243 }
-            address: "Shell Kolhapur, NH48 Service Rd, Kolhapur, MH"
-          x-jsonld: { "@id": serviceLocation }
-          properties:
-            geo:
-              type: object
-              required: [latitude, longitude]
-              additionalProperties: false
-              description: Geographic coordinates of the site.
-              example: { latitude: 16.704, longitude: 74.243 }
-              properties:
-                latitude:
-                  type: number
-                  description: Latitude in decimal degrees.
-                  example: 16.704
-                  x-jsonld: { "@id": latitude }
-                longitude:
-                  type: number
-                  description: Longitude in decimal degrees.
-                  example: 74.243
-                  x-jsonld: { "@id": longitude }
+            gps: "12.9153,77.6104"
             address:
-              type: string
-              description: Human-readable address for the charging site.
-              example: "Shell Kolhapur, NH48 Service Rd, Kolhapur, MH"
+              name: "EcoPower BTM Hub"
+              locality: "100 Ft Rd"
+              city: "Bengaluru"
+              state: "KA"
+              country: "IND"
+              area_code: "560076"
+
         amenityFeature:
           type: array
           items: { type: string }
-          description: On-site amenities available to users.
-          example: ["Cafe", "Restroom", "Wi-Fi"]
+          description: Nearby amenities (e.g., Restaurant, Restroom, Wi-Fi).
+          example: ["Restaurant", "Restroom"]
           x-jsonld: { "@id": amenityFeature }
-        image:
-          type: string
-          format: uri
-          description: Image URL of the station or connector area.
-          example: https://img.example.org/shell-kolhapur.jpg
-          x-jsonld: { "@id": image }
-        url:
-          type: string
-          format: uri
-          description: Landing page for the site or provider listing.
-          example: https://cpo.example.org/site/shell-kolhapur
-          x-jsonld: { "@id": url }
+
         ocppId:
           type: string
-          description: Internal EVSE/charge-point identifier in the CPO/OCPP backend.
-          example: IN-SHELL-KOL-12
+          description: Site/CSMS identifier in OCPP backend.
+          example: "IN-ECO-MDY-01"
           x-jsonld: { "@id": ocppId }
+
         evseId:
           type: string
-          description: Public EVSE identifier if exposed.
-          example: IN*SHL*12*CCS2*A
+          description: EVSE identifier (e.g., OCPI/Hubject style).
+          example: "IN*ECO*01*CCS2*A"
           x-jsonld: { "@id": evseId }
-        tariffModel:
-          type: string
-          enum: [PER_KWH, PER_MINUTE, SUBSCRIPTION, TIME_OF_DAY]
-          description: Default tariff basis for this site/service.
-          example: PER_KWH
-          x-jsonld: { "@id": tariffModel }
-        supportedUnits:
-          type: array
-          items: { type: string }
-          description: Units applicable for pricing/measurement.
-          example: ["kWh"]
-          x-jsonld: { "@id": supportedUnits }
+
         roamingNetwork:
           type: string
-          description: Roaming federation or partner network (if any).
-          example: GreenRoam
+          description: Roaming network name if applicable.
+          example: "GreenRoam"
           x-jsonld: { "@id": roamingNetwork }
+
         parkingType:
           type: string
           enum: [OnStreet, OffStreet, Basement, Mall, FuelStation, Office, Hotel]
-          description: Type of parking facility hosting the charger.
-          example: FuelStation
+          description: Parking context of the station.
+          example: "Mall"
           x-jsonld: { "@id": parkingType }
 
-        # Extended connector/status descriptors
         connectorId:
           type: string
-          description: Provider-specific connector/socket identifier (per outlet).
-          example: CCS2-A
+          description: Provider-specific connector/socket id.
+          example: "CCS2-A"
           x-jsonld: { "@id": connectorId }
+
         powerType:
           type: string
           enum: [AC_SINGLE_PHASE, AC_3_PHASE, DC]
-          description: Electrical power topology supported by the connector.
-          example: DC
+          description: Electrical system type at the connector.
+          example: "DC"
           x-jsonld: { "@id": powerType }
+
         connectorFormat:
           type: string
           enum: [SOCKET, CABLE]
-          description: Whether the connector is a socket or has a tethered cable.
-          example: CABLE
+          description: Whether the gun is tethered (CABLE) or socketed (SOCKET).
+          example: "CABLE"
           x-jsonld: { "@id": connectorFormat }
+
         chargingSpeed:
           type: string
           enum: [SLOW, NORMAL, FAST, ULTRAFAST]
-          description: Marketing speed band for the connector.
-          example: FAST
+          description: Marketing band for comprehension.
+          example: "FAST"
           x-jsonld: { "@id": chargingSpeed }
+
         stationStatus:
           type: string
           enum: [Available, Occupied, OutOfService]
-          description: Real-time availability status for the connector/station.
-          example: Available
+          description: Near-real-time availability state.
+          example: "Available"
           x-jsonld: { "@id": stationStatus }
 
+    ########################################################################
+    # OFFER.ATTRIBUTES — ChargingOfferAttributes (pruned; EV/commercial bits)
+    ########################################################################
     ChargingOfferAttributes:
       type: object
       additionalProperties: false
@@ -202,274 +173,227 @@ components:
         "@context": ./context.jsonld
         "@type": ChargingOfferAttributes
       properties:
+
+        # Detailed pricing basis (Offer has a price snapshot separately)
         priceSpecification:
           type: object
-          description: Price, currency, and unit details for this offer.
-          example:
-            price: 18.0
-            priceCurrency: "INR"
-            unitText: "kWh"
+          description: Detailed pricing basis (separate from Offer.price snapshot).
           x-jsonld: { "@id": priceSpecification }
+          additionalProperties: false
           properties:
             price:
               type: number
               minimum: 0
-              description: Numeric price value for the unit in this offer.
+              description: Numeric price for the unit below.
               example: 18.0
               x-jsonld: { "@id": price }
             priceCurrency:
               type: string
-              description: ISO 4217 currency code for the price.
+              description: ISO 4217 currency code.
               example: "INR"
               x-jsonld: { "@id": priceCurrency }
             unitText:
               type: string
               enum: ["kWh", "minute", "hour", "month"]
-              description: Unit to which the price applies.
+              description: Unit for the quoted price.
               example: "kWh"
               x-jsonld: { "@id": unitText }
           required: [price, priceCurrency, unitText]
-        eligibleRegion:
-          type: string
-          description: Geographic region where this offer is valid.
-          example: "IN-MH"
-          x-jsonld: { "@id": eligibleRegion }
-        eligibleCustomerType:
-          type: string
-          description: Customer segment eligibility (if any).
-          example: "FLEET"
-          x-jsonld: { "@id": eligibleCustomerType }
-        validFrom:
-          type: string
-          format: date-time
-          description: Start timestamp from which the offer becomes valid.
-          example: "2025-10-01T00:00:00Z"
-          x-jsonld: { "@id": validFrom }
-        validThrough:
-          type: string
-          format: date-time
-          description: End timestamp after which the offer is no longer valid.
-          example: "2025-12-31T23:59:59Z"
-          x-jsonld: { "@id": validThrough }
+
+        # EV/commercial semantics not covered by core Offer
         paymentAccepted:
           type: string
-          description: Comma-separated list of accepted payment methods for this offer.
+          description: Human-readable accepted payment rails for this offer.
           example: "UPI, Card, Wallet"
           x-jsonld: { "@id": paymentAccepted }
+
         tariffModel:
           type: string
           enum: [PER_KWH, PER_MINUTE, SUBSCRIPTION, TIME_OF_DAY]
-          description: Tariff basis used by this offer (may override default).
-          example: PER_KWH
+          description: Tariff model classification used by the provider.
+          example: "PER_KWH"
           x-jsonld: { "@id": tariffModel }
+
         buyerFinderFee:
           type: object
           description: Commission payable by provider to the BAP for this offer.
-          example:
-            feeType: PERCENTAGE
-            feeValue: 2.5
           x-jsonld: { "@id": buyerFinderFee }
+          additionalProperties: false
           properties:
             feeType:
               type: string
               enum: [PERCENTAGE, AMOUNT]
-              description: Fee interpretation basis as percentage or absolute amount.
-              example: PERCENTAGE
+              example: "PERCENTAGE"
               x-jsonld: { "@id": feeType }
             feeValue:
               type: number
               minimum: 0
-              description: Numeric fee value; interpreted per feeType.
               example: 2.5
               x-jsonld: { "@id": feeValue }
+
         idleFeePolicy:
           type: string
           description: Human-readable policy for post-charge idle fees.
-          example: "₹2/min after 10 min post-charge completion"
+          example: "₹2/min after 10 min post-charge"
           x-jsonld: { "@id": idleFeePolicy }
 
+    ########################################################################
+    # ORDER/FULFILLMENT.ATTRIBUTES — ChargingSessionAttributes (pruned)
+    ########################################################################
     ChargingSessionAttributes:
       type: object
       additionalProperties: false
-      required: [startTime]
       x-jsonld:
         "@context": ./context.jsonld
         "@type": ChargingSessionAttributes
       properties:
-        startTime:
+
+        # Session state & authorization (EV-specific)
+        sessionStatus:
           type: string
-          format: date-time
-          description: Timestamp when charging actually started.
-          example: "2025-10-13T10:15:30Z"
-          x-jsonld: { "@id": startTime }
-        endTime:
-          type: string
-          format: date-time
-          description: Timestamp when charging stopped (if completed).
-          example: "2025-10-13T10:52:10Z"
-          x-jsonld: { "@id": endTime }
-        meteredEnergyKWh:
-          type: number
-          minimum: 0
-          description: Metered energy dispensed for the session.
-          example: 12.8
-          x-jsonld: { "@id": meteredEnergyKWh }
-        meteredDurationMinutes:
-          type: number
-          minimum: 0
-          description: Metered session duration in minutes.
-          example: 37
-          x-jsonld: { "@id": meteredDurationMinutes }
-        ocppId:
-          type: string
-          description: EVSE/connector identifier in the CPO/OCPP backend.
-          example: IN-SHELL-KOL-12
-          x-jsonld: { "@id": ocppId }
-        connectorType:
-          type: string
-          enum: [CCS2, Type2, CHAdeMO, GB_T]
-          description: Connector standard used in this session.
-          example: CCS2
-          x-jsonld: { "@id": connectorType }
-        maxPowerKW:
-          type: number
-          minimum: 1
-          description: Max instantaneous power observed/allowed during the session.
-          example: 58.2
-          x-jsonld: { "@id": maxPowerKW }
-        orderStatus:
-          type: string
-          enum: ["OrderProcessing", "OrderInTransit", "OrderDelivered", "OrderCancelled", "OrderPickupAvailable"]
-          description: Schema.org-aligned order status for fulfillment lifecycle.
-          example: OrderDelivered
-          x-jsonld: { "@id": orderStatus }
+          enum: [PENDING, ACTIVE, COMPLETED, INTERRUPTED]
+          description: High-level session state (order.state carries overall state).
+          example: "ACTIVE"
+          x-jsonld: { "@id": sessionStatus }
 
         authorizationMode:
           type: string
           enum: [APP_QR, RFID, OTP]
-          description: Mechanism used to authorize the session start.
-          example: APP_QR
+          description: Mode used to authorize/start the session.
+          example: "APP_QR"
           x-jsonld: { "@id": authorizationMode }
         authorizationOtpHint:
           type: string
-          description: OTP or hint shown to the user for kiosk entry (if OTP flow).
-          example: "Enter OTP 493712 on charger"
+          description: Optional OTP or hint presented to user for kiosk entry.
+          example: "Enter last 4 digits"
           x-jsonld: { "@id": authorizationOtpHint }
 
+        # Technical lens for this session
+        connectorType:
+          type: string
+          enum: [CCS2, Type2, CHAdeMO, GB_T]
+          description: Connector used for this session (may differ from listing).
+          example: "CCS2"
+          x-jsonld: { "@id": connectorType }
+        maxPowerKW:
+          type: number
+          minimum: 1
+          description: Peak power observed/allowed for this session (kW).
+          example: 60
+          x-jsonld: { "@id": maxPowerKW }
+
+        # Metered outputs (use meteredEnergyKWh as single source of truth)
+        meteredEnergyKWh:
+          type: number
+          minimum: 0
+          description: Total metered energy delivered (kWh).
+          example: 13.6
+          x-jsonld: { "@id": meteredEnergyKWh }
+        meteredDurationMinutes:
+          type: number
+          minimum: 0
+          description: Total metered session time in minutes.
+          example: 35
+          x-jsonld: { "@id": meteredDurationMinutes }
+
+        # OCPI-like interval telemetry
+        chargingPeriods:
+          type: array
+          description: OCPI-like intervals with telemetry dimensions.
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              startDateTime:
+                type: string
+                format: date-time
+                description: Interval start (UTC).
+                x-jsonld: { "@id": "schema:startTime" }
+              dimensions:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    dimensionType:
+                      type: string
+                      enum: [ENERGY, POWER, CURRENT, VOLTAGE, STATE_OF_CHARGE]
+                      description: Measured dimension type.
+                      x-jsonld: { "@id": dimensionType }
+                    volume:
+                      type: number
+                      description: Measured value for the dimension.
+                      x-jsonld: { "@id": volume }
+
+        # Billing summary specific to the session (Offer/Payment carry snapshots)
+        totalCost:
+          type: object
+          description: Total session cost breakout.
+          x-jsonld: { "@id": totalCost }
+          additionalProperties: false
+          properties:
+            exclVat:
+              type: number
+              example: 245.0
+              x-jsonld: { "@id": exclVat }
+            inclVat:
+              type: number
+              example: 289.1
+              x-jsonld: { "@id": inclVat }
+
+        lastUpdated:
+          type: string
+          format: date-time
+          description: Last telemetry/billing update timestamp (UTC).
+          x-jsonld: { "@id": "schema:dateModified" }
+
+        # Reservation/ops metadata
+        reservationId:
+          type: string
+          description: Server-assigned reservation identifier.
+          example: "RESV-984532"
+          x-jsonld: { "@id": reservationId }
+        gracePeriodMinutes:
+          type: number
+          minimum: 0
+          description: Minutes allowed after scheduled start before releasing.
+          example: 10
+          x-jsonld: { "@id": gracePeriodMinutes }
+
+        # Optional vehicle hints (operational analytics/space planning)
+        vehicleMake:
+          type: string
+          description: Vehicle make/brand for the session (optional).
+          example: "Tata"
+          x-jsonld: { "@id": vehicleMake }
+        vehicleModel:
+          type: string
+          description: Vehicle model for the session (optional).
+          example: "Nexon EV"
+          x-jsonld: { "@id": vehicleModel }
+
+        # Tracking
         trackingId:
           type: string
-          description: Provider’s tracking identifier for this session.
-          example: TRK-9B7F-20251013
+          description: Provider tracking identifier for this session.
+          example: "TRK-984532"
           x-jsonld: { "@id": trackingId }
         trackingUrl:
           type: string
           format: uri
-          description: Session tracking dashboard URL.
-          example: https://cpo.example.org/sessions/TRK-9B7F-20251013
+          description: Live session dashboard URL.
+          example: "https://cpo.example.org/session/RESV-984532"
           x-jsonld: { "@id": trackingUrl }
         trackingStatus:
           type: string
           enum: [ACTIVE, INACTIVE]
           description: Whether live tracking is currently active.
-          example: ACTIVE
+          example: "ACTIVE"
           x-jsonld: { "@id": trackingStatus }
 
-        sessionStatus:
-          type: string
-          enum: [PENDING, ACTIVE, COMPLETED, INTERRUPTED]
-          description: High-level state of the charging session.
-          example: COMPLETED
-          x-jsonld: { "@id": sessionStatus }
-
-        kwh:
-          type: number
-          minimum: 0
-          description: Total energy consumed by the session in kWh.
-          example: 12.8
-          x-jsonld: { "@id": kwh }
-        currency:
-          type: string
-          description: ISO-4217 currency used for any costs or totals.
-          example: INR
-          x-jsonld: { "@id": schema:currency }
-        chargingPeriods:
-          type: array
-          description: Telemetry periods with OCPI-style dimensions.
-          example:
-            - startDateTime: "2025-10-13T10:15:30Z"
-              dimensions:
-                - dimensionType: ENERGY
-                  volume: 4.2
-                - dimensionType: POWER
-                  volume: 55.0
-            - startDateTime: "2025-10-13T10:35:30Z"
-              dimensions:
-                - dimensionType: ENERGY
-                  volume: 8.6
-          items:
-            type: object
-            properties:
-              startDateTime:
-                type: string
-                format: date-time
-                description: Start timestamp for this telemetry interval.
-                example: "2025-10-13T10:15:30Z"
-                x-jsonld: { "@id": schema:startTime }
-              dimensions:
-                type: array
-                description: List of measured dimensions for this interval.
-                example:
-                  - dimensionType: ENERGY
-                    volume: 4.2
-                items:
-                  type: object
-                  properties:
-                    dimensionType:
-                      type: string
-                      enum: [ENERGY, POWER, CURRENT, VOLTAGE, STATE_OF_CHARGE]
-                      description: Kind of measurement captured in the interval.
-                      example: ENERGY
-                      x-jsonld: { "@id": dimensionType }
-                    volume:
-                      type: number
-                      description: Numeric value for the dimension (unit per type).
-                      example: 4.2
-                      x-jsonld: { "@id": volume }
-        totalCost:
-          type: object
-          description: Total session cost including VAT breakdown.
-          example:
-            exclVat: 200.00
-            inclVat: 236.00
-          x-jsonld: { "@id": totalCost }
-          properties:
-            exclVat:
-              type: number
-              description: Total amount excluding VAT.
-              example: 200.00
-              x-jsonld: { "@id": exclVat }
-            inclVat:
-              type: number
-              description: Total amount including VAT.
-              example: 236.00
-              x-jsonld: { "@id": inclVat }
-        lastUpdated:
-          type: string
-          format: date-time
-          description: Timestamp when telemetry or billing was last updated.
-          example: "2025-10-13T10:52:10Z"
-          x-jsonld: { "@id": schema:dateModified }
-        vehicleMake:
-          type: string
-          description: Vehicle make/brand recorded for the session (optional).
-          example: "Tata"
-          x-jsonld: { "@id": vehicleMake }
-        vehicleModel:
-          type: string
-          description: Vehicle model recorded for the session (optional).
-          example: "Nexon EV"
-          x-jsonld: { "@id": vehicleModel }
-
+    ########################################################################
+    # PROVIDER.ATTRIBUTES — ChargingProviderAttributes (unchanged/minimal)
+    ########################################################################
     ChargingProviderAttributes:
       type: object
       additionalProperties: false
@@ -479,56 +403,54 @@ components:
       properties:
         operatorName:
           type: string
-          description: Legal or trade name of the charging operator.
-          example: "Shell Recharge India"
+          description: Operating company name (display).
+          example: "EcoPower Charging Pvt Ltd"
           x-jsonld: { "@id": operatorName }
         operatorCode:
           type: string
-          description: Short roaming/index code for the operator.
-          example: "SHL"
+          description: Provider code as used in roaming/ops systems.
+          example: "ECOPOWER"
           x-jsonld: { "@id": operatorCode }
         identifier:
           type: string
-          description: Provider identifier (e.g., LEI/GST/network code).
-          example: "LEI:5493001KJTIIGC8Y1R12"
+          description: Provider identifier (URN/URL/code).
+          example: "urn:epc:provider:ecopower"
           x-jsonld: { "@id": identifier }
         sameAs:
           type: string
           format: uri
-          description: Canonical URL for the organization’s public profile.
-          example: "https://www.shellrecharge.com/in"
+          description: Canonical reference (e.g., website, registry entry).
+          example: "https://ecopower.example.org/about"
           x-jsonld: { "@id": sameAs }
+        # keep or drop based on your core Provider contact policy
         supportEmail:
           type: string
           format: email
-          description: Customer support email for the operator.
-          example: "support@shellrecharge.in"
+          description: Support email (if not provided in core Provider).
+          example: "support@ecopower.example.org"
           x-jsonld: { "@id": supportEmail }
         supportPhone:
           type: string
-          description: Customer support phone number for the operator.
-          example: "+91-80-1234-5678"
+          description: Support phone (if not provided in core Provider).
+          example: "+91-90000-00000"
           x-jsonld: { "@id": supportPhone }
         gstNumber:
           type: string
-          description: Goods and Services Tax Identifier (India).
-          example: "29ABCDE1234F2Z5"
+          description: India GSTIN (if applicable).
+          example: "29ABCDE1234F1Z5"
           x-jsonld: { "@id": gstNumber }
         cin:
           type: string
-          description: Corporate Identification Number (India).
-          example: "U40100MH2010PLC123456"
+          description: India CIN (corporate identification number).
+          example: "L12345KA2020PLC123456"
           x-jsonld: { "@id": cin }
         msme:
           type: string
-          description: MSME registration identifier (India).
-          example: "Udyam-MH-12-000123"
+          description: MSME/Udyam registration (if applicable).
+          example: "UDYAM-KR-12-3456789"
           x-jsonld: { "@id": msme }
         operatorContact:
           type: object
           additionalProperties: true
-          description: Free-form contactPoint structure for extended details.
-          example:
-            availability: "24x7"
-            languages: ["en", "hi"]
+          description: Free-form contact blob for ops (last resort).
           x-jsonld: { "@id": operatorContact }

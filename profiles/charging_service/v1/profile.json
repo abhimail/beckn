@@ -40,7 +40,8 @@
         "beckn:itemAttributes.tariffModel",
         "beckn:itemAttributes.connectorFormat",
         "beckn:itemAttributes.powerType",
-        "beckn:offerAttributes.priceSpecification.unitText"
+        "beckn:offerAttributes.priceSpecification.unitText",
+        "beckn:offerAttributes.paymentAccepted[]"
       ],
       "geo": [
         "beckn:availableAt[].gps",
@@ -89,6 +90,7 @@
         "beckn:offerAttributes.priceSpecification.priceCurrency",
         "beckn:offerAttributes.priceSpecification.unitText",
         "beckn:offerAttributes.idleFeePolicy",
+        "beckn:offerAttributes.paymentAccepted[]",
         "beckn:validity.end"
       ],
       "notes": "Return the above for high-volume listings; include full attributes only on detail views or when explicitly requested."
