@@ -28,7 +28,7 @@ servers:
 
 paths:
   /beckn/discover:
-    post:
+    get:
       summary: Discover items across multiple schemas
       description: |
         Search and discover items across any schemas in Beckn Schema registry. Supports text search, JSONPath-based filtering (RFC 9535), or both together with automatic schema adaptation. **This endpoint returns only an ACK/NACK** confirming receipt and validation of the discover request. The actual catalog results are delivered asynchronously via **/beckn/on_discover**.
@@ -57,8 +57,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AckResponse'
+                oneOf:
+                  - $ref: '#/components/schemas/AckResponse'
+                  - $ref: '#/components/schemas/DiscoverResponse'
               examples:
+                discover_electronics_catalog:
+                  $ref: '#/components/examples/on_discover_electronics_catalog'
+                discover_grocery_catalog:
+                  $ref: '#/components/examples/on_discover_grocery_catalog'
                 success_ack:
                   $ref: '#/components/examples/ack_success'
         '400':
@@ -260,27 +266,37 @@ components:
       properties:
         context:
           allOf:
-            - $ref: '#/components/schemas/DiscoveryContext'
+            - $ref: 'https://raw.githubusercontent.com/beckn/protocol-specifications/refs/heads/master/api/transaction/build/transaction.yaml#/components/schemas/Context'
             - type: object
               properties:
                 action:
                   type: string
                   enum: [discover]
-        text_search:
-          type: string
-          description: Free text search query for items
-          example: "gaming laptop premium tech"
-        filters:
-          type: string
-          description: JSONPath expression for filtering items (RFC 9535)
-          example: "$[?(@.rating.value >= 4.0 && @.electronic.brand.name == 'Premium Tech')]"
-        spatial:
-          type: array
-          description: Optional array of spatial constraints (CQL2-JSON semantics).
-          items:
-            $ref: '#/components/schemas/SpatialConstraint'          
-        pagination:
-          $ref: '#/components/schemas/Pagination'
+        message:
+          type: object
+          description: Discover payload containing search criteria
+          properties:
+            text_search:
+              type: string
+              description: Free text search query for items
+              example: "gaming laptop premium tech"
+            filters:
+              type: string
+              description: JSONPath expression for filtering items (RFC 9535)
+              example: "$[?(@.rating.value >= 4.0 && @.electronic.brand.name == 'Premium Tech')]"
+            spatial:
+              type: array
+              description: Optional array of spatial constraints (CQL2-JSON semantics).
+              items:
+                $ref: '#/components/schemas/SpatialConstraint'
+            pagination:
+              $ref: '#/components/schemas/Pagination'
+            schema_context:
+              type: array
+              items:
+                type: string
+                format: uri
+              description: Optional JSON-LD context URLs indicating item types to search across
           
     DiscoverResponse:
       type: object
@@ -288,7 +304,7 @@ components:
       properties:
         context:
           allOf:
-            - $ref: '#/components/schemas/DiscoveryContext'
+            - $ref: 'https://raw.githubusercontent.com/beckn/protocol-specifications/refs/heads/master/api/transaction/build/transaction.yaml#/components/schemas/Context'
             - type: object
               properties:
                 action:
@@ -539,24 +555,7 @@ components:
           description: Number of items per page
           example: 20
 
-    DiscoveryContext:
-      allOf:
-        - $ref: 'https://raw.githubusercontent.com/beckn/protocol-specifications/refs/heads/master/api/transaction/build/transaction.yaml#/components/schemas/Context'
-        - type: object
-          description: >
-            Beckn Context extended for Discovery. Adds network_id and schema_context.
-            Note: action is constrained per-envelope (DiscoverRequest / DiscoverResponse).
-          properties:
-            network_id:
-              type: array
-              items: { type: string }
-              description: Optional list of addressed networks
-            schema_context:
-              type: array
-              items:
-                type: string
-                format: uri
-              description: Optional JSON-LD context URLs indicating item types to search across    
+    
     AckResponse:
       type: object
       additionalProperties: false
@@ -946,15 +945,15 @@ components:
           timestamp: "2024-04-10T16:10:50+05:30"
           message_id: "a1111111-1111-1111-1111-111111111111"
           transaction_id: "t-11111111-1111-1111-1111-111111111111"
-          network_id: ["bap.net/electronics"]
           bap_id: "bap.example.com"
           bap_uri: "https://bap.example.com"
           ttl: "PT30S"
+        message:
           schema_context:
             - "https://example.org/schema/items/v1/ElectronicItem/schema-context.jsonld"
-        text_search: "gaming laptop premium tech"
-        filters: "$[?(@.rating.value >= 4 && @.electronic.brand.name == 'Premium Tech')]"
-        pagination: { page: 1, limit: 20 }
+          text_search: "gaming laptop premium tech"
+          filters: "$[?(@.rating.value >= 4 && @.electronic.brand.name == 'Premium Tech')]"
+          pagination: { page: 1, limit: 20 }
 
     discover_natural_language:
       summary: Natural-language discover (electronics)
@@ -965,14 +964,14 @@ components:
           timestamp: "2024-04-10T16:10:50+05:30"
           message_id: "a2222222-2222-2222-2222-222222222222"
           transaction_id: "t-22222222-2222-2222-2222-222222222222"
-          network_id: ["bap.net/electronics"]
           bap_id: "bap.example.com"
           bap_uri: "https://bap.example.com"
           ttl: "PT30S"
+        message:
           schema_context:
             - "https://example.org/schema/items/v1/ElectronicItem/schema-context.jsonld"
-        text_search: "Looking for a premium gaming laptop under $2000 near San Francisco"
-        pagination: { page: 1, limit: 20 }
+          text_search: "Looking for a premium gaming laptop under $2000 near San Francisco"
+          pagination: { page: 1, limit: 20 }
 
     discover_grocery_search:
       summary: Structured discover (grocery)
@@ -983,15 +982,15 @@ components:
           timestamp: "2024-04-10T16:10:50+05:30"
           message_id: "a3333333-3333-3333-3333-333333333333"
           transaction_id: "t-33333333-3333-3333-3333-333333333333"
-          network_id: ["bap.net/grocery"]
           bap_id: "bap.example.com"
           bap_uri: "https://bap.example.com"
           ttl: "PT30S"
+        message:
           schema_context:
             - "https://example.org/schema/items/v1/GroceryItem/schema-context.jsonld"
-        text_search: "organic apples fresh"
-        filters: "$[?(@.grocery.organicCertification ~ 'USDA Organic')]"
-        pagination: { page: 1, limit: 10 }
+          text_search: "organic apples fresh"
+          filters: "$[?(@.grocery.organicCertification ~ 'USDA Organic')]"
+          pagination: { page: 1, limit: 10 }
 
     discover_combined_search:
       summary: Combined text + filters
@@ -1002,15 +1001,15 @@ components:
           timestamp: "2024-04-10T16:10:50+05:30"
           message_id: "a4444444-4444-4444-4444-444444444444"
           transaction_id: "t-44444444-4444-4444-4444-444444444444"
-          network_id: ["bap.net/electronics"]
           bap_id: "bap.example.com"
           bap_uri: "https://bap.example.com"
           ttl: "PT30S"
+        message:
           schema_context:
             - "https://example.org/schema/items/v1/ElectronicItem/schema-context.jsonld"
-        text_search: "gaming laptop"
-        filters: "$[?(@.electronic.price['schema:price'] <= 2000 && @.electronic.brand.name == 'Premium Tech')]"
-        pagination: { page: 1, limit: 15 }
+          text_search: "gaming laptop"
+          filters: "$[?(@.electronic.price['schema:price'] <= 2000 && @.electronic.brand.name == 'Premium Tech')]"
+          pagination: { page: 1, limit: 15 }
 
     discover_multi_schema_search:
       summary: Multi-schema discover (electronics + grocery)
@@ -1021,16 +1020,16 @@ components:
           timestamp: "2024-04-10T16:10:50+05:30"
           message_id: "a5555555-5555-5555-5555-555555555555"
           transaction_id: "t-55555555-5555-5555-5555-555555555555"
-          network_id: ["bap.net/mixed", "bap.net/electronics", "bap.net/grocery"]
           bap_id: "bap.example.com"
           bap_uri: "https://bap.example.com"
           ttl: "PT30S"
+        message:
           schema_context:
             - "https://example.org/schema/items/v1/ElectronicItem/schema-context.jsonld"
             - "https://example.org/schema/items/v1/GroceryItem/schema-context.jsonld"
-        text_search: "premium tech and organic food"
-        filters: "$[?(@.rating.value >= 4 && (@.electronic.brand.name == 'Premium Tech' || @.grocery.organicCertification ~ 'USDA Organic'))]"
-        pagination: { page: 1, limit: 25 }
+          text_search: "premium tech and organic food"
+          filters: "$[?(@.rating.value >= 4 && (@.electronic.brand.name == 'Premium Tech' || @.grocery.organicCertification ~ 'USDA Organic'))]"
+          pagination: { page: 1, limit: 25 }
 
     # ---------- /on_discover callback (DiscoverResponse) examples ----------
     on_discover_electronics_catalog:
