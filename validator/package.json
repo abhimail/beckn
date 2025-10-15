@@ -1,0 +1,28 @@
+{
+  "name": "@beckn/ev-attributes-validator",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bin/validate",
+    "validate": "node bin/validate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "bin": {
+    "validate": "bin/validate"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-errors": "^3.0.0",
+    "ajv-formats": "^3.0.1",
+    "chalk": "^5.6.2",
+    "fast-glob": "^3.3.3",
+    "json-schema-ref-parser": "^9.0.9",
+    "yaml": "^2.8.1",
+    "yargs": "^18.0.0"
+  }
+}
