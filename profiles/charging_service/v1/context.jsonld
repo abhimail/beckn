@@ -9,10 +9,10 @@
     "evp": "../vocab/evp#",
 
     /* ---- Core class mappings ---- */
-    "ChargingServiceAttributes": "evp:ChargingServiceAttributes",
-    "ChargingOfferAttributes": "evp:ChargingOfferAttributes",
-    "ChargingSessionAttributes": "evp:ChargingSessionAttributes",
-    "ChargingProviderAttributes": "evp:ChargingProviderAttributes",
+    "ChargingService": "evp:ChargingService",
+    "ChargingOffer": "evp:ChargingOffer",
+    "ChargingSession": "evp:ChargingSession",
+    "ChargingProvider": "evp:ChargingProvider",
 
     /* ---- Shared schema.org properties ---- */
     "name": "schema:name",

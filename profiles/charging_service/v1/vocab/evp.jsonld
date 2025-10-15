@@ -8,25 +8,25 @@
   },
   "@graph": [
     {
-      "@id": "evp:ChargingServiceAttributes",
+      "@id": "evp:ChargingService",
       "@type": "rdfs:Class",
       "rdfs:label": "Charging Service Attributes",
       "rdfs:comment": "Attribute bag for Item.attributes in EV charging."
     },
     {
-      "@id": "evp:ChargingOfferAttributes",
+      "@id": "evp:ChargingOffer",
       "@type": "rdfs:Class",
       "rdfs:label": "Charging Offer Attributes",
       "rdfs:comment": "Attribute bag for Offer.attributes in EV charging."
     },
     {
-      "@id": "evp:ChargingSessionAttributes",
+      "@id": "evp:ChargingSession",
       "@type": "rdfs:Class",
       "rdfs:label": "Charging Session Attributes",
       "rdfs:comment": "Attribute bag for Order/Fulfillment attributes (session telemetry)."
     },
     {
-      "@id": "evp:ChargingProviderAttributes",
+      "@id": "evp:ChargingProvider",
       "@type": "rdfs:Class",
       "rdfs:label": "Charging Provider Attributes",
       "rdfs:comment": "Attribute bag for Provider.attributes (operator identifiers, etc.)."

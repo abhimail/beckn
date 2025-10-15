@@ -16,7 +16,7 @@ npm install
 ```bash
 node bin/validate \
   --attributes ../profiles/charging_service/v1/attributes.yaml \
-  --class ChargingServiceAttributes \
+  --class ChargingService \
   --data ../profiles/charging_service/v1/examples/item-example.json
 ```
 
@@ -29,7 +29,7 @@ import { validateInstance } from '@beckn/ev-attributes-validator/src/index.js';
 
 const result = await validateInstance({
   attributesPath: '../profiles/charging_service/v1/attributes.yaml',
-  className: 'ChargingOfferAttributes',
+  className: 'ChargingOffer',
   instance: { /* your object */ }
 });
 
