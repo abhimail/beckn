@@ -1,0 +1,41 @@
+extends: "spectral:oas"
+rules:
+  ev-attr-required-geo:
+    description: ChargingService.serviceLocation.geo must include latitude & longitude
+    given: "$.ChargingService.serviceLocation.geo"
+    severity: error
+    then:
+      - field: latitude
+        function: truthy
+      - field: longitude
+        function: truthy
+
+  ev-attr-connector-enum:
+    description: connectorType must be a known enum
+    given: "$.ChargingService.connectorType"
+    severity: error
+    then:
+      function: enumeration
+      functionOptions:
+        values: [CCS2, Type2, CHAdeMO, GB_T]
+
+  ev-attr-power-bounds:
+    description: maxPowerKW must be >= minPowerKW (if min is present)
+    given: "$"
+    severity: warn
+    then:
+      function: ./functions/equalsPath.js
+      functionOptions:
+        op: ">="
+        left: "$.ChargingService.maxPowerKW"
+        right: "$.ChargingService.minPowerKW"
+        allowMissingRight: true
+
+  ev-attr-unit-codes-known:
+    description: supportedUnits must be from enums/maps/unitCodes.yaml
+    given: "$.ChargingService.supportedUnits[*]"
+    severity: warn
+    then:
+      function: enumeration
+      functionOptions:
+        values: [kWh, minute, hour, month]

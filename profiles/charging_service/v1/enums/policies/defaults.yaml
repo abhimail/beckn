@@ -1,0 +1,8 @@
+defaults:
+  ChargingService:
+    reservationSupported: true
+    serviceType: EVCharging
+    category: DC_Fast
+  ChargingProvider:
+    operatorContact:
+      availability: "24x7"

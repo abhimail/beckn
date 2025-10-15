@@ -61,7 +61,7 @@
           },
           "attributes": {
             "@context": "https://schemas.example.org/profiles/ev-charging/charging_service/v1/context.jsonld",
-            "@type": "ChargingSessionAttributes",
+            "@type": "ChargingSession",
             "sessionStatus": "PENDING",
             "authorizationMode": "APP_QR",
             "authorizationOtpHint": "Enter last 4 digits",

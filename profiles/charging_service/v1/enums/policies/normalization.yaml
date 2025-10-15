@@ -1,0 +1,11 @@
+normalization:
+  connectorType:
+    toUpperCase: true
+  category:
+    map:
+      ac_slow: AC_Slow
+      ac_fast: AC_Fast
+      dc_fast: DC_Fast
+      dc_ultra: DC_Ultra
+  paymentAccepted:
+    dedupe: true

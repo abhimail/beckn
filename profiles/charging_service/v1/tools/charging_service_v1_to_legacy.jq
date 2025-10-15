@@ -1,0 +1,1 @@
+# v1 → legacy transform (omitted for brevity in this snippet)

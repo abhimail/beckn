@@ -8,13 +8,13 @@ Attach these schemas as follows:
 
 | **Attribute Schema** | **Attach To** | **Purpose** |
 | --- | --- | --- |
-| ChargingServiceAttributes | Item.attributes | Technical and contextual details of a charging connector or station - e.g., connector type, power capacity, socket count, reservation capability, and amenities. |
+| ChargingService | Item.attributes | Technical and contextual details of a charging connector or station - e.g., connector type, power capacity, socket count, reservation capability, and amenities. |
 | --- | --- | --- |
-| ChargingOfferAttributes | Offer.attributes | Tariff details beyond core price fields - e.g., per-kWh or time-based pricing, idle fee policies, buyer-finder fees, and accepted payment methods. |
+| ChargingOffer | Offer.attributes | Tariff details beyond core price fields - e.g., per-kWh or time-based pricing, idle fee policies, buyer-finder fees, and accepted payment methods. |
 | --- | --- | --- |
-| ChargingSessionAttributes | Order.fulfillments\[\].attributes | Real-time or completed charging session data - energy consumed, session duration, total cost, telemetry intervals, and tracking links. |
+| ChargingSession | Order.fulfillments\[\].attributes | Real-time or completed charging session data - energy consumed, session duration, total cost, telemetry intervals, and tracking links. |
 | --- | --- | --- |
-| ChargingProviderAttributes | Provider.attributes | Operator identifiers, statutory registrations, and extended contact details for the charging provider. |
+| ChargingProvider | Provider.attributes | Operator identifiers, statutory registrations, and extended contact details for the charging provider. |
 | --- | --- | --- |
 
 
@@ -56,8 +56,6 @@ This supports both local development and public hosting.
 | **renderer.json** | Defines rendering templates (HTML + JSON data paths) for discovery cards, offer chips, and session status views used in UI implementations. |
 | --- | --- |
 | **rules/** | **TBD** - will contain Spectral rules and JSON Schema (AJV) shims for automated validation. |
-| --- | --- |
-| **enums/** | **TBD** - will include canonical unit maps and normalization/default policies. |
 | --- | --- |
 | **tools/** | **TBD** - jq and helper scripts for transformations or legacy migrations. |
 | --- | --- |

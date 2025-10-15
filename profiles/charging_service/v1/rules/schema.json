@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.example.org/profiles/ev-charging/charging_service/v1/rules/schema.json",
+  "type": "object",
+  "properties": {
+    "ChargingService": { "$ref": "../attributes.yaml#/components/schemas/ChargingService" },
+    "ChargingOffer": { "$ref": "../attributes.yaml#/components/schemas/ChargingOffer" },
+    "ChargingSession": { "$ref": "../attributes.yaml#/components/schemas/ChargingSession" },
+    "ChargingProvider": { "$ref": "../attributes.yaml#/components/schemas/ChargingProvider" }
+  }
+}

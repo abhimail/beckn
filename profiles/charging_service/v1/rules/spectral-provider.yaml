@@ -1,0 +1,26 @@
+extends: "spectral:oas"
+rules:
+  ev-provider-contacts:
+    description: At least one support contact should be present (email or phone)
+    given: "$.ChargingProvider"
+    severity: warn
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          anyOf:
+            - required: [supportEmail]
+            - required: [supportPhone]
+  ev-provider-ids:
+    description: Prefer identifier or operatorCode for traceability
+    given: "$.ChargingProvider"
+    severity: warn
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          anyOf:
+            - required: [identifier]
+            - required: [operatorCode]

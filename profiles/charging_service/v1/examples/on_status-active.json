@@ -26,7 +26,7 @@
           "customer": { "person": { "name": "Srilekha Raj" } },
           "attributes": {
             "@context": "https://schemas.example.org/profiles/ev-charging/charging_service/v1/context.jsonld",
-            "@type": "ChargingSessionAttributes",
+            "@type": "ChargingSession",
             "sessionStatus": "ACTIVE",
             "authorizationMode": "APP_QR",
             "connectorType": "CCS2",

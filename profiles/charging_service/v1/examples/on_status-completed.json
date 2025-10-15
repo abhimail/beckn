@@ -26,7 +26,7 @@
           "end":   { "time": { "timestamp": "2025-10-14T08:47:00Z" } },
           "attributes": {
             "@context": "https://schemas.example.org/profiles/ev-charging/charging_service/v1/context.jsonld",
-            "@type": "ChargingSessionAttributes",
+            "@type": "ChargingSession",
             "sessionStatus": "COMPLETED",
             "authorizationMode": "APP_QR",
             "connectorType": "CCS2",
