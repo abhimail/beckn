@@ -983,6 +983,13 @@ components:
         message:
           text_search: "gaming laptop premium tech"
           filters: "$[?(@.rating.value >= 4 && @.electronic.brand.name == 'Premium Tech')]"
+          spatial:
+            - op: s_dwithin
+              targets: "$['beckn:availableAt'][*]['geo']"
+              geometry:
+                type: Point
+                coordinates: [77.5946, 12.9716]
+              distanceMeters: 5000
           pagination: { page: 1, limit: 20 }
 
     discover_natural_language:
@@ -1060,6 +1067,8 @@ components:
           text_search: "premium tech and organic food"
           filters: "$[?(@.rating.value >= 4 && (@.electronic.brand.name == 'Premium Tech' || @.grocery.organicCertification ~ 'USDA Organic'))]"
           pagination: { page: 1, limit: 25 }
+
+    
 
     # ---------- /on_discover callback (DiscoverResponse) examples ----------
     on_discover_electronics_catalog:
