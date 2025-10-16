@@ -301,9 +301,9 @@ components:
               description: Optional array of spatial constraints (CQL2-JSON semantics).
               items:
                 $ref: '#/components/schemas/SpatialConstraint'
-+            
+                          
             media_search:
-+             $ref: '#/components/schemas/MediaSearch'                
+             $ref: '#/components/schemas/MediaSearch'                
 
           anyOf:
             - required: [text_search]
@@ -360,7 +360,7 @@ components:
         - For rectangles, use a Polygon with a single linear ring where the first
           and last positions are identical.
         - Circles are **not native** to GeoJSON. For circular searches, use
-          `SpatialConstraint` with `op: s_dwithin` and a Point + `distanceMeters`,
+          `SpatialConstraint` with `op: s_dwithin` and a Point  `distanceMeters`,
           or approximate the circle as a Polygon.
         - Optional `bbox` is `[west, south, east, north]` in degrees.
 
@@ -583,109 +583,109 @@ components:
               postalCode: "560001"
               addressCountry: "IN"
 
-+    MediaSearch:
-+      type: object
-+      description: >
-+        Container for multimodal search inputs and configuration.
-+        Supports searching through **images, audio notes, and videos**
-+        alongside text, filters, and spatial predicates.
-+        For GET, this object should be JSON-encoded and URL-escaped.
-+      properties:
-+        media:
-+          type: array
-+          description: >
-+            One or more references to **images, audio notes, or videos** supplied
-+            as part of a multimodal search. Each entry references a media resource
-+            accessible via HTTPS or data URI.
-+          items:
-+            $ref: '#/components/schemas/MediaInput'
-+          example:
-+            - id: "snap-1"
-+              type: image
-+              url: "https://cdn.example.com/user/snaps/ccs2-cable.jpg"
-+              contentType: "image/jpeg"
-+        options:
-+          $ref: '#/components/schemas/MediaSearchOptions'
-+          description: >
-+            Options controlling how the discovery engine interprets the supplied media —
-+            e.g., whether to perform OCR/ASR, semantic similarity, or object detection.
-+      additionalProperties: false
-+      example:
-+        media:
-+          - id: "snap-1"
-+            type: image
-+            url: "https://cdn.example.com/user/snaps/ccs2-cable.jpg"
-+            contentType: "image/jpeg"
-+        options:
-+          goals: ["visual-object-detect", "text-from-image"]
-+          augment_text_search: true
-+
-+
-+    MediaInput:
-+      type: object
-+      description: Reference to an image, audio clip, or video used for multimodal search.
-+      required: [type, url]
-+      properties:
-+        id:
-+          type: string
-+          description: Client-supplied identifier for this media input.
-+        type:
-+          type: string
-+          enum: [image, audio, video]
-+          description: Media category.
-+        url:
-+          type: string
-+          format: uri
-+          description: HTTPS URL or data URI pointing to the media resource.
-+        contentType:
-+          type: string
-+          description: MIME type, e.g., image/jpeg, audio/mpeg, video/mp4.
-+        textHint:
-+          type: string
-+          description: Optional pre-extracted text (OCR/ASR) for search augmentation.
-+        language:
-+          type: string
-+          description: Language code (BCP-47) of `textHint` or spoken audio.
-+        startMs:
-+          type: integer
-+          description: Optional start offset in milliseconds (for audio/video segments).
-+        endMs:
-+          type: integer
-+          description: Optional end offset in milliseconds (for audio/video segments).
-+      additionalProperties: false
-+
-+    MediaSearchOptions:
-+      type: object
-+      description: How the discovery engine should use the provided media inputs.
-+      properties:
-+        goals:
-+          type: array
-+          description: >
-+            Desired processing goals for the media.
-+          items:
-+            type: string
-+            enum:
-+              - visual-similarity        # find visually similar items
-+              - visual-object-detect     # detect object classes within image/video
-+              - text-from-image          # extract text (OCR)
-+              - text-from-audio          # extract text (ASR)
-+              - semantic-audio-match     # audio embedding similarity
-+              - semantic-video-match     # video scene/keyframe similarity
-+        augment_text_search:
-+          type: boolean
-+          default: true
-+          description: >
-+            Whether to append extracted text from OCR/ASR to `text_search`.
-+        restrict_results_to_media_proximity:
-+          type: boolean
-+          default: false
-+          description: >
-+            Restrict results to spatial proximity of media-derived coordinates
-+            (e.g., EXIF GPS tags).
-+        roi:
-+          $ref: '#/components/schemas/GeoJSONGeometry'
-+          description: Optional region of interest for geolocated or map-based searches.
-+      additionalProperties: false
+    MediaSearch:
+      type: object
+      description: >
+        Container for multimodal search inputs and configuration.
+        Supports searching through **images, audio notes, and videos**
+        alongside text, filters, and spatial predicates.
+        For GET, this object should be JSON-encoded and URL-escaped.
+      properties:
+        media:
+          type: array
+          description: >
+            One or more references to **images, audio notes, or videos** supplied
+            as part of a multimodal search. Each entry references a media resource
+            accessible via HTTPS or data URI.
+          items:
+            $ref: '#/components/schemas/MediaInput'
+          example:
+            - id: "snap-1"
+              type: image
+              url: "https://cdn.example.com/user/snaps/ccs2-cable.jpg"
+              contentType: "image/jpeg"
+        options:
+          $ref: '#/components/schemas/MediaSearchOptions'
+          description: >
+            Options controlling how the discovery engine interprets the supplied media —
+            e.g., whether to perform OCR/ASR, semantic similarity, or object detection.
+      additionalProperties: false
+      example:
+        media:
+          - id: "snap-1"
+            type: image
+            url: "https://cdn.example.com/user/snaps/ccs2-cable.jpg"
+            contentType: "image/jpeg"
+        options:
+          goals: ["visual-object-detect", "text-from-image"]
+          augment_text_search: true
+
+
+    MediaInput:
+      type: object
+      description: Reference to an image, audio clip, or video used for multimodal search.
+      required: [type, url]
+      properties:
+        id:
+          type: string
+          description: Client-supplied identifier for this media input.
+        type:
+          type: string
+          enum: [image, audio, video]
+          description: Media category.
+        url:
+          type: string
+          format: uri
+          description: HTTPS URL or data URI pointing to the media resource.
+        contentType:
+          type: string
+          description: MIME type, e.g., image/jpeg, audio/mpeg, video/mp4.
+        textHint:
+          type: string
+          description: Optional pre-extracted text (OCR/ASR) for search augmentation.
+        language:
+          type: string
+          description: Language code (BCP-47) of `textHint` or spoken audio.
+        startMs:
+          type: integer
+          description: Optional start offset in milliseconds (for audio/video segments).
+        endMs:
+          type: integer
+          description: Optional end offset in milliseconds (for audio/video segments).
+      additionalProperties: false
+
+    MediaSearchOptions:
+      type: object
+      description: How the discovery engine should use the provided media inputs.
+      properties:
+        goals:
+          type: array
+          description: >
+            Desired processing goals for the media.
+          items:
+            type: string
+            enum:
+              - visual-similarity        # find visually similar items
+              - visual-object-detect     # detect object classes within image/video
+              - text-from-image          # extract text (OCR)
+              - text-from-audio          # extract text (ASR)
+              - semantic-audio-match     # audio embedding similarity
+              - semantic-video-match     # video scene/keyframe similarity
+        augment_text_search:
+          type: boolean
+          default: true
+          description: >
+            Whether to append extracted text from OCR/ASR to `text_search`.
+        restrict_results_to_media_proximity:
+          type: boolean
+          default: false
+          description: >
+            Restrict results to spatial proximity of media-derived coordinates
+            (e.g., EXIF GPS tags).
+        roi:
+          $ref: '#/components/schemas/GeoJSONGeometry'
+          description: Optional region of interest for geolocated or map-based searches.
+      additionalProperties: false
 
     Pagination:
       type: object
@@ -1089,7 +1089,7 @@ components:
         context:
           version: "2.0.0"
           action: "discover"
-          timestamp: "2024-04-10T16:10:50+05:30"
+          timestamp: "2024-04-10T16:10:5005:30"
           message_id: "5c8f1a2b-9d3e-4f76-8b21-3a4c5d6e7f80"
           transaction_id: "d3b07384-4a1c-4f5e-9c2b-7e6d5c4b3a21"
           bap_id: "bap.example.com"
@@ -1110,7 +1110,7 @@ components:
         context:
           version: "2.0.0"
           action: "discover"
-          timestamp: "2024-04-10T16:10:50+05:30"
+          timestamp: "2024-04-10T16:10:5005:30"
           message_id: "9a7b6c5d-8e4f-4a3b-9c2d-1e0f2a3b4c5d"
           transaction_id: "1f2e3d4c-5b6a-4789-8c0d-1a2b3c4d5e6f"
           bap_id: "bap.example.com"
@@ -1128,7 +1128,7 @@ components:
         context:
           version: "2.0.0"
           action: "discover"
-          timestamp: "2024-04-10T16:10:50+05:30"
+          timestamp: "2024-04-10T16:10:5005:30"
           message_id: "2a3b4c5d-6e7f-4890-9a1b-2c3d4e5f6071"
           transaction_id: "7e6d5c4b-3a21-4c5d-8f70-9a1b2c3d4e5f"
           bap_id: "bap.example.com"
@@ -1144,12 +1144,12 @@ components:
           pagination: { page: 1, limit: 10 }
 
     discover_combined_search:
-      summary: Combined text + filters
+      summary: Combined text  filters
       value:
         context:
           version: "2.0.0"
           action: "discover"
-          timestamp: "2024-04-10T16:10:50+05:30"
+          timestamp: "2024-04-10T16:10:5005:30"
           message_id: "3b4c5d6e-7f80-41a2-93b4-c5d6e7f8091a"
           transaction_id: "8f70e6d5-c4b3-42a1-9c2d-3e4f5a6b7c8d"
           bap_id: "bap.example.com"
@@ -1165,12 +1165,12 @@ components:
           pagination: { page: 1, limit: 15 }
 
     discover_multi_schema_search:
-      summary: Multi-schema discover (electronics + grocery)
+      summary: Multi-schema discover (electronics  grocery)
       value:
         context:
           version: "2.0.0"
           action: "discover"
-          timestamp: "2024-04-10T16:10:50+05:30"
+          timestamp: "2024-04-10T16:10:5005:30"
           message_id: "4c5d6e7f-8091-42b3-94c5-d6e7f8091a2b"
           transaction_id: "9c2d3e4f-5a6b-47c8-8d90-1a2b3c4d5e6f"
           bap_id: "bap.example.com"
@@ -1193,7 +1193,7 @@ components:
         context:
           version: "2.0.0"
           action: "on_discover"
-          timestamp: "2024-04-10T16:10:50+05:30"
+          timestamp: "2024-04-10T16:10:5005:30"
           message_id: "a1b2c3d4-e5f6-4789-90ab-cdef12345678"
           transaction_id: "b2c3d4e5-f6a7-4890-8b9a-cdef23456789"
           bpp_id: "bpp.example.com"
@@ -1295,7 +1295,7 @@ components:
         context:
           version: "2.0.0"
           action: "on_discover"
-          timestamp: "2024-04-10T16:10:50+05:30"
+          timestamp: "2024-04-10T16:10:5005:30"
           message_id: "c3d4e5f6-a7b8-49c0-9dab-ef1234567890"
           transaction_id: "d4e5f6a7-b8c9-4ad1-8cab-1234567890ef"
           bpp_id: "bpp.example.com"
@@ -1392,14 +1392,14 @@ components:
       summary: ACK
       value:
         transaction_id: "e5f6a7b8-c9d0-4e1f-9a2b-3c4d5e6f7081"
-        timestamp: "2024-04-10T16:10:50+05:30"
+        timestamp: "2024-04-10T16:10:5005:30"
         ack_status: "ACK"
 
     ack_bad_request:
       summary: NACK — bad request
       value:
         transaction_id: "f6a7b8c9-d0e1-42f3-8a2b-3c4d5e6f7081"
-        timestamp: "2024-04-10T16:10:50+05:30"
+        timestamp: "2024-04-10T16:10:5005:30"
         ack_status: "NACK"
         error:
           code: "INVALID_REQUEST"
@@ -1410,7 +1410,7 @@ components:
       summary: NACK — internal error
       value:
         transaction_id: "a7b8c9d0-e1f2-43a4-9b2c-3d4e5f607081"
-        timestamp: "2024-04-10T16:10:50+05:30"
+        timestamp: "2024-04-10T16:10:5005:30"
         ack_status: "NACK"
         error:
           code: "INTERNAL_ERROR"
@@ -1423,7 +1423,7 @@ components:
       value:
         id: "api.beckn.discover.browser-search"
         ver: "v2"
-        ts: "2024-04-10T16:10:50+05:30"
+        ts: "2024-04-10T16:10:5005:30"
         params:
           msgid: "0a1b2c3d-4e5f-6789-8a0b-1c2d3e4f5a6b"
           traceid: "1b2c3d4e-5f60-4781-92a3-b4c5d6e7f809"
