@@ -280,15 +280,56 @@ components:
               type: string
               description: Free text search query for items
               example: "gaming laptop premium tech"
+
             filters:
-              type: string
-              description: JSONPath expression for filtering items (RFC 9535)
-              example: "$[?(@.rating.value >= 4.0 && @.electronic.brand.name == 'Premium Tech')]"
+              type: object
+              description: >
+                Structured, machine-evaluable filter expression. The `type` indicates the
+                expression language; `expression` carries the filter string in that language.
+                Defaults to `JSONPath` (RFC 9535). Future values may include GraphQL, CEL, etc.
+              properties:
+                type:
+                  type: string
+                  description: Expression language for the filter.
+                  enum: [JSONPath]
+                  default: JSONPath
+                expression:
+                  type: string
+                  description: >
+                    The filter expression string in the language indicated by `type`.
+                    For JSONPath, use RFC 9535 predicates and bracket notation for namespaced keys.
+                  example: >
+                    $[?(@['beckn:rating']['beckn:ratingValue'] >= 4.0 &&
+                         @['beckn:itemAttributes']['electronic:brand']=='Premium Tech')]
+                required: [expression]
+                additionalProperties: false
+
             spatial:
               type: array
               description: Optional array of spatial constraints (CQL2-JSON semantics).
               items:
                 $ref: '#/components/schemas/SpatialConstraint'
+
+            media_search:
+              search_option:
+                $ref: '#/components/schemas/MediaSearchOptions'
+                description: >
+                  Options that control how the server interprets the supplied media —
+                  e.g., whether to perform OCR/ASR, semantic similarity, or object detection.
+              media:
+                type: array
+                description: >
+                  One or more references to **images, audio notes, or videos** supplied
+                  as part of a multimodal search.
+                  For GET, provide as a JSON-encoded and URL-escaped string.
+                items:
+                  $ref: '#/components/schemas/MediaInput'
+                example:
+                  - id: "snap-1"
+                    type: image
+                    url: "https://cdn.example.com/user/snaps/ccs2-cable.jpg"
+                    contentType: "image/jpeg"
+                
             pagination:
               $ref: '#/components/schemas/Pagination'
           anyOf:
@@ -396,6 +437,73 @@ components:
             geometries:
               - { type: Point, coordinates: [77.60, 12.95] }
               - { type: LineString, coordinates: [[77.60, 12.95], [77.62, 12.97]] }
+
+    MediaInput:
+      type: object
+      description: Reference to an image, audio clip, or video used for multimodal search.
+      required: [type, url]
+      properties:
+        id:
+          type: string
+          description: Client-supplied identifier for this media input.
+        type:
+          type: string
+          enum: [image, audio, video]
+          description: Media category.
+        url:
+          type: string
+          format: uri
+          description: HTTPS URL or data URI pointing to the media resource.
+        contentType:
+          type: string
+          description: MIME type, e.g., image/jpeg, audio/mpeg, video/mp4.
+        textHint:
+          type: string
+          description: Optional pre-extracted text (OCR/ASR) for search augmentation.
+        language:
+          type: string
+          description: Language code (BCP-47) of `textHint` or spoken audio.
+        startMs:
+          type: integer
+          description: Optional start offset in milliseconds (for audio/video segments).
+        endMs:
+          type: integer
+          description: Optional end offset in milliseconds (for audio/video segments).
+      additionalProperties: false
+
+    MediaSearchOptions:
+      type: object
+      description: How the discovery engine should use the provided media inputs.
+      properties:
+        goals:
+          type: array
+          description: >
+            Desired processing goals for the media.
+          items:
+            type: string
+            enum:
+              - visual-similarity        # find visually similar items
+              - visual-object-detect     # detect object classes within image/video
+              - text-from-image          # extract text (OCR)
+              - text-from-audio          # extract text (ASR)
+              - semantic-audio-match     # audio embedding similarity
+              - semantic-video-match     # video scene/keyframe similarity
+        augment_text_search:
+          type: boolean
+          default: true
+          description: >
+            Whether to append extracted text from OCR/ASR to `text_search`.
+        restrict_results_to_media_proximity:
+          type: boolean
+          default: false
+          description: >
+            Restrict results to spatial proximity of media-derived coordinates
+            (e.g., EXIF GPS tags).
+        roi:
+          $ref: '#/components/schemas/GeoJSONGeometry'
+          description: Optional region of interest for geolocated or map-based searches.
+      additionalProperties: false
+
 
     Address:
       type: object

@@ -6,7 +6,7 @@ info:
     Transaction API s with Core Offer + Order with stable fields, JSON-LD mapping to schema.org, and attachment points for Attribute Packs (offerAttributes, orderAttributes, itemAttributes).
 
 x-spec-refs:
-  DISCOVERY_SPEC_URL: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml    
+  DISCOVERY_SPEC_URL: ./discover.yaml    
 
 paths:
   /select:

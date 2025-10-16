@@ -28,7 +28,7 @@ servers:
 # Example (replace with your actual path/branch):
 #   DISCOVERY_SPEC_URL: https://raw.githubusercontent.com/sanketika-labs/beckn-schema/refs/heads/main/becknv2-schema/api-specs/discover-api-openapi-attr.yaml
 x-spec-refs:
-  DISCOVERY_SPEC_URL: https://raw.githubusercontent.com/abhimail/beckn/refs/heads/main/protocol-enhancements/discover.yaml
+  DISCOVERY_SPEC_URL: ../protocol-enhancements/discover.yaml
 
 paths:
   /beckn/v2/catalog/upload:
