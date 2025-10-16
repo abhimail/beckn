@@ -9,7 +9,7 @@ x-spec-refs:
   DISCOVERY_SPEC_URL: ./discover.yaml    
 
 paths:
-  /select:
+  /beckn/select:
     post:
       summary: "Buyer selects items/offers \u2014 returns priced order"
       requestBody:
@@ -44,7 +44,7 @@ paths:
         '500':
           $ref: '#/components/responses/Ack500'
 
-  /on_select:
+  /beckn/on_select:
     post:
       summary: Provider returns priced order (quote)
       requestBody:
@@ -79,7 +79,7 @@ paths:
         '500':
           $ref: '#/components/responses/Ack500'
   
-  /get_offer:
+  /beckn/get_offer:
     post:
       summary: Compute/prune final offers for a given selection of items and/or offers (no Order envelope)
       description: >
@@ -146,7 +146,7 @@ paths:
         '500':
           $ref: '#/components/responses/Ack500'
 
-  /on_get_offer:
+  /beckn/on_get_offer:
     post:
       summary: Provider returns computed offers for the selection
       description: >
@@ -184,7 +184,7 @@ paths:
         '500':
           $ref: '#/components/responses/Ack500'
   
-  /init:
+  /beckn/init:
     post:
       summary: Initialize order (party details, fulfillment mode, payment intent)
       requestBody:
@@ -218,7 +218,8 @@ paths:
           $ref: '#/components/responses/Ack400'
         '500':
           $ref: '#/components/responses/Ack500'
-  /on_init:
+
+  /beckn/on_init:
     post:
       summary: Provider echoes initialized order (with refs populated)
       requestBody:
@@ -252,7 +253,8 @@ paths:
           $ref: '#/components/responses/Ack400'
         '500':
           $ref: '#/components/responses/Ack500'
-  /confirm:
+
+  /beckn/confirm:
     post:
       summary: Confirm order (final selections; payment/fulfillment committed)
       requestBody:
@@ -286,7 +288,8 @@ paths:
           $ref: '#/components/responses/Ack400'
         '500':
           $ref: '#/components/responses/Ack500'
-  /on_confirm:
+
+  /beckn/on_confirm:
     post:
       summary: Provider returns confirmed order
       requestBody:
@@ -320,7 +323,8 @@ paths:
           $ref: '#/components/responses/Ack400'
         '500':
           $ref: '#/components/responses/Ack500'
-  /status:
+
+  /beckn/status:
     post:
       summary: Fetch order status by id
       requestBody:
@@ -361,7 +365,8 @@ paths:
           $ref: '#/components/responses/Ack400'
         '500':
           $ref: '#/components/responses/Ack500'
-  /on_status:
+
+  /beckn/on_status:
     post:
       summary: Provider returns current order (or tracking via fulfillment packs)
       requestBody:
@@ -397,7 +402,8 @@ paths:
           $ref: '#/components/responses/Ack400'
         '500':
           $ref: '#/components/responses/Ack500'
-  /update:
+
+  /beckn/update:
     post:
       summary: Request order mutation (replace, cancel line, address change, etc.)
       requestBody:
@@ -431,7 +437,8 @@ paths:
           $ref: '#/components/responses/Ack400'
         '500':
           $ref: '#/components/responses/Ack500'
-  /on_update:
+
+  /beckn/on_update:
     post:
       summary: Provider returns mutated order
       requestBody:
@@ -465,7 +472,8 @@ paths:
           $ref: '#/components/responses/Ack400'
         '500':
           $ref: '#/components/responses/Ack500'
-  /cancel:
+
+  /beckn/cancel:
     post:
       summary: Request to cancel an order
       requestBody:
@@ -506,7 +514,8 @@ paths:
           $ref: '#/components/responses/Ack400'
         '500':
           $ref: '#/components/responses/Ack500'
-  /on_cancel:
+          
+  /beckn/on_cancel:
     post:
       summary: Provider returns cancelled order (may reflect refund/payment update
         via PaymentRef)
@@ -542,7 +551,7 @@ paths:
         '500':
           $ref: '#/components/responses/Ack500'
 
-  /support:
+  /beckn/support:
     post:
       summary: Request support details for an entity (order/item/provider/etc.)
       requestBody:
@@ -579,7 +588,7 @@ paths:
         '500':
           $ref: '#/components/responses/Ack500'
 
-  /on_support:
+  /beckn/on_support:
     post:
       summary: Provider returns support details
       requestBody:
@@ -611,7 +620,7 @@ paths:
         '500':
           $ref: '#/components/responses/Ack500'
 
-  /track:
+  /beckn/track:
     post:
       summary: Request tracking handle/link for an active order/fulfillment
       requestBody:
@@ -651,7 +660,7 @@ paths:
         '500':
           $ref: '#/components/responses/Ack500'
 
-  /on_track:
+  /beckn/on_track:
     post:
       summary: Provider returns tracking handle/link and status
       requestBody:
@@ -683,7 +692,7 @@ paths:
         '500':
           $ref: '#/components/responses/Ack500'
 
-  /rating:
+  /beckn/rating:
     post:
       summary: Submit a rating (optionally with feedback) for an entity
       requestBody:
@@ -711,7 +720,7 @@ paths:
         '500':
           $ref: '#/components/responses/Ack500'
 
-  /on_rating:
+  /beckn/on_rating:
     post:
       summary: Provider acknowledges/returns rating receipt (optional aggregate snapshot)
       requestBody:
