@@ -311,24 +311,7 @@ components:
                 $ref: '#/components/schemas/SpatialConstraint'
 
             media_search:
-              search_option:
-                $ref: '#/components/schemas/MediaSearchOptions'
-                description: >
-                  Options that control how the server interprets the supplied media —
-                  e.g., whether to perform OCR/ASR, semantic similarity, or object detection.
-              media:
-                type: array
-                description: >
-                  One or more references to **images, audio notes, or videos** supplied
-                  as part of a multimodal search.
-                  For GET, provide as a JSON-encoded and URL-escaped string.
-                items:
-                  $ref: '#/components/schemas/MediaInput'
-                example:
-                  - id: "snap-1"
-                    type: image
-                    url: "https://cdn.example.com/user/snaps/ccs2-cable.jpg"
-                    contentType: "image/jpeg"
+              $ref: '#/components/schemas/MediaSearch'
                 
             pagination:
               $ref: '#/components/schemas/Pagination'
@@ -437,6 +420,44 @@ components:
             geometries:
               - { type: Point, coordinates: [77.60, 12.95] }
               - { type: LineString, coordinates: [[77.60, 12.95], [77.62, 12.97]] }
+
+    MediaSearch:
+      type: object
+      description: >
+        Container for multimodal search inputs and configuration.
+        Supports searching through **images, audio notes, and videos**
+        alongside text, filters, and spatial predicates.
+        For GET, this object should be JSON-encoded and URL-escaped.
+      properties:
+        media:
+          type: array
+          description: >
+            One or more references to **images, audio notes, or videos** supplied
+            as part of a multimodal search. Each entry references a media resource
+            accessible via HTTPS or data URI.
+          items:
+            $ref: '#/components/schemas/MediaInput'
+          example:
+            - id: "snap-1"
+              type: image
+              url: "https://cdn.example.com/user/snaps/ccs2-cable.jpg"
+              contentType: "image/jpeg"
+        options:
+          $ref: '#/components/schemas/MediaSearchOptions'
+          description: >
+            Options controlling how the discovery engine interprets the supplied media —
+            e.g., whether to perform OCR/ASR, semantic similarity, or object detection.
+      additionalProperties: false
+      example:
+        media:
+          - id: "snap-1"
+            type: image
+            url: "https://cdn.example.com/user/snaps/ccs2-cable.jpg"
+            contentType: "image/jpeg"
+        options:
+          goals: ["visual-object-detect", "text-from-image"]
+          augment_text_search: true
+
 
     MediaInput:
       type: object
