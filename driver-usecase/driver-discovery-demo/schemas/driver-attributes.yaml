@@ -1,0 +1,218 @@
+openapi: 3.1.0
+info:
+  title: Driver Use Case - Attribute Pack Schemas
+  description: |
+    OpenAPI schema definitions for Driver Candidate and Driver Job Description attributes
+    that attach to Beckn core Item via `beckn:itemAttributes`.
+    
+    These schemas demonstrate the "dynamic composition" pattern where domain-specific
+    fields extend the core Beckn Item model without modifying it.
+  version: 1.0.0
+  
+components:
+  schemas:
+    DriverCandidateAttributes:
+      type: object
+      description: |
+        Domain attributes for a driver candidate item.
+        Attached to Beckn Item under `beckn:itemAttributes` field.
+      properties:
+        '@context':
+          type: string
+          format: uri
+          example: 'https://example.org/schema/driver/v1/context.jsonld'
+        '@type':
+          type: string
+          const: 'beckn:DriverCandidateAttributes'
+        'driver:salaryExpectation':
+          type: number
+          description: Expected monthly salary in INR
+          example: 28000
+        'driver:policeVerificationStatus':
+          type: string
+          enum: [VERIFIED, NOT_VERIFIED, EXPIRED]
+          description: Current police verification status
+        'driver:experienceYears':
+          type: number
+          description: Total years of driving experience
+          example: 8
+        'driver:vehicleCategory':
+          type: string
+          enum: [BUS, TAXI, TRUCK, TWO_WHEELER, THREE_WHEELER]
+          description: Primary vehicle category the driver operates
+        'driver:busExperienceYears':
+          type: number
+          description: Years of experience specifically in bus driving
+          example: 5
+        'driver:homeLocation':
+          $ref: '#/components/schemas/Location'
+        'driver:serviceArea':
+          type: object
+          description: Optional service area polygon (where driver is willing to work)
+          properties:
+            geo:
+              $ref: '#/components/schemas/GeoJSONGeometry'
+      required:
+        - 'driver:salaryExpectation'
+        - 'driver:policeVerificationStatus'
+        - 'driver:experienceYears'
+        - 'driver:vehicleCategory'
+        - 'driver:homeLocation'
+    
+    DriverJobDescriptionAttributes:
+      type: object
+      description: |
+        Domain attributes for a driver job posting item.
+        Attached to Beckn Item under `beckn:itemAttributes` field.
+      properties:
+        '@context':
+          type: string
+          format: uri
+          example: 'https://example.org/schema/job/v1/context.jsonld'
+        '@type':
+          type: string
+          const: 'beckn:DriverJobDescriptionAttributes'
+        'job:salaryOffered':
+          type: number
+          description: Monthly salary offered in INR
+          example: 32000
+        'job:requiresPoliceVerification':
+          type: boolean
+          description: Whether the job requires police verification
+        'job:minExperienceYears':
+          type: number
+          description: Minimum years of experience required
+          example: 5
+        'job:vehicleCategoryRequired':
+          type: string
+          enum: [BUS, TAXI, TRUCK, TWO_WHEELER, THREE_WHEELER]
+          description: Vehicle category required for this job
+        'job:jobLocation':
+          $ref: '#/components/schemas/Location'
+        'job:employerRating':
+          type: number
+          minimum: 0
+          maximum: 5
+          description: Employer/company rating (0-5)
+          example: 4.2
+      required:
+        - 'job:salaryOffered'
+        - 'job:requiresPoliceVerification'
+        - 'job:minExperienceYears'
+        - 'job:vehicleCategoryRequired'
+        - 'job:jobLocation'
+    
+    Location:
+      type: object
+      description: Location with geometry and address details
+      properties:
+        geo:
+          $ref: '#/components/schemas/GeoJSONGeometry'
+        addressLocality:
+          type: string
+          description: City or locality name
+          example: 'Koramangala, Bengaluru'
+        addressRegion:
+          type: string
+          description: State or region
+          example: 'Karnataka'
+        addressCountry:
+          type: string
+          description: Country code (ISO 3166-1 alpha-2)
+          example: 'IN'
+        postalCode:
+          type: string
+          description: Postal/ZIP code
+      required:
+        - geo
+    
+    GeoJSONGeometry:
+      type: object
+      description: GeoJSON geometry (Point, Polygon, etc.)
+      properties:
+        type:
+          type: string
+          enum: [Point, Polygon, MultiPolygon, LineString]
+        coordinates:
+          type: array
+          description: Coordinates array (format depends on type)
+          items: {}
+      required:
+        - type
+        - coordinates
+      examples:
+        - type: Point
+          coordinates: [77.6245, 12.9352]
+        - type: Polygon
+          coordinates: [[[77.6, 12.9], [77.7, 12.9], [77.7, 13.0], [77.6, 13.0], [77.6, 12.9]]]
+
+  examples:
+    DriverCandidateItem:
+      summary: Complete driver candidate item with attributes
+      value:
+        '@context': 'https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld'
+        '@type': 'beckn:Item'
+        'beckn:id': 'driver-123'
+        'beckn:descriptor':
+          '@type': 'beckn:Descriptor'
+          'schema:name': 'Rajesh Kumar'
+          'beckn:shortDesc': 'BUS driver with 8 years experience'
+        'beckn:category':
+          '@type': 'schema:CategoryCode'
+          'schema:codeValue': 'driver-candidate'
+          'schema:name': 'Driver Candidate'
+        'beckn:rateable': true
+        'beckn:rating':
+          '@type': 'beckn:Rating'
+          'beckn:ratingValue': 4.5
+          'beckn:ratingCount': 127
+        'beckn:itemAttributes':
+          '@context': 'https://example.org/schema/driver/v1/context.jsonld'
+          '@type': 'beckn:DriverCandidateAttributes'
+          'driver:salaryExpectation': 28000
+          'driver:policeVerificationStatus': 'VERIFIED'
+          'driver:experienceYears': 8
+          'driver:vehicleCategory': 'BUS'
+          'driver:busExperienceYears': 6
+          'driver:homeLocation':
+            geo:
+              type: 'Point'
+              coordinates: [77.6245, 12.9352]
+            addressLocality: 'Koramangala, Bengaluru'
+            addressRegion: 'Karnataka'
+            addressCountry: 'IN'
+    
+    DriverJobItem:
+      summary: Complete driver job item with attributes
+      value:
+        '@context': 'https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld'
+        '@type': 'beckn:Item'
+        'beckn:id': 'job-456'
+        'beckn:descriptor':
+          '@type': 'beckn:Descriptor'
+          'schema:name': 'Bus Driver - City Routes'
+          'beckn:shortDesc': 'BUS driving position in Bengaluru'
+        'beckn:category':
+          '@type': 'schema:CategoryCode'
+          'schema:codeValue': 'driver-job'
+          'schema:name': 'Driver Job'
+        'beckn:rateable': true
+        'beckn:rating':
+          '@type': 'beckn:Rating'
+          'beckn:ratingValue': 4.2
+          'beckn:ratingCount': 83
+        'beckn:itemAttributes':
+          '@context': 'https://example.org/schema/job/v1/context.jsonld'
+          '@type': 'beckn:DriverJobDescriptionAttributes'
+          'job:salaryOffered': 32000
+          'job:requiresPoliceVerification': true
+          'job:minExperienceYears': 5
+          'job:vehicleCategoryRequired': 'BUS'
+          'job:employerRating': 4.3
+          'job:jobLocation':
+            geo:
+              type: 'Point'
+              coordinates: [77.5946, 12.9716]
+            addressLocality: 'Bangalore City'
+            addressRegion: 'Karnataka'
+            addressCountry: 'IN'

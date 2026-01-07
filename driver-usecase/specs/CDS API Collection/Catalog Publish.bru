@@ -1,0 +1,2109 @@
+meta {
+  name: Catalog Publish
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://34.93.141.21.sslip.io/beckn/v2/catalog/publish
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Signature keyId="bap.example.com|fcd8c50d-edf0-49f0-b322-4b9bc2bc6218|ed25519",algorithm="ed25519",created="1760443594",expires="1760447194",headers="(created) (expires) digest",signature="enGs3APIGK7PFRbefP1hMQe/iPjBAwc6R4wjmcysafnEAK5q9/+aKr0Ohc4J6w4XexD1nLgnmSy21yTYDRkSDw=="
+}
+
+body:json {
+  {
+    "context": {
+      "version": "2.0.0",
+      "action": "catalog_publish",
+      "timestamp": "2026-01-04T10:57:49.780Z",
+      "message_id": "4cc4eba2-7158-4ce1-bbb5-f1d6af310994",
+      "transaction_id": "14605613-957a-4283-b4f9-6cabee48f076",
+      "bap_id": "driver-discovery-demo.app",
+      "bap_uri": "https://demo.app/callbacks",
+      "ttl": "PT30S"
+    },
+    "message": {
+      "catalogs": [
+        {
+          "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+          "@type": "beckn:Catalog",
+          "beckn:id": "driver-candidates-catalog-001",
+          "beckn:bppId": "driver-aggregator-bpp.example.com",
+          "beckn:bppUri": "https://driver-aggregator-bpp.example.com",
+          "beckn:descriptor": {
+            "@type": "beckn:Descriptor",
+            "schema:name": "Driver Candidates Catalog",
+            "beckn:shortDesc": "Sample driver candidates for demo"
+          },
+          "beckn:items": [
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-1",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Prakash Sharma",
+                "beckn:shortDesc": "BUS driver with 2 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4.9,
+                "beckn:ratingCount": 61
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 29800,
+                "driver:policeVerificationStatus": "NOT_VERIFIED",
+                "driver:experienceYears": 2,
+                "driver:vehicleCategory": "BUS",
+                "driver:busExperienceYears": 1,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.641557,
+                      12.295203
+                    ]
+                  },
+                  "addressLocality": "Mysore",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-2",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Prakash Rao",
+                "beckn:shortDesc": "TAXI driver with 11 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 3.3,
+                "beckn:ratingCount": 464
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 41013,
+                "driver:policeVerificationStatus": "NOT_VERIFIED",
+                "driver:experienceYears": 11,
+                "driver:vehicleCategory": "TAXI",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.615973,
+                      12.315603
+                    ]
+                  },
+                  "addressLocality": "Mysore",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-3",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Kumar Sharma",
+                "beckn:shortDesc": "TRUCK driver with 1 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4,
+                "beckn:ratingCount": 57
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 43384,
+                "driver:policeVerificationStatus": "VERIFIED",
+                "driver:experienceYears": 1,
+                "driver:vehicleCategory": "TRUCK",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.962717,
+                      15.112739
+                    ]
+                  },
+                  "addressLocality": "Bellary",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-4",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Mohan Sharma",
+                "beckn:shortDesc": "TRUCK driver with 13 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4,
+                "beckn:ratingCount": 231
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 24288,
+                "driver:policeVerificationStatus": "EXPIRED",
+                "driver:experienceYears": 13,
+                "driver:vehicleCategory": "TRUCK",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      77.600784,
+                      12.905837
+                    ]
+                  },
+                  "addressLocality": "Koramangala, Bengaluru",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-5",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Anil Kumar",
+                "beckn:shortDesc": "TRUCK driver with 9 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 3.2,
+                "beckn:ratingCount": 266
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 42614,
+                "driver:policeVerificationStatus": "NOT_VERIFIED",
+                "driver:experienceYears": 9,
+                "driver:vehicleCategory": "TRUCK",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.674268,
+                      12.287607
+                    ]
+                  },
+                  "addressLocality": "Mysore",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-6",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Mohan Sharma",
+                "beckn:shortDesc": "TAXI driver with 5 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4.4,
+                "beckn:ratingCount": 146
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 37842,
+                "driver:policeVerificationStatus": "VERIFIED",
+                "driver:experienceYears": 5,
+                "driver:vehicleCategory": "TAXI",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      77.607273,
+                      12.9063
+                    ]
+                  },
+                  "addressLocality": "Koramangala, Bengaluru",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-7",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Ganesh Shetty",
+                "beckn:shortDesc": "TAXI driver with 12 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 3.7,
+                "beckn:ratingCount": 365
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 36905,
+                "driver:policeVerificationStatus": "NOT_VERIFIED",
+                "driver:experienceYears": 12,
+                "driver:vehicleCategory": "TAXI",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.638201,
+                      12.261442
+                    ]
+                  },
+                  "addressLocality": "Mysore",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-8",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Suresh Shetty",
+                "beckn:shortDesc": "TAXI driver with 4 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 3.1,
+                "beckn:ratingCount": 272
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 26821,
+                "driver:policeVerificationStatus": "EXPIRED",
+                "driver:experienceYears": 4,
+                "driver:vehicleCategory": "TAXI",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      77.610399,
+                      12.906835
+                    ]
+                  },
+                  "addressLocality": "Koramangala, Bengaluru",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-9",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Anil Gowda",
+                "beckn:shortDesc": "TAXI driver with 8 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4.7,
+                "beckn:ratingCount": 380
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 22006,
+                "driver:policeVerificationStatus": "EXPIRED",
+                "driver:experienceYears": 8,
+                "driver:vehicleCategory": "TAXI",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.962321,
+                      15.147881
+                    ]
+                  },
+                  "addressLocality": "Bellary",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-10",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Rajesh Shetty",
+                "beckn:shortDesc": "BUS driver with 8 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4,
+                "beckn:ratingCount": 221
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 31241,
+                "driver:policeVerificationStatus": "VERIFIED",
+                "driver:experienceYears": 8,
+                "driver:vehicleCategory": "BUS",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.658978,
+                      12.282703
+                    ]
+                  },
+                  "addressLocality": "Mysore",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-11",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Anil Sharma",
+                "beckn:shortDesc": "TAXI driver with 0 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4,
+                "beckn:ratingCount": 132
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 30613,
+                "driver:policeVerificationStatus": "VERIFIED",
+                "driver:experienceYears": 0,
+                "driver:vehicleCategory": "TAXI",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.901004,
+                      15.112232
+                    ]
+                  },
+                  "addressLocality": "Bellary",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-12",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Mohan Desai",
+                "beckn:shortDesc": "TRUCK driver with 6 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 3.1,
+                "beckn:ratingCount": 319
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 20011,
+                "driver:policeVerificationStatus": "VERIFIED",
+                "driver:experienceYears": 6,
+                "driver:vehicleCategory": "TRUCK",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.888529,
+                      15.150138
+                    ]
+                  },
+                  "addressLocality": "Bellary",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-13",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Vijay Singh",
+                "beckn:shortDesc": "TRUCK driver with 13 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 3.5,
+                "beckn:ratingCount": 15
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 29393,
+                "driver:policeVerificationStatus": "VERIFIED",
+                "driver:experienceYears": 13,
+                "driver:vehicleCategory": "TRUCK",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.621839,
+                      12.320568
+                    ]
+                  },
+                  "addressLocality": "Mysore",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-14",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Kumar Shetty",
+                "beckn:shortDesc": "BUS driver with 3 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 3.3,
+                "beckn:ratingCount": 487
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 43554,
+                "driver:policeVerificationStatus": "VERIFIED",
+                "driver:experienceYears": 3,
+                "driver:vehicleCategory": "BUS",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.883206,
+                      15.135972
+                    ]
+                  },
+                  "addressLocality": "Bellary",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-15",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Rajesh Desai",
+                "beckn:shortDesc": "TRUCK driver with 6 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4.9,
+                "beckn:ratingCount": 338
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 18390,
+                "driver:policeVerificationStatus": "VERIFIED",
+                "driver:experienceYears": 6,
+                "driver:vehicleCategory": "TRUCK",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      77.642279,
+                      12.924842
+                    ]
+                  },
+                  "addressLocality": "Koramangala, Bengaluru",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-16",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Kumar Patel",
+                "beckn:shortDesc": "TRUCK driver with 8 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 3.6,
+                "beckn:ratingCount": 443
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 39476,
+                "driver:policeVerificationStatus": "VERIFIED",
+                "driver:experienceYears": 8,
+                "driver:vehicleCategory": "TRUCK",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      77.630808,
+                      13.000457
+                    ]
+                  },
+                  "addressLocality": "Bangalore City",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-17",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Suresh Patel",
+                "beckn:shortDesc": "TAXI driver with 7 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4.8,
+                "beckn:ratingCount": 336
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 26729,
+                "driver:policeVerificationStatus": "EXPIRED",
+                "driver:experienceYears": 7,
+                "driver:vehicleCategory": "TAXI",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      77.583846,
+                      12.931886
+                    ]
+                  },
+                  "addressLocality": "Koramangala, Bengaluru",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-18",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Rajesh Patel",
+                "beckn:shortDesc": "TAXI driver with 14 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4.1,
+                "beckn:ratingCount": 122
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 40950,
+                "driver:policeVerificationStatus": "EXPIRED",
+                "driver:experienceYears": 14,
+                "driver:vehicleCategory": "TAXI",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.889872,
+                      15.178886
+                    ]
+                  },
+                  "addressLocality": "Bellary",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-19",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Ramesh Kumar",
+                "beckn:shortDesc": "TRUCK driver with 8 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4.7,
+                "beckn:ratingCount": 341
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 24832,
+                "driver:policeVerificationStatus": "EXPIRED",
+                "driver:experienceYears": 8,
+                "driver:vehicleCategory": "TRUCK",
+                "driver:busExperienceYears": 0,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      77.568514,
+                      12.946809
+                    ]
+                  },
+                  "addressLocality": "Bangalore City",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "driver-20",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Prakash Shetty",
+                "beckn:shortDesc": "BUS driver with 8 years experience"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-candidate",
+                "schema:name": "Driver Candidate"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 3.8,
+                "beckn:ratingCount": 345
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/driver/v1/context.jsonld",
+                "@type": "beckn:DriverCandidateAttributes",
+                "driver:salaryExpectation": 28044,
+                "driver:policeVerificationStatus": "EXPIRED",
+                "driver:experienceYears": 8,
+                "driver:vehicleCategory": "BUS",
+                "driver:busExperienceYears": 4,
+                "driver:homeLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      77.635875,
+                      12.921325
+                    ]
+                  },
+                  "addressLocality": "Koramangala, Bengaluru",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                }
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "driver-aggregator-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Driver Aggregator Platform",
+                  "beckn:shortDesc": "Platform aggregating driver candidates"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+          "@type": "beckn:Catalog",
+          "beckn:id": "driver-jobs-catalog-001",
+          "beckn:bppId": "job-provider-bpp.example.com",
+          "beckn:bppUri": "https://job-provider-bpp.example.com",
+          "beckn:descriptor": {
+            "@type": "beckn:Descriptor",
+            "schema:name": "Driver Jobs Catalog",
+            "beckn:shortDesc": "Sample driver job postings for demo"
+          },
+          "beckn:items": [
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-1",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "School Bus Driver",
+                "beckn:shortDesc": "BUS driving position in Bellary"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 3.2,
+                "beckn:ratingCount": 47
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 30498,
+                "job:requiresPoliceVerification": false,
+                "job:minExperienceYears": 1,
+                "job:vehicleCategoryRequired": "BUS",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.905377,
+                      15.096449
+                    ]
+                  },
+                  "addressLocality": "Bellary",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 4.8
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-2",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Intercity Bus Driver",
+                "beckn:shortDesc": "TRUCK driving position in Koramangala, Bengaluru"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 3.4,
+                "beckn:ratingCount": 41
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 40459,
+                "job:requiresPoliceVerification": false,
+                "job:minExperienceYears": 1,
+                "job:vehicleCategoryRequired": "TRUCK",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      77.639948,
+                      12.951571
+                    ]
+                  },
+                  "addressLocality": "Koramangala, Bengaluru",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 4.9
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-3",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Intercity Bus Driver",
+                "beckn:shortDesc": "TAXI driving position in Bellary"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 3.7,
+                "beckn:ratingCount": 70
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 47600,
+                "job:requiresPoliceVerification": false,
+                "job:minExperienceYears": 1,
+                "job:vehicleCategoryRequired": "TAXI",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.925904,
+                      15.113417
+                    ]
+                  },
+                  "addressLocality": "Bellary",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 3.7
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-4",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Truck Driver - Long Haul",
+                "beckn:shortDesc": "TAXI driving position in Mysore"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 3,
+                "beckn:ratingCount": 187
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 30302,
+                "job:requiresPoliceVerification": true,
+                "job:minExperienceYears": 10,
+                "job:vehicleCategoryRequired": "TAXI",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.678071,
+                      12.261188
+                    ]
+                  },
+                  "addressLocality": "Mysore",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 4.8
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-5",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Delivery Van Driver",
+                "beckn:shortDesc": "TRUCK driving position in Bangalore City"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4,
+                "beckn:ratingCount": 119
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 36475,
+                "job:requiresPoliceVerification": true,
+                "job:minExperienceYears": 7,
+                "job:vehicleCategoryRequired": "TRUCK",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      77.573549,
+                      12.95012
+                    ]
+                  },
+                  "addressLocality": "Bangalore City",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 4.9
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-6",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Taxi Driver - Airport Shuttle",
+                "beckn:shortDesc": "TAXI driving position in Bellary"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4.6,
+                "beckn:ratingCount": 179
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 34286,
+                "job:requiresPoliceVerification": true,
+                "job:minExperienceYears": 6,
+                "job:vehicleCategoryRequired": "TAXI",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.93881,
+                      15.143727
+                    ]
+                  },
+                  "addressLocality": "Bellary",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 4.5
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-7",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Delivery Van Driver",
+                "beckn:shortDesc": "BUS driving position in Mysore"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4,
+                "beckn:ratingCount": 50
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 35556,
+                "job:requiresPoliceVerification": false,
+                "job:minExperienceYears": 4,
+                "job:vehicleCategoryRequired": "BUS",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.65173,
+                      12.259747
+                    ]
+                  },
+                  "addressLocality": "Mysore",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 3.6
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-8",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Bus Driver - City Routes",
+                "beckn:shortDesc": "TAXI driving position in Koramangala, Bengaluru"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4.7,
+                "beckn:ratingCount": 57
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 45300,
+                "job:requiresPoliceVerification": false,
+                "job:minExperienceYears": 6,
+                "job:vehicleCategoryRequired": "TAXI",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      77.595653,
+                      12.955488
+                    ]
+                  },
+                  "addressLocality": "Koramangala, Bengaluru",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 4.3
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-9",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Delivery Van Driver",
+                "beckn:shortDesc": "TAXI driving position in Mysore"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4.3,
+                "beckn:ratingCount": 88
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 39140,
+                "job:requiresPoliceVerification": true,
+                "job:minExperienceYears": 5,
+                "job:vehicleCategoryRequired": "TAXI",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.658358,
+                      12.314331
+                    ]
+                  },
+                  "addressLocality": "Mysore",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 4.7
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-10",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Delivery Van Driver",
+                "beckn:shortDesc": "BUS driving position in Koramangala, Bengaluru"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4.2,
+                "beckn:ratingCount": 79
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 37726,
+                "job:requiresPoliceVerification": true,
+                "job:minExperienceYears": 1,
+                "job:vehicleCategoryRequired": "BUS",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      77.580981,
+                      12.926125
+                    ]
+                  },
+                  "addressLocality": "Koramangala, Bengaluru",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 4.7
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-11",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "School Bus Driver",
+                "beckn:shortDesc": "TAXI driving position in Mysore"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 3.5,
+                "beckn:ratingCount": 180
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 42172,
+                "job:requiresPoliceVerification": true,
+                "job:minExperienceYears": 1,
+                "job:vehicleCategoryRequired": "TAXI",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.619976,
+                      12.301419
+                    ]
+                  },
+                  "addressLocality": "Mysore",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 4.3
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-12",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Truck Driver - Long Haul",
+                "beckn:shortDesc": "BUS driving position in Mysore"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 3.1,
+                "beckn:ratingCount": 63
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 37008,
+                "job:requiresPoliceVerification": true,
+                "job:minExperienceYears": 1,
+                "job:vehicleCategoryRequired": "BUS",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.676661,
+                      12.325051
+                    ]
+                  },
+                  "addressLocality": "Mysore",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 4.2
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-13",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Intercity Bus Driver",
+                "beckn:shortDesc": "TAXI driving position in Bangalore City"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 3.5,
+                "beckn:ratingCount": 62
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 27399,
+                "job:requiresPoliceVerification": true,
+                "job:minExperienceYears": 0,
+                "job:vehicleCategoryRequired": "TAXI",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      77.570552,
+                      12.957683
+                    ]
+                  },
+                  "addressLocality": "Bangalore City",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 5
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-14",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Taxi Driver - Airport Shuttle",
+                "beckn:shortDesc": "TRUCK driving position in Mysore"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 3,
+                "beckn:ratingCount": 85
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 25292,
+                "job:requiresPoliceVerification": true,
+                "job:minExperienceYears": 4,
+                "job:vehicleCategoryRequired": "TRUCK",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.676196,
+                      12.321531
+                    ]
+                  },
+                  "addressLocality": "Mysore",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 4.1
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-15",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Truck Driver - Long Haul",
+                "beckn:shortDesc": "BUS driving position in Bangalore City"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4.4,
+                "beckn:ratingCount": 60
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 35924,
+                "job:requiresPoliceVerification": false,
+                "job:minExperienceYears": 8,
+                "job:vehicleCategoryRequired": "BUS",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      77.610521,
+                      13.013702
+                    ]
+                  },
+                  "addressLocality": "Bangalore City",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 4.8
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-16",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Bus Driver - City Routes",
+                "beckn:shortDesc": "BUS driving position in Mysore"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4.3,
+                "beckn:ratingCount": 13
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 23253,
+                "job:requiresPoliceVerification": true,
+                "job:minExperienceYears": 4,
+                "job:vehicleCategoryRequired": "BUS",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.68379,
+                      12.276525
+                    ]
+                  },
+                  "addressLocality": "Mysore",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 4.8
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-17",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Delivery Van Driver",
+                "beckn:shortDesc": "TRUCK driving position in Mysore"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4,
+                "beckn:ratingCount": 180
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 25617,
+                "job:requiresPoliceVerification": true,
+                "job:minExperienceYears": 2,
+                "job:vehicleCategoryRequired": "TRUCK",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.596695,
+                      12.335499
+                    ]
+                  },
+                  "addressLocality": "Mysore",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 4.3
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-18",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Truck Driver - Long Haul",
+                "beckn:shortDesc": "BUS driving position in Mysore"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4.6,
+                "beckn:ratingCount": 58
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 35574,
+                "job:requiresPoliceVerification": false,
+                "job:minExperienceYears": 8,
+                "job:vehicleCategoryRequired": "BUS",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.594712,
+                      12.270209
+                    ]
+                  },
+                  "addressLocality": "Mysore",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 3.7
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-19",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Intercity Bus Driver",
+                "beckn:shortDesc": "TRUCK driving position in Mysore"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4.6,
+                "beckn:ratingCount": 119
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 27015,
+                "job:requiresPoliceVerification": true,
+                "job:minExperienceYears": 8,
+                "job:vehicleCategoryRequired": "TRUCK",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.680072,
+                      12.254463
+                    ]
+                  },
+                  "addressLocality": "Mysore",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 4.5
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            },
+            {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/core/v2/context.jsonld",
+              "@type": "beckn:Item",
+              "beckn:id": "job-20",
+              "beckn:descriptor": {
+                "@type": "beckn:Descriptor",
+                "schema:name": "Taxi Driver - Airport Shuttle",
+                "beckn:shortDesc": "TRUCK driving position in Bellary"
+              },
+              "beckn:category": {
+                "@type": "schema:CategoryCode",
+                "schema:codeValue": "driver-job",
+                "schema:name": "Driver Job"
+              },
+              "beckn:rateable": true,
+              "beckn:rating": {
+                "@type": "beckn:Rating",
+                "beckn:ratingValue": 4.2,
+                "beckn:ratingCount": 53
+              },
+              "beckn:itemAttributes": {
+                "@context": "https://example.org/schema/job/v1/context.jsonld",
+                "@type": "beckn:DriverJobDescriptionAttributes",
+                "job:salaryOffered": 32908,
+                "job:requiresPoliceVerification": true,
+                "job:minExperienceYears": 9,
+                "job:vehicleCategoryRequired": "TRUCK",
+                "job:jobLocation": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      76.904046,
+                      15.115209
+                    ]
+                  },
+                  "addressLocality": "Bellary",
+                  "addressRegion": "Karnataka",
+                  "addressCountry": "IN"
+                },
+                "job:employerRating": 5
+              },
+              "beckn:provider": {
+                
+                "beckn:id": "job-provider-001",
+                "beckn:descriptor": {
+                  "@type": "beckn:Descriptor",
+                  "schema:name": "Job Provider Platform",
+                  "beckn:shortDesc": "Platform posting driver job opportunities"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+}
