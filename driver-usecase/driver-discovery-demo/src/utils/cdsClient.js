@@ -23,7 +23,7 @@ const buildContext = (action) => ({
         bap_uri: 'https://demo.app/callbacks',
         schema_context: [
           "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/draft/schema/driver/v1/context.jsonld",
-          "https://example.org/schema/driver/v1/context.jsonld"
+          "https://example.org/schema/driver/v1/context.jsonld", "https://example.org/schema/driver-job/v1/context.jsonld"
         ]
       }
     : {

@@ -14,13 +14,17 @@ L.Icon.Default.mergeOptions({
 });
 
 function App() {
+  // Default JSONPath expressions for each role
+  const providerDefaultJsonPath = "$[?(@.beckn:itemAttributes.driver:salaryExpectation < 30000)]";
+  const jobDefaultJsonPath = "$[?(@.beckn:itemAttributes.job:salaryOffered > 25000)]";
+  
   // Role: 'provider' (searching for drivers) or 'driver' (searching for jobs)
   const [role, setRole] = useState('provider');
   const [apiKey, setApiKey] = useState('default');
   
   // Search inputs
   const [textSearch, setTextSearch] = useState('');
-  const [jsonPathExpression, setJsonPathExpression] = useState('');
+  const [jsonPathExpression, setJsonPathExpression] = useState(providerDefaultJsonPath);
   const [geoLat, setGeoLat] = useState('');
   const [geoLon, setGeoLon] = useState('');
   const [geoRadius, setGeoRadius] = useState('');
@@ -312,7 +316,7 @@ function App() {
             setDiscoverResponse(null);
             setError(null);
             setTextSearch('');
-            setJsonPathExpression('');
+            setJsonPathExpression(providerDefaultJsonPath);
             setGeoLat('');
             setGeoLon('');
             setGeoRadius('');
@@ -335,7 +339,7 @@ function App() {
             setDiscoverResponse(null);
             setError(null);
             setTextSearch('');
-            setJsonPathExpression('');
+            setJsonPathExpression(jobDefaultJsonPath);
             setGeoLat('');
             setGeoLon('');
             setGeoRadius('');
@@ -416,10 +420,6 @@ function App() {
                 <div className="form-group">
                   <label>JSONPath Expression (optional)</label>
                   <textarea
-                    placeholder={role === 'provider'
-                      ? "$[?(@.beckn:itemAttributes.driver:salaryExpectation < 30000)]"
-                      : "$[?(@.beckn:itemAttributes.job:salaryOffered > 25000)]"
-                    }
                     value={jsonPathExpression}
                     onChange={(e) => setJsonPathExpression(e.target.value)}
                     rows={3}
