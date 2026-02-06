@@ -58,7 +58,13 @@ Open http://localhost:3000 (or the port shown in the terminal)
 ### 4. Enter CDS API Key
 Paste your `x-api-key` value in the header input.
 
-### 4. Load Sample Data (optional)
+### 5. (Optional) Configure BECKN HTTP Signing
+For authentication and integrity, you can sign requests using BECKN-006 specification:
+- Click the **"🔐 Manage Signing Keys"** button
+- Load sample keys or paste your own signing key JSON
+- Requests will be signed with BLAKE2b-512 (Digest) and Ed25519 (Signature)
+
+### 6. Load Sample Data (optional)
 - Click **"Load Sample Catalogue"** tab
 - Click **"Generate & Publish Sample Data"**
 - Wait for ACK
@@ -281,6 +287,136 @@ driver-discovery-demo/
   }
 }
 ```
+
+---
+
+## BECKN HTTP Request Signing (BECKN-006)
+
+This demo implements the BECKN-006 HTTP signing specification for authentication, authorization, and integrity verification of requests to the CDS.
+
+### Signing Algorithm
+
+- **Digest**: BLAKE2b-512 (labeled as `BLAKE-512` in the Digest header)
+- **Signature**: xed25519 (Ed25519 with pre-hashing via BLAKE2b-512)
+- **Headers Signed**: `(created)`, `(expires)`, `digest`
+- **Validity**: 600 seconds (10 minutes)
+
+### How It Works
+
+1. **Load Signing Key**: Click "🔐 Manage Signing Keys" and provide your key JSON
+2. **Automatic Signing**: All discover/publish requests are automatically signed when a key is loaded
+3. **Headers Added**:
+   - `Digest`: BLAKE-512=<base64-hash-of-body>
+   - `Authorization`: Signature keyId="{subscriberId}|{keyId}|xed25519" algorithm="xed25519" created="..." expires="..." headers="(created) (expires) digest" signature="..."
+
+### Signing Process (xed25519)
+
+1. Compute body digest: `BLAKE2b-512(request_body)` → base64
+2. Generate created/expires timestamps (Unix epoch seconds)
+3. Build signing string:
+   ```
+   (created): <created>
+   (expires): <expires>
+   digest: BLAKE-512=<base64>
+   ```
+4. Compute pre-hash: `BLAKE2b-512(signing_string)` → 64 bytes
+5. Sign pre-hash with Ed25519: `Ed25519Sign(pre-hash, private_key)` → signature
+6. Base64-encode signature
+7. Build Authorization header with composite keyId: `{subscriberId}|{keyId}|xed25519`
+
+### Signing Key Format
+
+```json
+{
+  "subscriberId": "your-subscriber.com",
+  "keyId": "your-key-id-from-registry",
+  "privateKey": "base64-encoded-32-byte-ed25519-private-key"
+}
+```
+
+### Sample Keys (for testing)
+
+**Option 1: Load from local file (Recommended)**
+
+Create `public/sample-keys.local.json` from the example file (this file is gitignored):
+
+```bash
+cp public/sample-keys.example.json public/sample-keys.local.json
+```
+
+Then edit `public/sample-keys.local.json` with your actual keys:
+
+```json
+{
+  "keys": [
+    {
+      "name": "BAP Key (NP1)",
+      "subscriberId": "<your-subscriber-id>",
+      "keyId": "your-key-id",
+      "privateKey": "your-private-key"
+    },
+    {
+      "name": "BPP Key (NP2)",
+      "subscriberId": "<your-subscriber-id>",
+      "keyId": "your-key-id",
+      "privateKey": "your-private-key"
+    }
+  ]
+}
+```
+
+The app will automatically load keys from this file on startup. This file is in `.gitignore` and won't be committed.
+
+**Option 2: Paste manually**
+
+You can paste signing key JSON directly in the UI (no file needed).
+
+### Using Signing Keys
+
+1. **Open Signing Modal**: Click the "🔐 Manage Signing Keys" button in the header
+2. **Load Sample Key**: Click "Load BAP Key (NP1)" or "Load BPP Key (NP2)"
+3. **Or Paste Custom Key**: Paste your signing JSON and click "Load Signing Key"
+4. **Switch Keys**: If you have multiple keys loaded, switch between them per request
+5. **Verify**: Check browser console logs to see signing details
+
+### Signed Request Example
+
+When a signing key is loaded, outgoing requests include these headers:
+
+```http
+POST /beckn/discover HTTP/1.1
+Host: localhost:3100
+Date: Mon, 03 Feb 2026 15:10:00 GMT
+Content-Type: application/json
+Digest: BLAKE-512=kq7V8P9xF...
+Authorization: Signature keyId="76EU9DajHDdYFvLM6Pp4HGXN4AUQpk9xkVvzLxXyc8CSzZUagqC5zx",algorithm="ed25519",headers="(request-target) host date digest content-type",signature="dGhpcyBpcyBh..."
+
+{"context": {...}, "message": {...}}
+```
+
+### Security Notes
+
+⚠️ **Important for Production**:
+- Keys are stored in browser memory only (session storage)
+- Keys are cleared when the page is refreshed
+- **Never use client-side signing in production** - move signing to a secure server/HSM
+- This demo implementation is for **testing and demonstration purposes only**
+
+### Verification
+
+To verify that requests are being signed:
+1. Open browser DevTools → Console
+2. Load a signing key
+3. Send a discover or publish request
+4. Look for log messages like: `[Signing] Signed request:` and `[CDS Client] Request signed with key:`
+5. Check the proxy server logs to see the forwarded `Date`, `Digest`, and `Authorization` headers
+
+### Implementation Files
+
+- `src/utils/signing.js` - Core signing module (BLAKE2b-512, Ed25519)
+- `src/utils/cdsClient.js` - Integration with discover/publish APIs
+- `src/App.jsx` - UI for key management
+- `proxy-server.js` - Forwards signing headers to CDS
 
 ---
 

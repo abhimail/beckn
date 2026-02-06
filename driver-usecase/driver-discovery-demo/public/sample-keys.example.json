@@ -1,0 +1,16 @@
+{
+  "keys": [
+    {
+      "name": "BAP Key (NP1)",
+      "subscriberId": "sandbox-retail-np1.com",
+      "keyId": "your-key-id-here",
+      "privateKey": "your-base64-private-key-here"
+    },
+    {
+      "name": "BPP Key (NP2)",
+      "subscriberId": "sandbox-retail-np2.com",
+      "keyId": "your-key-id-here",
+      "privateKey": "your-base64-private-key-here"
+    }
+  ]
+}

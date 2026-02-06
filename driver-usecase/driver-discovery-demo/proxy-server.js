@@ -16,21 +16,39 @@ app.use(express.json());
 // Proxy endpoint for /beckn/discover
 app.all('/beckn/discover', async (req, res) => {
   try {
-    const apiKey = req.headers['x-api-key'];
-    
-    if (!apiKey) {
-      return res.status(400).json({ error: 'x-api-key header is required' });
-    }
-
     console.log(`[PROXY] ${req.method} /beckn/discover`);
     console.log('[PROXY] Request body:', JSON.stringify(req.body, null, 2));
 
+    // Forward all relevant headers including signing headers
+    const forwardHeaders = {
+      'Content-Type': 'application/json'
+    };
+    
+    // Forward x-api-key if present (backward compatibility)
+    if (req.headers['x-api-key']) {
+      forwardHeaders['x-api-key'] = req.headers['x-api-key'];
+    }
+    
+    // Forward signing headers if present
+    if (req.headers['date']) {
+      forwardHeaders['Date'] = req.headers['date'];
+      console.log('[PROXY] Forwarding Date header:', req.headers['date']);
+    }
+    
+    if (req.headers['digest']) {
+      forwardHeaders['Digest'] = req.headers['digest'];
+      console.log('[PROXY] Forwarding Digest header:', req.headers['digest'].substring(0, 50) + '...');
+    }
+    
+    if (req.headers['authorization']) {
+      forwardHeaders['Authorization'] = req.headers['authorization'];
+      console.log('[PROXY] Forwarding Authorization header (FULL):');
+      console.log(req.headers['authorization']);
+    }
+
     const response = await fetch(`${CDS_BASE_URL}/beckn/discover`, {
       method: req.method,
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey
-      },
+      headers: forwardHeaders,
       body: req.method !== 'GET' ? JSON.stringify(req.body) : undefined
     });
 
@@ -50,24 +68,42 @@ app.all('/beckn/discover', async (req, res) => {
 // Proxy endpoint for /beckn/v2/catalog/publish
 app.post('/beckn/v2/catalog/publish', async (req, res) => {
   try {
-    const apiKey = req.headers['x-api-key'];
-    
-    if (!apiKey) {
-      return res.status(400).json({ error: 'x-api-key header is required' });
-    }
-
     console.log('[PROXY] POST /beckn/v2/catalog/publish');
     console.log('[PROXY] Request body structure:', JSON.stringify(req.body, null, 2));
     console.log('[PROXY] Has context?', !!req.body.context);
     console.log('[PROXY] Has message?', !!req.body.message);
     console.log('[PROXY] Catalogs count:', req.body.message?.catalogs?.length || 0);
 
+    // Forward all relevant headers including signing headers
+    const forwardHeaders = {
+      'Content-Type': 'application/json'
+    };
+    
+    // Forward x-api-key if present (backward compatibility)
+    if (req.headers['x-api-key']) {
+      forwardHeaders['x-api-key'] = req.headers['x-api-key'];
+    }
+    
+    // Forward signing headers if present
+    if (req.headers['date']) {
+      forwardHeaders['Date'] = req.headers['date'];
+      console.log('[PROXY] Forwarding Date header:', req.headers['date']);
+    }
+    
+    if (req.headers['digest']) {
+      forwardHeaders['Digest'] = req.headers['digest'];
+      console.log('[PROXY] Forwarding Digest header:', req.headers['digest'].substring(0, 50) + '...');
+    }
+    
+    if (req.headers['authorization']) {
+      forwardHeaders['Authorization'] = req.headers['authorization'];
+      console.log('[PROXY] Forwarding Authorization header (FULL):');
+      console.log(req.headers['authorization']);
+    }
+
     const response = await fetch(`${CDS_BASE_URL}/beckn/v2/catalog/publish`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey
-      },
+      headers: forwardHeaders,
       body: JSON.stringify(req.body)
     });
 

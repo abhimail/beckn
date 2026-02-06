@@ -9,13 +9,15 @@
     "proxy": "node proxy-server.js"
   },
   "dependencies": {
+    "blakejs": "^1.2.1",
     "cors": "^2.8.5",
     "express": "^4.22.1",
     "leaflet": "^1.9.4",
     "node-fetch": "^3.3.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-leaflet": "^4.2.1"
+    "react-leaflet": "^4.2.1",
+    "tweetnacl": "^1.0.3"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",

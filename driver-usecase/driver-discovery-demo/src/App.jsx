@@ -1,9 +1,10 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import { discoverItems, publishCatalogues } from './utils/cdsClient'
 import { generateCatalogues } from './utils/sampleDataGenerator'
+import { loadSigningKey, getLoadedKeys, setCurrentKey, getCurrentKey, clearKeys } from './utils/signing'
 
 // Fix Leaflet icon issue with Vite
 delete L.Icon.Default.prototype._getIconUrl;
@@ -21,6 +22,13 @@ function App() {
   // Role: 'provider' (searching for drivers) or 'driver' (searching for jobs)
   const [role, setRole] = useState('provider');
   const [apiKey, setApiKey] = useState('default');
+  
+  // Signing key management
+  const [showSigningModal, setShowSigningModal] = useState(false);
+  const [signingKeyJson, setSigningKeyJson] = useState('');
+  const [loadedKeys, setLoadedKeys] = useState([]);
+  const [currentSigningKey, setCurrentSigningKey] = useState(null);
+  const [signingMessage, setSigningMessage] = useState(null);
   
   // Search inputs
   const [textSearch, setTextSearch] = useState('');
@@ -49,6 +57,83 @@ function App() {
   const [publishRequest, setPublishRequest] = useState(null);
   const [publishResponse, setPublishResponse] = useState(null);
   const fileInputRef = useRef(null);
+  
+  // Signing key handlers
+  const handleLoadSigningKey = () => {
+    try {
+      const keyData = JSON.parse(signingKeyJson);
+      const success = loadSigningKey(keyData);
+      if (success) {
+        const keys = getLoadedKeys();
+        setLoadedKeys(keys);
+        const current = getCurrentKey();
+        setCurrentSigningKey(current);
+        setSigningMessage({ type: 'success', text: `Loaded key: ${keyData.subscriberId}` });
+        setSigningKeyJson('');
+      } else {
+        setSigningMessage({ type: 'error', text: 'Failed to load signing key' });
+      }
+    } catch (error) {
+      setSigningMessage({ type: 'error', text: `Invalid JSON: ${error.message}` });
+    }
+  };
+  
+  const handleSwitchKey = (keyId) => {
+    const success = setCurrentKey(keyId);
+    if (success) {
+      const current = getCurrentKey();
+      setCurrentSigningKey(current);
+      setSigningMessage({ type: 'success', text: `Switched to key: ${keyId}` });
+    }
+  };
+  
+  const handleClearKeys = () => {
+    clearKeys();
+    setLoadedKeys([]);
+    setCurrentSigningKey(null);
+    setSigningMessage({ type: 'success', text: 'All keys cleared' });
+  };
+  
+  // Load sample keys from local file
+  const [availableSampleKeys, setAvailableSampleKeys] = useState({});
+  
+  useEffect(() => {
+    // Fetch sample keys from public/sample-keys.local.json (gitignored)
+    fetch('/sample-keys.local.json')
+      .then(res => res.json())
+      .then(data => {
+        if (data.keys && Array.isArray(data.keys)) {
+          const keysMap = {};
+          data.keys.forEach(key => {
+            if (key.subscriberId) {
+              keysMap[key.subscriberId] = {
+                name: key.name,
+                subscriberId: key.subscriberId,
+                keyId: key.keyId,
+                privateKey: key.privateKey
+              };
+            }
+          });
+          setAvailableSampleKeys(keysMap);
+          console.log('[App] Loaded sample keys from local file');
+        }
+      })
+      .catch(err => {
+        console.log('[App] No sample keys file found (this is OK - you can paste keys manually)');
+      });
+  }, []);
+  
+  const handleLoadSampleKey = (subscriberId) => {
+    const keyData = availableSampleKeys[subscriberId];
+    if (keyData) {
+      setSigningKeyJson(JSON.stringify(keyData, null, 2));
+    } else {
+      setSigningMessage({ 
+        type: 'error', 
+        text: 'Sample key not found. Create public/sample-keys.local.json from the example file.' 
+      });
+    }
+  };
   
   // Handle discover search
   const handleDiscover = async () => {
@@ -371,7 +456,7 @@ function App() {
           <div className="header-subtitle">
             Beckn Gen2 CDS discovery using NLP, JSONPath, and GeoJSON
           </div>
-          <div style={{marginTop: '15px'}}>
+          <div style={{marginTop: '15px', display: 'flex', gap: '10px', alignItems: 'center'}}>
             <input
               type="password"
               placeholder="Enter CDS API Key (x-api-key) - Optional"
@@ -387,6 +472,21 @@ function App() {
                 fontSize: '14px'
               }}
             />
+            <button
+              onClick={() => setShowSigningModal(!showSigningModal)}
+              style={{
+                padding: '10px 20px',
+                borderRadius: '6px',
+                border: '1px solid rgba(255,255,255,0.3)',
+                background: currentSigningKey ? 'rgba(40,180,100,0.3)' : 'rgba(255,255,255,0.15)',
+                color: 'white',
+                fontSize: '14px',
+                cursor: 'pointer',
+                fontWeight: '500'
+              }}
+            >
+              🔐 {currentSigningKey ? `Signed: ${currentSigningKey.subscriberId.substring(0, 20)}...` : 'Manage Signing Keys'}
+            </button>
           </div>
         </div>
         
@@ -686,6 +786,183 @@ function App() {
           )}
         </div>
       </div>
+      
+      {/* Signing Key Management Modal */}
+      {showSigningModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            background: 'white',
+            borderRadius: '12px',
+            padding: '30px',
+            maxWidth: '700px',
+            width: '90%',
+            maxHeight: '80vh',
+            overflow: 'auto'
+          }}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
+              <h2 style={{margin: 0}}>🔐 BECKN Signing Key Management</h2>
+              <button onClick={() => setShowSigningModal(false)} style={{
+                background: 'none',
+                border: 'none',
+                fontSize: '24px',
+                cursor: 'pointer',
+                padding: '5px 10px'
+              }}>×</button>
+            </div>
+            
+            <p style={{color: '#666', marginBottom: '20px'}}>
+              Load signing keys to sign discover/publish requests according to BECKN-006 specification (BLAKE2b-512 + Ed25519).
+            </p>
+            
+            {/* Current Signing Key */}
+            {currentSigningKey && (
+              <div style={{
+                padding: '15px',
+                background: '#e8f5e9',
+                borderRadius: '8px',
+                marginBottom: '20px',
+                border: '1px solid #4caf50'
+              }}>
+                <div style={{fontWeight: '600', marginBottom: '8px', color: '#2e7d32'}}>
+                  ✓ Current Signing Key
+                </div>
+                <div style={{fontSize: '13px', color: '#558b2f'}}>
+                  Subscriber: <strong>{currentSigningKey.subscriberId}</strong><br/>
+                  Key ID: <code style={{fontSize: '11px'}}>{currentSigningKey.keyId.substring(0, 40)}...</code>
+                </div>
+              </div>
+            )}
+            
+            {/* Load Sample Keys */}
+            <div style={{marginBottom: '25px', paddingBottom: '20px', borderBottom: '1px solid #e0e0e0'}}>
+              <h3 style={{fontSize: '16px', marginBottom: '10px'}}>Load Sample Keys</h3>
+              <div style={{display: 'flex', gap: '10px'}}>
+                <button onClick={() => handleLoadSampleKey('sandbox-retail-np1.com')} style={{
+                  padding: '8px 15px',
+                  fontSize: '13px'
+                }}>
+                  Load BAP Key (NP1)
+                </button>
+                <button onClick={() => handleLoadSampleKey('sandbox-retail-np2.com')} style={{
+                  padding: '8px 15px',
+                  fontSize: '13px'
+                }}>
+                  Load BPP Key (NP2)
+                </button>
+              </div>
+            </div>
+            
+            {/* Paste Signing JSON */}
+            <div style={{marginBottom: '25px'}}>
+              <h3 style={{fontSize: '16px', marginBottom: '10px'}}>Paste Signing Key JSON</h3>
+              <textarea
+                value={signingKeyJson}
+                onChange={(e) => setSigningKeyJson(e.target.value)}
+                placeholder={`{\n  "subscriberId": "your-subscriber.com",\n  "keyId": "your-key-id",\n  "privateKey": "base64-private-key"\n}`}
+                style={{
+                  width: '100%',
+                  height: '120px',
+                  fontFamily: 'monospace',
+                  fontSize: '12px',
+                  padding: '10px',
+                  borderRadius: '6px',
+                  border: '1px solid #ddd',
+                  resize: 'vertical'
+                }}
+              />
+              <button 
+                onClick={handleLoadSigningKey}
+                disabled={!signingKeyJson.trim()}
+                style={{
+                  marginTop: '10px',
+                  padding: '10px 20px'
+                }}
+              >
+                📥 Load Signing Key
+              </button>
+            </div>
+            
+            {/* Loaded Keys */}
+            {loadedKeys.length > 0 && (
+              <div style={{marginBottom: '25px'}}>
+                <h3 style={{fontSize: '16px', marginBottom: '10px'}}>Loaded Keys ({loadedKeys.length})</h3>
+                {loadedKeys.map((key) => (
+                  <div key={key.keyId} style={{
+                    padding: '10px',
+                    background: currentSigningKey?.keyId === key.keyId ? '#e3f2fd' : '#f5f5f5',
+                    borderRadius: '6px',
+                    marginBottom: '8px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}>
+                    <div style={{fontSize: '13px'}}>
+                      <strong>{key.subscriberId}</strong><br/>
+                      <code style={{fontSize: '11px', color: '#666'}}>{key.keyId.substring(0, 30)}...</code>
+                    </div>
+                    {currentSigningKey?.keyId !== key.keyId && (
+                      <button onClick={() => handleSwitchKey(key.keyId)} style={{
+                        padding: '6px 12px',
+                        fontSize: '12px'
+                      }}>
+                        Use This Key
+                      </button>
+                    )}
+                    {currentSigningKey?.keyId === key.keyId && (
+                      <span style={{color: '#1976d2', fontWeight: '600', fontSize: '13px'}}>✓ Active</span>
+                    )}
+                  </div>
+                ))}
+                <button onClick={handleClearKeys} style={{
+                  marginTop: '10px',
+                  padding: '8px 15px',
+                  background: '#f44336',
+                  color: 'white',
+                  fontSize: '13px'
+                }}>
+                  Clear All Keys
+                </button>
+              </div>
+            )}
+            
+            {/* Messages */}
+            {signingMessage && (
+              <div style={{
+                padding: '12px',
+                background: signingMessage.type === 'success' ? '#d4edda' : '#f8d7da',
+                color: signingMessage.type === 'success' ? '#155724' : '#721c24',
+                borderRadius: '6px',
+                fontSize: '13px'
+              }}>
+                {signingMessage.type === 'success' ? '✓' : '✗'} {signingMessage.text}
+              </div>
+            )}
+            
+            {/* Info */}
+            <div style={{
+              marginTop: '20px',
+              padding: '15px',
+              background: '#fff3cd',
+              borderRadius: '8px',
+              fontSize: '13px',
+              color: '#856404'
+            }}>
+              <strong>⚠️ Security Note:</strong> Keys are stored in browser memory only (session). For production, use a secure key management system. Requests will be signed using BLAKE2b-512 for Digest and Ed25519 for signatures.
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
