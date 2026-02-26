@@ -227,7 +227,7 @@ export function signRequest({ method, path, host, body }) {
   
   // Sign the pre-hash with Ed25519 (xed25519)
   const keyPair = nacl.sign.keyPair.fromSeed(key.privateKeyBytes);
-  const signature = nacl.sign.detached(prehash, keyPair.secretKey);
+  const signature = nacl.sign.detached(signingStringBytes, keyPair.secretKey);
   const signatureBase64 = uint8ArrayToBase64(signature);
   
   // Build composite keyId: subscriberId|keyId|xed25519

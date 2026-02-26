@@ -16,8 +16,8 @@ L.Icon.Default.mergeOptions({
 
 function App() {
   // Default JSONPath expressions for each role
-  const providerDefaultJsonPath = "$[?(@.beckn:itemAttributes.driver:salaryExpectation < 30000)]";
-  const jobDefaultJsonPath = "$[?(@.beckn:itemAttributes.job:salaryOffered > 25000)]";
+  const providerDefaultJsonPath = "$.catalogs[*].beckn:items[*] ? (@.beckn:itemAttributes.driver:salaryExpectation <=30000)";
+  const jobDefaultJsonPath = "$.catalogs[*].beckn:items[*] ? (@.beckn:itemAttributes.job:salaryOffered >= 25000)";
   
   // Role: 'provider' (searching for drivers) or 'driver' (searching for jobs)
   const [role, setRole] = useState('provider');
