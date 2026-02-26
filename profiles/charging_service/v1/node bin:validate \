@@ -1,4 +1,0 @@
-node bin/validate \
-  --attributes ../profiles/charging_service/v1/attributes.yaml \
-  --class ChargingProvider \
-  --data ../profiles/charging_service/v1/examples/provider-attributes-example.json
