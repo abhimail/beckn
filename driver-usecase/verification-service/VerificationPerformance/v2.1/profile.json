@@ -1,0 +1,31 @@
+{
+  "id": "https://schema.beckn.io/VerificationPerformance/v1",
+  "name": "Verification Performance",
+  "version": "2.1.0",
+  "protocol_version": "2.0",
+  "semantic_model": "generalised",
+  "included_schemas": [
+    "VerificationPerformance",
+    "VerificationResult",
+    "ProcessingStep",
+    "EvidenceArtifact"
+  ],
+  "discovery_fields": [],
+  "indexable_paths": [
+    "performanceAttributes.verificationResult.status",
+    "performanceAttributes.verifiedAt"
+  ],
+  "filterable_paths": [
+    "performanceAttributes.verificationResult.status",
+    "performanceAttributes.confidenceScore",
+    "performanceAttributes.failureReason.code"
+  ],
+  "sortable_paths": [
+    "performanceAttributes.verifiedAt",
+    "performanceAttributes.confidenceScore"
+  ],
+  "privacy_notes": [
+    "performanceAttributes.verifiedData contains verified PII extracted from authoritative sources. Must be handled under data protection regulations and subject consent.",
+    "performanceAttributes.evidence may contain links to sensitive documents. Access must be controlled."
+  ]
+}

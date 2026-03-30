@@ -1,0 +1,64 @@
+{
+  "@context": {
+    "@import": "https://schema.beckn.io/core/v2/vocab.jsonld",
+    "vp": "https://schema.beckn.io/VerificationPerformance#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@graph": [
+    {
+      "@id": "vp:VerificationResultStatus",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Verification Result Status",
+      "rdfs:comment": "Outcome of a single verification check.",
+      "rdfs:subClassOf": [
+        { "@id": "vp:VERIFIED", "rdfs:label": "Verified", "rdfs:comment": "The verification passed — claimed information matches authoritative source." },
+        { "@id": "vp:NOT_VERIFIED", "rdfs:label": "Not Verified", "rdfs:comment": "The verification failed — claimed information does not match." },
+        { "@id": "vp:INCONCLUSIVE", "rdfs:label": "Inconclusive", "rdfs:comment": "The verification could not produce a definitive result." },
+        { "@id": "vp:EXPIRED", "rdfs:label": "Expired", "rdfs:comment": "The document or credential being verified has expired." },
+        { "@id": "vp:PENDING", "rdfs:label": "Pending", "rdfs:comment": "Verification is still in progress." }
+      ]
+    },
+    {
+      "@id": "vp:ProcessingStepStatus",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Processing Step Status",
+      "rdfs:comment": "Status of a processing step in the verification workflow.",
+      "rdfs:subClassOf": [
+        { "@id": "vp:COMPLETED", "rdfs:label": "Completed", "rdfs:comment": "The step completed successfully." },
+        { "@id": "vp:FAILED", "rdfs:label": "Failed", "rdfs:comment": "The step failed." },
+        { "@id": "vp:SKIPPED", "rdfs:label": "Skipped", "rdfs:comment": "The step was skipped." },
+        { "@id": "vp:IN_PROGRESS", "rdfs:label": "In Progress", "rdfs:comment": "The step is currently executing." }
+      ]
+    },
+    {
+      "@id": "vp:FailureReasonCode",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Failure Reason Code",
+      "rdfs:comment": "Machine-readable codes for verification failure reasons.",
+      "rdfs:subClassOf": [
+        { "@id": "vp:DATA_MISMATCH", "rdfs:label": "Data Mismatch", "rdfs:comment": "Input data does not match the authoritative source." },
+        { "@id": "vp:DOCUMENT_EXPIRED", "rdfs:label": "Document Expired", "rdfs:comment": "The document or credential has expired." },
+        { "@id": "vp:SOURCE_UNAVAILABLE", "rdfs:label": "Source Unavailable", "rdfs:comment": "The authoritative source is temporarily unavailable." },
+        { "@id": "vp:INVALID_INPUT", "rdfs:label": "Invalid Input", "rdfs:comment": "The input data provided is invalid or malformed." },
+        { "@id": "vp:CONSENT_EXPIRED", "rdfs:label": "Consent Expired", "rdfs:comment": "The subject's consent has expired." },
+        { "@id": "vp:SUBJECT_NOT_FOUND", "rdfs:label": "Subject Not Found", "rdfs:comment": "The subject could not be found in the authoritative source." },
+        { "@id": "vp:FRAUD_SUSPECTED", "rdfs:label": "Fraud Suspected", "rdfs:comment": "The verification detected potential fraud indicators." },
+        { "@id": "vp:MANUAL_REVIEW_REQUIRED", "rdfs:label": "Manual Review Required", "rdfs:comment": "Automated verification inconclusive; manual review needed." },
+        { "@id": "vp:TIMEOUT", "rdfs:label": "Timeout", "rdfs:comment": "The verification timed out waiting for the authoritative source." }
+      ]
+    },
+    {
+      "@id": "vp:EvidenceType",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Evidence Type",
+      "rdfs:comment": "Types of evidence artifacts produced during verification.",
+      "rdfs:subClassOf": [
+        { "@id": "vp:SIGNED_CERTIFICATE", "rdfs:label": "Signed Certificate", "rdfs:comment": "A digitally signed verification certificate." },
+        { "@id": "vp:SOURCE_RESPONSE_HASH", "rdfs:label": "Source Response Hash", "rdfs:comment": "Hash of the raw response from the authoritative source." },
+        { "@id": "vp:DOCUMENT_SCAN", "rdfs:label": "Document Scan", "rdfs:comment": "Scanned copy of the verified document." },
+        { "@id": "vp:API_RESPONSE_LOG", "rdfs:label": "API Response Log", "rdfs:comment": "Log of the API interaction with the authoritative source." },
+        { "@id": "vp:MANUAL_REVIEW_NOTES", "rdfs:label": "Manual Review Notes", "rdfs:comment": "Notes from a human reviewer." }
+      ]
+    }
+  ]
+}

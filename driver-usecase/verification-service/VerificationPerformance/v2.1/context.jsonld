@@ -1,0 +1,43 @@
+{
+  "@context": {
+    "@import": "https://schema.beckn.io/core/v2/context.jsonld#generalised",
+    "schema": "https://schema.org/",
+    "beckn": "https://schema.beckn.io/",
+    "vp": "https://schema.beckn.io/VerificationPerformance#",
+
+    "VerificationPerformance": "vp:VerificationPerformance",
+    "VerificationResult": "vp:VerificationResult",
+    "ProcessingStep": "vp:ProcessingStep",
+    "EvidenceArtifact": "vp:EvidenceArtifact",
+    "VerificationResultStatus": "vp:VerificationResultStatus",
+    "ProcessingStepStatus": "vp:ProcessingStepStatus",
+    "FailureReasonCode": "vp:FailureReasonCode",
+    "EvidenceType": "vp:EvidenceType",
+
+    "verificationResult": "vp:verificationResult",
+    "processingSteps": "vp:processingSteps",
+    "verifiedData": "vp:verifiedData",
+    "evidence": "vp:evidence",
+    "confidenceScore": "vp:confidenceScore",
+    "verifiedAt": "vp:verifiedAt",
+    "validUntil": "vp:validUntil",
+    "failureReason": "vp:failureReason",
+    "status": "vp:resultStatus",
+    "resultStatus": "vp:resultStatus",
+    "matchScore": "vp:matchScore",
+    "remarks": "vp:remarks",
+    "stepName": "vp:stepName",
+    "stepStatus": "vp:stepStatus",
+    "timestamp": "vp:stepTimestamp",
+    "stepTimestamp": "vp:stepTimestamp",
+    "details": "vp:details",
+    "type": "vp:evidenceType",
+    "evidenceType": "vp:evidenceType",
+    "url": "vp:evidenceUrl",
+    "evidenceUrl": "vp:evidenceUrl",
+    "hash": "vp:hash",
+    "description": "vp:evidenceDescription",
+    "evidenceDescription": "vp:evidenceDescription",
+    "createdAt": "vp:createdAt"
+  }
+}

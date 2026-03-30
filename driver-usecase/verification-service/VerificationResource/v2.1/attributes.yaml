@@ -1,0 +1,218 @@
+openapi: 3.1.1
+info:
+  title: Verification Resource Attributes
+  description: >
+    Domain-specific attributes for a verification service resource on the
+    Beckn Verification Service Network. Extends beckn:resourceAttributes.
+    Each resource represents a distinct verification capability (e.g., driving
+    licence verification, identity verification, bank account verification).
+  version: 2.1.0
+  license:
+    name: CC-BY-NC-SA 4.0 International
+    url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en
+
+components:
+  schemas:
+    VerificationResource:
+      type: object
+      x-jsonld-context: "./context.jsonld"
+      x-beckn-container: resourceAttributes
+      description: >
+        Attributes describing a verification service type. Captures what is
+        verified, what inputs are required, which jurisdictions are supported,
+        and the verification method used.
+      required:
+        - verificationType
+        - supportedDocumentTypes
+      properties:
+        verificationType:
+          x-jsonld-id: "vr:verificationType"
+          description: >
+            The category of verification this service performs. Uses a CodedValue
+            referencing an authoritative classification.
+          type: object
+          required:
+            - code
+          properties:
+            code:
+              type: string
+              description: >
+                Machine-readable verification type code. Well-known values include
+                DRIVING_LICENCE, IDENTITY, BANK_ACCOUNT, SKILL_CERTIFICATE,
+                EDUCATION_CREDENTIAL, HEALTH_LICENCE, ADDRESS, EMPLOYMENT_HISTORY,
+                CRIMINAL_RECORD.
+            name:
+              type: string
+              description: Human-readable name of the verification type.
+
+        supportedDocumentTypes:
+          x-jsonld-id: "vr:supportedDocumentTypes"
+          description: >
+            List of document or credential types accepted as input for this
+            verification service.
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: string
+                description: >
+                  Machine-readable document type code. Examples: AADHAAR, PAN,
+                  DRIVING_LICENCE, PASSPORT, VOTER_ID, BANK_STATEMENT,
+                  SKILL_CERT, DEGREE_CERT, REGISTRATION_CERT.
+              name:
+                type: string
+                description: Human-readable name of the document type.
+
+        supportedJurisdictions:
+          x-jsonld-id: "vr:supportedJurisdictions"
+          description: >
+            Jurisdictions (countries, states, or regions) where this verification
+            service is available and authoritative sources are accessible.
+          type: array
+          items:
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: string
+                description: ISO 3166-1 alpha-2 country code or ISO 3166-2 subdivision code.
+              name:
+                type: string
+                description: Human-readable jurisdiction name.
+
+        verificationMethod:
+          x-jsonld-id: "vr:verificationMethod"
+          description: >
+            The method used to perform verification. Indicates whether the
+            verification is real-time against an authoritative database,
+            manual/human review, or a combination.
+          type: string
+          enum:
+            - REAL_TIME_API
+            - MANUAL_REVIEW
+            - HYBRID
+            - DOCUMENT_OCR
+            - BIOMETRIC_MATCH
+
+        requiredInputFields:
+          x-jsonld-id: "vr:requiredInputFields"
+          description: >
+            List of input fields that the requester must provide to initiate
+            this verification. Describes the data contract for the verification
+            request.
+          type: array
+          items:
+            $ref: '#/components/schemas/InputFieldDescriptor'
+
+        authoritativeSource:
+          x-jsonld-id: "vr:authoritativeSource"
+          description: >
+            The authoritative source or database against which verification is
+            performed. For transparency and trust.
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the authoritative source (e.g., "Parivahan Sewa", "UIDAI", "NSDL").
+            url:
+              type: string
+              format: uri
+              description: URL of the authoritative source (if publicly known).
+            type:
+              type: string
+              description: >
+                Type of source. Values: GOVERNMENT_DATABASE, FINANCIAL_INSTITUTION,
+                CERTIFICATION_BODY, EDUCATION_BOARD, EMPLOYER_REGISTRY, OTHER.
+
+        outputFields:
+          x-jsonld-id: "vr:outputFields"
+          description: >
+            List of fields that will be returned in the verification result.
+            Allows the requester to understand what data they will receive.
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputFieldDescriptor'
+
+        complianceStandards:
+          x-jsonld-id: "vr:complianceStandards"
+          description: >
+            Compliance or regulatory standards this verification service adheres to.
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                description: Standard code (e.g., "ISO_27001", "GDPR", "DPDPA_2023").
+              name:
+                type: string
+                description: Human-readable name of the compliance standard.
+
+    InputFieldDescriptor:
+      type: object
+      description: Describes a single input field required for a verification request.
+      required:
+        - fieldName
+        - fieldType
+        - isRequired
+      properties:
+        fieldName:
+          x-jsonld-id: "vr:fieldName"
+          type: string
+          description: Machine-readable field name (e.g., "licenceNumber", "dateOfBirth").
+        displayName:
+          x-jsonld-id: "vr:displayName"
+          type: string
+          description: Human-readable label for the field.
+        fieldType:
+          x-jsonld-id: "vr:fieldType"
+          type: string
+          description: Data type of the field.
+          enum:
+            - STRING
+            - DATE
+            - NUMBER
+            - BOOLEAN
+            - FILE_UPLOAD
+            - IMAGE
+        isRequired:
+          x-jsonld-id: "vr:isRequired"
+          type: boolean
+          description: Whether this field is mandatory for the verification request.
+        validationPattern:
+          x-jsonld-id: "vr:validationPattern"
+          type: string
+          description: >
+            Optional regex pattern for client-side validation
+            (e.g., "^[A-Z]{2}[0-9]{13}$" for driving licence number).
+
+    OutputFieldDescriptor:
+      type: object
+      description: Describes a single field in the verification result output.
+      required:
+        - fieldName
+        - fieldType
+      properties:
+        fieldName:
+          x-jsonld-id: "vr:fieldName"
+          type: string
+          description: Machine-readable field name (e.g., "holderName", "issueDate", "expiryDate").
+        displayName:
+          x-jsonld-id: "vr:displayName"
+          type: string
+          description: Human-readable label for the field.
+        fieldType:
+          x-jsonld-id: "vr:fieldType"
+          type: string
+          enum:
+            - STRING
+            - DATE
+            - NUMBER
+            - BOOLEAN
+            - OBJECT
+            - IMAGE

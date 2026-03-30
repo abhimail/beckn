@@ -1,0 +1,137 @@
+openapi: 3.1.1
+info:
+  title: Verification Offer Attributes
+  description: >
+    Domain-specific attributes for a verification service offer on the
+    Beckn Verification Service Network. Extends beckn:offerAttributes.
+    Captures pricing, SLA, turnaround time, result validity, and eligibility
+    constraints for a verification service.
+  version: 2.1.0
+  license:
+    name: CC-BY-NC-SA 4.0 International
+    url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en
+
+components:
+  schemas:
+    VerificationOffer:
+      type: object
+      x-jsonld-context: "./context.jsonld"
+      x-beckn-container: offerAttributes
+      description: >
+        Commercial terms under which a verification service is offered.
+        Covers pricing, turnaround guarantees, result validity, and any
+        eligibility constraints on who can request the verification.
+      properties:
+        turnaroundTime:
+          x-jsonld-id: "vo:turnaroundTime"
+          description: >
+            Maximum time from request submission to result delivery,
+            expressed as an ISO 8601 duration (e.g., "PT30M" for 30 minutes,
+            "PT24H" for 24 hours, "P3D" for 3 days).
+          type: string
+          format: duration
+
+        resultValidityPeriod:
+          x-jsonld-id: "vo:resultValidityPeriod"
+          description: >
+            Duration for which the verification result remains valid after
+            issuance. Expressed as an ISO 8601 duration (e.g., "P30D" for
+            30 days, "P1Y" for 1 year).
+          type: string
+          format: duration
+
+        pricingModel:
+          x-jsonld-id: "vo:pricingModel"
+          description: >
+            How the verification service is priced. Determines how the
+            consideration amount should be interpreted.
+          type: string
+          enum:
+            - PER_REQUEST
+            - SUBSCRIPTION
+            - BUNDLE
+            - TIERED
+
+        bulkDiscountThreshold:
+          x-jsonld-id: "vo:bulkDiscountThreshold"
+          description: >
+            Minimum number of verification requests in a single contract
+            to qualify for bulk/tiered pricing.
+          type: integer
+          minimum: 1
+
+        eligibilityConstraints:
+          x-jsonld-id: "vo:eligibilityConstraints"
+          description: >
+            Constraints on who can request this verification service.
+            For example, only licensed employers, only entities in a
+            specific industry, or only participants with a certain
+            network role.
+          type: array
+          items:
+            $ref: '#/components/schemas/EligibilityConstraint'
+
+        serviceLevel:
+          x-jsonld-id: "vo:serviceLevel"
+          description: >
+            Service level tier for this offer. Higher tiers may offer
+            faster turnaround, richer output, or priority processing.
+          type: string
+          enum:
+            - BASIC
+            - STANDARD
+            - PREMIUM
+            - ENTERPRISE
+
+        dataRetentionPolicy:
+          x-jsonld-id: "vo:dataRetentionPolicy"
+          description: >
+            How long the verification provider retains input data and
+            results after the verification is complete.
+          type: string
+          format: duration
+
+        supportedConsentMechanisms:
+          x-jsonld-id: "vo:supportedConsentMechanisms"
+          description: >
+            Consent mechanisms supported by this offer for obtaining
+            subject authorization.
+          type: array
+          items:
+            type: string
+            enum:
+              - OTP
+              - DIGITAL_SIGNATURE
+              - AADHAAR_EKYC
+              - DIGILOCKER
+              - OFFLINE_CONSENT
+              - BIOMETRIC
+
+    EligibilityConstraint:
+      type: object
+      description: >
+        A constraint on who can access or request this verification offer.
+      required:
+        - type
+        - value
+      properties:
+        type:
+          x-jsonld-id: "vo:constraintType"
+          type: string
+          description: >
+            The dimension on which the constraint applies. Values:
+            INDUSTRY, ROLE, JURISDICTION, MEMBERSHIP, CERTIFICATION.
+          enum:
+            - INDUSTRY
+            - ROLE
+            - JURISDICTION
+            - MEMBERSHIP
+            - CERTIFICATION
+        value:
+          x-jsonld-id: "vo:constraintValue"
+          type: string
+          description: The value of the constraint (e.g., "TRANSPORT", "HEALTHCARE", "IN-UP").
+        description:
+          x-jsonld-id: "vo:constraintDescription"
+          type: string
+          description: Human-readable explanation of the constraint.

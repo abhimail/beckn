@@ -1,0 +1,31 @@
+{
+  "id": "https://schema.beckn.io/VerificationContract/v1",
+  "name": "Verification Contract",
+  "version": "2.1.0",
+  "protocol_version": "2.0",
+  "semantic_model": "generalised",
+  "included_schemas": [
+    "VerificationContract",
+    "SubjectReference",
+    "ConsentReference"
+  ],
+  "discovery_fields": [],
+  "indexable_paths": [
+    "contractAttributes.purpose.code",
+    "contractAttributes.aggregateResult.status",
+    "contractAttributes.requestedBy.organizationType"
+  ],
+  "filterable_paths": [
+    "contractAttributes.purpose.code",
+    "contractAttributes.aggregateResult.status",
+    "contractAttributes.consentReference.mechanism"
+  ],
+  "sortable_paths": [
+    "contractAttributes.aggregateResult.completedAt",
+    "contractAttributes.expiresAt"
+  ],
+  "privacy_notes": [
+    "contractAttributes.subject contains PII (name, date of birth, identifiers). Must be handled under consent and data protection regulations.",
+    "contractAttributes.consentReference.consentId references an externally managed consent artifact. The actual consent terms are not stored in this schema."
+  ]
+}

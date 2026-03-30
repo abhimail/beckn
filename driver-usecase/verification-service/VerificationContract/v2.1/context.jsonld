@@ -1,0 +1,38 @@
+{
+  "@context": {
+    "@import": "https://schema.beckn.io/core/v2/context.jsonld#generalised",
+    "schema": "https://schema.org/",
+    "beckn": "https://schema.beckn.io/",
+    "vc": "https://schema.beckn.io/VerificationContract#",
+
+    "VerificationContract": "vc:VerificationContract",
+    "SubjectReference": "vc:SubjectReference",
+    "ConsentReference": "vc:ConsentReference",
+    "VerificationPurpose": "vc:VerificationPurpose",
+    "AggregateResultStatus": "vc:AggregateResultStatus",
+    "IdentifierType": "vc:IdentifierType",
+    "OrganizationType": "vc:OrganizationType",
+
+    "subject": "vc:subject",
+    "purpose": "vc:purpose",
+    "consentReference": "vc:consentReference",
+    "aggregateResult": "vc:aggregateResult",
+    "requestedBy": "vc:requestedBy",
+    "expiresAt": "vc:expiresAt",
+    "name": "vc:subjectName",
+    "subjectName": "vc:subjectName",
+    "dateOfBirth": "vc:dateOfBirth",
+    "identifiers": "vc:identifiers",
+    "consentId": "vc:consentId",
+    "mechanism": "vc:mechanism",
+    "grantedAt": "vc:grantedAt",
+    "consentExpiresAt": "vc:consentExpiresAt",
+    "scope": "vc:scope",
+    "organizationName": "vc:organizationName",
+    "organizationType": "vc:organizationType",
+    "referenceId": "vc:referenceId",
+    "completedAt": "vc:completedAt",
+    "summary": "vc:summary",
+    "maskedValue": "vc:maskedValue"
+  }
+}

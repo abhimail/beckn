@@ -1,0 +1,147 @@
+{
+  "@context": {
+    "@import": "https://schema.beckn.io/core/v2/vocab.jsonld",
+    "vr": "https://schema.beckn.io/VerificationResource#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@graph": [
+    {
+      "@id": "vr:VerificationType",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Verification Type",
+      "rdfs:comment": "Classification of verification service types.",
+      "rdfs:subClassOf": [
+        {
+          "@id": "vr:DRIVING_LICENCE",
+          "rdfs:label": "Driving Licence",
+          "rdfs:comment": "Verification of a driving licence against the issuing transport authority."
+        },
+        {
+          "@id": "vr:IDENTITY",
+          "rdfs:label": "Identity",
+          "rdfs:comment": "Verification of a person's identity using government-issued ID."
+        },
+        {
+          "@id": "vr:BANK_ACCOUNT",
+          "rdfs:label": "Bank Account",
+          "rdfs:comment": "Verification of bank account ownership and validity."
+        },
+        {
+          "@id": "vr:SKILL_CERTIFICATE",
+          "rdfs:label": "Skill Certificate",
+          "rdfs:comment": "Verification of skill or vocational training certificates."
+        },
+        {
+          "@id": "vr:EDUCATION_CREDENTIAL",
+          "rdfs:label": "Education Credential",
+          "rdfs:comment": "Verification of educational degrees and diplomas."
+        },
+        {
+          "@id": "vr:HEALTH_LICENCE",
+          "rdfs:label": "Health Licence",
+          "rdfs:comment": "Verification of healthcare professional registration and licence."
+        },
+        {
+          "@id": "vr:ADDRESS",
+          "rdfs:label": "Address",
+          "rdfs:comment": "Verification of residential or business address."
+        },
+        {
+          "@id": "vr:EMPLOYMENT_HISTORY",
+          "rdfs:label": "Employment History",
+          "rdfs:comment": "Verification of past employment records."
+        },
+        {
+          "@id": "vr:CRIMINAL_RECORD",
+          "rdfs:label": "Criminal Record",
+          "rdfs:comment": "Verification of criminal background check records."
+        }
+      ]
+    },
+    {
+      "@id": "vr:DocumentType",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Document Type",
+      "rdfs:comment": "Types of documents accepted as verification input.",
+      "rdfs:subClassOf": [
+        {
+          "@id": "vr:AADHAAR",
+          "rdfs:label": "Aadhaar",
+          "rdfs:comment": "Unique identification number issued by UIDAI (India)."
+        },
+        {
+          "@id": "vr:PAN",
+          "rdfs:label": "PAN",
+          "rdfs:comment": "Permanent Account Number issued by Income Tax Department (India)."
+        },
+        {
+          "@id": "vr:DL_DOCUMENT",
+          "rdfs:label": "Driving Licence Document",
+          "rdfs:comment": "Driving licence document issued by a transport authority."
+        },
+        {
+          "@id": "vr:PASSPORT",
+          "rdfs:label": "Passport",
+          "rdfs:comment": "Passport document issued by a sovereign nation."
+        },
+        {
+          "@id": "vr:VOTER_ID",
+          "rdfs:label": "Voter ID",
+          "rdfs:comment": "Voter identification card issued by an election authority."
+        },
+        {
+          "@id": "vr:BANK_STATEMENT",
+          "rdfs:label": "Bank Statement",
+          "rdfs:comment": "Bank account statement from a financial institution."
+        }
+      ]
+    },
+    {
+      "@id": "vr:VerificationMethod",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Verification Method",
+      "rdfs:comment": "Method used to perform the verification.",
+      "rdfs:subClassOf": [
+        {
+          "@id": "vr:REAL_TIME_API",
+          "rdfs:label": "Real-Time API",
+          "rdfs:comment": "Automated verification via direct API integration with authoritative source."
+        },
+        {
+          "@id": "vr:MANUAL_REVIEW",
+          "rdfs:label": "Manual Review",
+          "rdfs:comment": "Verification performed by a human reviewer."
+        },
+        {
+          "@id": "vr:HYBRID",
+          "rdfs:label": "Hybrid",
+          "rdfs:comment": "Combination of automated checks and human review."
+        },
+        {
+          "@id": "vr:DOCUMENT_OCR",
+          "rdfs:label": "Document OCR",
+          "rdfs:comment": "Verification using optical character recognition on uploaded documents."
+        },
+        {
+          "@id": "vr:BIOMETRIC_MATCH",
+          "rdfs:label": "Biometric Match",
+          "rdfs:comment": "Verification using biometric matching (fingerprint, face, iris)."
+        }
+      ]
+    },
+    {
+      "@id": "vr:InputFieldType",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Input Field Type",
+      "rdfs:comment": "Data types for verification input fields.",
+      "rdfs:subClassOf": [
+        { "@id": "vr:STRING", "rdfs:label": "String", "rdfs:comment": "Free-text string value." },
+        { "@id": "vr:DATE", "rdfs:label": "Date", "rdfs:comment": "Date value (ISO 8601)." },
+        { "@id": "vr:NUMBER", "rdfs:label": "Number", "rdfs:comment": "Numeric value." },
+        { "@id": "vr:BOOLEAN", "rdfs:label": "Boolean", "rdfs:comment": "True or false value." },
+        { "@id": "vr:FILE_UPLOAD", "rdfs:label": "File Upload", "rdfs:comment": "Binary file upload." },
+        { "@id": "vr:IMAGE", "rdfs:label": "Image", "rdfs:comment": "Image file upload." }
+      ]
+    }
+  ]
+}

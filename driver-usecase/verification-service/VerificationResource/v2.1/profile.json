@@ -1,0 +1,36 @@
+{
+  "id": "https://schema.beckn.io/VerificationResource/v1",
+  "name": "Verification Resource",
+  "version": "2.1.0",
+  "protocol_version": "2.0",
+  "semantic_model": "generalised",
+  "included_schemas": [
+    "VerificationResource",
+    "InputFieldDescriptor",
+    "OutputFieldDescriptor"
+  ],
+  "discovery_fields": [
+    "verificationType.code",
+    "supportedDocumentTypes[*].code",
+    "supportedJurisdictions[*].code",
+    "verificationMethod"
+  ],
+  "indexable_paths": [
+    "resourceAttributes.verificationType.code",
+    "resourceAttributes.supportedJurisdictions[*].code",
+    "resourceAttributes.verificationMethod"
+  ],
+  "filterable_paths": [
+    "resourceAttributes.verificationType.code",
+    "resourceAttributes.supportedDocumentTypes[*].code",
+    "resourceAttributes.supportedJurisdictions[*].code",
+    "resourceAttributes.verificationMethod",
+    "resourceAttributes.authoritativeSource.type"
+  ],
+  "sortable_paths": [
+    "descriptor.name"
+  ],
+  "privacy_notes": [
+    "Resource attributes contain no PII. Subject data is only present in contractAttributes and performanceAttributes."
+  ]
+}

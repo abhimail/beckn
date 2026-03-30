@@ -1,0 +1,30 @@
+{
+  "@context": {
+    "@import": "https://schema.beckn.io/core/v2/context.jsonld#generalised",
+    "schema": "https://schema.org/",
+    "beckn": "https://schema.beckn.io/",
+    "vr": "https://schema.beckn.io/VerificationResource#",
+
+    "VerificationResource": "vr:VerificationResource",
+    "InputFieldDescriptor": "vr:InputFieldDescriptor",
+    "OutputFieldDescriptor": "vr:OutputFieldDescriptor",
+    "VerificationType": "vr:VerificationType",
+    "DocumentType": "vr:DocumentType",
+    "VerificationMethod": "vr:VerificationMethod",
+    "InputFieldType": "vr:InputFieldType",
+
+    "verificationType": "vr:verificationType",
+    "supportedDocumentTypes": "vr:supportedDocumentTypes",
+    "supportedJurisdictions": "vr:supportedJurisdictions",
+    "verificationMethod": "vr:verificationMethod",
+    "requiredInputFields": "vr:requiredInputFields",
+    "authoritativeSource": "vr:authoritativeSource",
+    "outputFields": "vr:outputFields",
+    "complianceStandards": "vr:complianceStandards",
+    "fieldName": "vr:fieldName",
+    "displayName": "vr:displayName",
+    "fieldType": "vr:fieldType",
+    "isRequired": "vr:isRequired",
+    "validationPattern": "vr:validationPattern"
+  }
+}

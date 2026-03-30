@@ -1,0 +1,60 @@
+{
+  "@context": {
+    "@import": "https://schema.beckn.io/core/v2/vocab.jsonld",
+    "vo": "https://schema.beckn.io/VerificationOffer#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@graph": [
+    {
+      "@id": "vo:PricingModel",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Pricing Model",
+      "rdfs:comment": "How the verification service is priced.",
+      "rdfs:subClassOf": [
+        { "@id": "vo:PER_REQUEST", "rdfs:label": "Per Request", "rdfs:comment": "Charged per individual verification request." },
+        { "@id": "vo:SUBSCRIPTION", "rdfs:label": "Subscription", "rdfs:comment": "Flat fee for a period with unlimited or capped verifications." },
+        { "@id": "vo:BUNDLE", "rdfs:label": "Bundle", "rdfs:comment": "Pre-purchased pack of verification credits." },
+        { "@id": "vo:TIERED", "rdfs:label": "Tiered", "rdfs:comment": "Price per request decreases at volume thresholds." }
+      ]
+    },
+    {
+      "@id": "vo:ServiceLevel",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Service Level",
+      "rdfs:comment": "Service tier for the verification offer.",
+      "rdfs:subClassOf": [
+        { "@id": "vo:BASIC", "rdfs:label": "Basic", "rdfs:comment": "Standard processing with normal turnaround." },
+        { "@id": "vo:STANDARD", "rdfs:label": "Standard", "rdfs:comment": "Enhanced processing with faster turnaround." },
+        { "@id": "vo:PREMIUM", "rdfs:label": "Premium", "rdfs:comment": "Priority processing with expedited turnaround and richer output." },
+        { "@id": "vo:ENTERPRISE", "rdfs:label": "Enterprise", "rdfs:comment": "Dedicated processing with SLA guarantees and custom output." }
+      ]
+    },
+    {
+      "@id": "vo:ConsentMechanism",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Consent Mechanism",
+      "rdfs:comment": "Mechanisms for obtaining subject consent for verification.",
+      "rdfs:subClassOf": [
+        { "@id": "vo:OTP", "rdfs:label": "OTP", "rdfs:comment": "One-time password sent to the subject's registered mobile/email." },
+        { "@id": "vo:DIGITAL_SIGNATURE", "rdfs:label": "Digital Signature", "rdfs:comment": "Subject provides a digital signature as consent." },
+        { "@id": "vo:AADHAAR_EKYC", "rdfs:label": "Aadhaar eKYC", "rdfs:comment": "Consent via Aadhaar-based electronic KYC flow." },
+        { "@id": "vo:DIGILOCKER", "rdfs:label": "DigiLocker", "rdfs:comment": "Consent and document sharing via DigiLocker." },
+        { "@id": "vo:OFFLINE_CONSENT", "rdfs:label": "Offline Consent", "rdfs:comment": "Physical or offline consent form." },
+        { "@id": "vo:BIOMETRIC", "rdfs:label": "Biometric", "rdfs:comment": "Biometric-based consent (fingerprint, iris)." }
+      ]
+    },
+    {
+      "@id": "vo:EligibilityConstraintType",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Eligibility Constraint Type",
+      "rdfs:comment": "Dimension on which an eligibility constraint applies.",
+      "rdfs:subClassOf": [
+        { "@id": "vo:INDUSTRY", "rdfs:label": "Industry", "rdfs:comment": "Restricted to specific industries." },
+        { "@id": "vo:ROLE", "rdfs:label": "Role", "rdfs:comment": "Restricted to specific network roles." },
+        { "@id": "vo:JURISDICTION", "rdfs:label": "Jurisdiction", "rdfs:comment": "Restricted to specific jurisdictions." },
+        { "@id": "vo:MEMBERSHIP", "rdfs:label": "Membership", "rdfs:comment": "Restricted to members of specific organizations." },
+        { "@id": "vo:CERTIFICATION", "rdfs:label": "Certification", "rdfs:comment": "Restricted to entities with specific certifications." }
+      ]
+    }
+  ]
+}

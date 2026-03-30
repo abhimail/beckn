@@ -1,0 +1,210 @@
+openapi: 3.1.1
+info:
+  title: Verification Performance Attributes
+  description: >
+    Domain-specific attributes for a verification performance unit on the
+    Beckn Verification Service Network. Extends beckn:performanceAttributes.
+    Captures the execution details of a verification check: processing steps,
+    verification result, evidence, and the structured output.
+  version: 2.1.0
+  license:
+    name: CC-BY-NC-SA 4.0 International
+    url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en
+
+components:
+  schemas:
+    VerificationPerformance:
+      type: object
+      x-jsonld-context: "./context.jsonld"
+      x-beckn-container: performanceAttributes
+      description: >
+        Execution details for a single verification check within a contract.
+        Each Performance unit corresponds to one verification type being
+        executed (e.g., one driving licence check, one identity check).
+        Contains the verification result, evidence, and structured output.
+      properties:
+        verificationResult:
+          x-jsonld-id: "vp:verificationResult"
+          description: >
+            The outcome of this specific verification check.
+          $ref: '#/components/schemas/VerificationResult'
+
+        processingSteps:
+          x-jsonld-id: "vp:processingSteps"
+          description: >
+            An ordered list of processing steps performed during this
+            verification. Provides transparency into the verification
+            process for audit and trust.
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessingStep'
+
+        verifiedData:
+          x-jsonld-id: "vp:verifiedData"
+          description: >
+            The structured data returned by the verification. This is the
+            actual verified information extracted from the authoritative
+            source. The shape depends on the verification type.
+          type: object
+          additionalProperties: true
+          description: >
+            Key-value pairs of verified data fields. For a driving licence
+            verification this might include holderName, licenceNumber,
+            issueDate, expiryDate, vehicleClasses, issuingAuthority.
+            For identity verification: name, dateOfBirth, gender, address.
+            Schema is intentionally open to support diverse verification types.
+
+        evidence:
+          x-jsonld-id: "vp:evidence"
+          description: >
+            Supporting evidence or artifacts produced during verification.
+            May include signed verification certificates, source response
+            hashes, or reference documents.
+          type: array
+          items:
+            $ref: '#/components/schemas/EvidenceArtifact'
+
+        confidenceScore:
+          x-jsonld-id: "vp:confidenceScore"
+          description: >
+            A normalised confidence score (0.0 to 1.0) indicating the
+            provider's confidence in the verification result. Applicable
+            primarily to HYBRID and DOCUMENT_OCR methods.
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+
+        verifiedAt:
+          x-jsonld-id: "vp:verifiedAt"
+          description: >
+            Timestamp when the verification check was completed.
+          type: string
+          format: date-time
+
+        validUntil:
+          x-jsonld-id: "vp:validUntil"
+          description: >
+            Timestamp until which this verification result is considered
+            valid. After this date, re-verification is recommended.
+          type: string
+          format: date-time
+
+        failureReason:
+          x-jsonld-id: "vp:failureReason"
+          description: >
+            If the verification failed or was inconclusive, a machine-readable
+            code and human-readable description of why.
+          type: object
+          properties:
+            code:
+              type: string
+              description: >
+                Machine-readable failure code. Values: DATA_MISMATCH,
+                DOCUMENT_EXPIRED, SOURCE_UNAVAILABLE, INVALID_INPUT,
+                CONSENT_EXPIRED, SUBJECT_NOT_FOUND, FRAUD_SUSPECTED,
+                MANUAL_REVIEW_REQUIRED, TIMEOUT.
+            description:
+              type: string
+              description: Human-readable explanation of the failure.
+
+    VerificationResult:
+      type: object
+      description: The outcome of a single verification check.
+      required:
+        - status
+      properties:
+        status:
+          x-jsonld-id: "vp:resultStatus"
+          type: string
+          description: >
+            The verification outcome. Values: VERIFIED, NOT_VERIFIED,
+            INCONCLUSIVE, EXPIRED, PENDING.
+          enum:
+            - VERIFIED
+            - NOT_VERIFIED
+            - INCONCLUSIVE
+            - EXPIRED
+            - PENDING
+        matchScore:
+          x-jsonld-id: "vp:matchScore"
+          type: number
+          description: >
+            Numeric match score when the verification involves fuzzy matching
+            (e.g., name matching). Scale: 0.0 (no match) to 1.0 (exact match).
+          minimum: 0.0
+          maximum: 1.0
+        remarks:
+          x-jsonld-id: "vp:remarks"
+          type: string
+          description: Additional human-readable remarks about the result.
+
+    ProcessingStep:
+      type: object
+      description: A single step in the verification process.
+      required:
+        - stepName
+        - status
+      properties:
+        stepName:
+          x-jsonld-id: "vp:stepName"
+          type: string
+          description: >
+            Machine-readable name of the step. Examples: INPUT_VALIDATION,
+            SOURCE_QUERY, DATA_EXTRACTION, DATA_COMPARISON, MANUAL_REVIEW,
+            RESULT_COMPILATION.
+        status:
+          x-jsonld-id: "vp:stepStatus"
+          type: string
+          description: >
+            Status of this step. Values: COMPLETED, FAILED, SKIPPED, IN_PROGRESS.
+          enum:
+            - COMPLETED
+            - FAILED
+            - SKIPPED
+            - IN_PROGRESS
+        timestamp:
+          x-jsonld-id: "vp:stepTimestamp"
+          type: string
+          format: date-time
+          description: When this step was executed.
+        details:
+          x-jsonld-id: "vp:details"
+          type: string
+          description: Optional human-readable details about this step's execution.
+
+    EvidenceArtifact:
+      type: object
+      description: A piece of evidence or artifact produced during verification.
+      required:
+        - type
+      properties:
+        type:
+          x-jsonld-id: "vp:evidenceType"
+          type: string
+          description: >
+            Type of evidence. Values: SIGNED_CERTIFICATE, SOURCE_RESPONSE_HASH,
+            DOCUMENT_SCAN, API_RESPONSE_LOG, MANUAL_REVIEW_NOTES.
+          enum:
+            - SIGNED_CERTIFICATE
+            - SOURCE_RESPONSE_HASH
+            - DOCUMENT_SCAN
+            - API_RESPONSE_LOG
+            - MANUAL_REVIEW_NOTES
+        url:
+          x-jsonld-id: "vp:evidenceUrl"
+          type: string
+          format: uri
+          description: URL to download or view the evidence artifact.
+        hash:
+          x-jsonld-id: "vp:hash"
+          type: string
+          description: SHA-256 hash of the evidence artifact for integrity verification.
+        description:
+          x-jsonld-id: "vp:evidenceDescription"
+          type: string
+          description: Human-readable description of the evidence.
+        createdAt:
+          x-jsonld-id: "vp:createdAt"
+          type: string
+          format: date-time
+          description: When this evidence was generated.

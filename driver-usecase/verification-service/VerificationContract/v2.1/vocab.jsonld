@@ -1,0 +1,67 @@
+{
+  "@context": {
+    "@import": "https://schema.beckn.io/core/v2/vocab.jsonld",
+    "vc": "https://schema.beckn.io/VerificationContract#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@graph": [
+    {
+      "@id": "vc:VerificationPurpose",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Verification Purpose",
+      "rdfs:comment": "The purpose for which verification is requested.",
+      "rdfs:subClassOf": [
+        { "@id": "vc:EMPLOYMENT_ONBOARDING", "rdfs:label": "Employment Onboarding", "rdfs:comment": "Verification for hiring and employee onboarding." },
+        { "@id": "vc:KYC_COMPLIANCE", "rdfs:label": "KYC Compliance", "rdfs:comment": "Verification for Know Your Customer regulatory compliance." },
+        { "@id": "vc:REGULATORY_AUDIT", "rdfs:label": "Regulatory Audit", "rdfs:comment": "Verification for regulatory audit and inspection." },
+        { "@id": "vc:BACKGROUND_CHECK", "rdfs:label": "Background Check", "rdfs:comment": "General background verification for trust and safety." },
+        { "@id": "vc:CREDENTIAL_RENEWAL", "rdfs:label": "Credential Renewal", "rdfs:comment": "Verification for renewing an existing credential or licence." },
+        { "@id": "vc:INSURANCE_UNDERWRITING", "rdfs:label": "Insurance Underwriting", "rdfs:comment": "Verification for insurance risk assessment." },
+        { "@id": "vc:PLATFORM_ONBOARDING", "rdfs:label": "Platform Onboarding", "rdfs:comment": "Verification for onboarding onto a gig/platform economy." }
+      ]
+    },
+    {
+      "@id": "vc:AggregateResultStatus",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Aggregate Result Status",
+      "rdfs:comment": "Overall verification outcome across all checks in a contract.",
+      "rdfs:subClassOf": [
+        { "@id": "vc:VERIFIED", "rdfs:label": "Verified", "rdfs:comment": "All verifications passed successfully." },
+        { "@id": "vc:PARTIALLY_VERIFIED", "rdfs:label": "Partially Verified", "rdfs:comment": "Some verifications passed, others failed or are pending." },
+        { "@id": "vc:NOT_VERIFIED", "rdfs:label": "Not Verified", "rdfs:comment": "Verification could not confirm the claimed information." },
+        { "@id": "vc:INCONCLUSIVE", "rdfs:label": "Inconclusive", "rdfs:comment": "Verification could not produce a definitive result." },
+        { "@id": "vc:EXPIRED", "rdfs:label": "Expired", "rdfs:comment": "Verification result has expired and is no longer valid." }
+      ]
+    },
+    {
+      "@id": "vc:IdentifierType",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Identifier Type",
+      "rdfs:comment": "Types of personal identifiers used to reference a subject.",
+      "rdfs:subClassOf": [
+        { "@id": "vc:AADHAAR", "rdfs:label": "Aadhaar", "rdfs:comment": "Aadhaar unique identification number." },
+        { "@id": "vc:PAN", "rdfs:label": "PAN", "rdfs:comment": "Permanent Account Number." },
+        { "@id": "vc:MOBILE", "rdfs:label": "Mobile", "rdfs:comment": "Mobile phone number." },
+        { "@id": "vc:EMAIL", "rdfs:label": "Email", "rdfs:comment": "Email address." },
+        { "@id": "vc:LICENCE_NUMBER", "rdfs:label": "Licence Number", "rdfs:comment": "Driving licence or professional licence number." },
+        { "@id": "vc:PASSPORT_NUMBER", "rdfs:label": "Passport Number", "rdfs:comment": "Passport document number." },
+        { "@id": "vc:VOTER_ID", "rdfs:label": "Voter ID", "rdfs:comment": "Voter identification card number." },
+        { "@id": "vc:EMPLOYEE_ID", "rdfs:label": "Employee ID", "rdfs:comment": "Employer-issued employee identifier." }
+      ]
+    },
+    {
+      "@id": "vc:OrganizationType",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Organization Type",
+      "rdfs:comment": "Type of organization requesting verification.",
+      "rdfs:subClassOf": [
+        { "@id": "vc:EMPLOYER", "rdfs:label": "Employer", "rdfs:comment": "An employer verifying a prospective or current employee." },
+        { "@id": "vc:PLATFORM", "rdfs:label": "Platform", "rdfs:comment": "A platform onboarding a service provider or partner." },
+        { "@id": "vc:INSURER", "rdfs:label": "Insurer", "rdfs:comment": "An insurance company performing underwriting checks." },
+        { "@id": "vc:REGULATOR", "rdfs:label": "Regulator", "rdfs:comment": "A regulatory body performing compliance checks." },
+        { "@id": "vc:FINANCIAL_INSTITUTION", "rdfs:label": "Financial Institution", "rdfs:comment": "A bank or financial institution performing KYC." },
+        { "@id": "vc:OTHER", "rdfs:label": "Other", "rdfs:comment": "Other type of requesting organization." }
+      ]
+    }
+  ]
+}

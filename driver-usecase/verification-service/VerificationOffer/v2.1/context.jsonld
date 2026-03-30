@@ -1,0 +1,30 @@
+{
+  "@context": {
+    "@import": "https://schema.beckn.io/core/v2/context.jsonld#generalised",
+    "schema": "https://schema.org/",
+    "beckn": "https://schema.beckn.io/",
+    "vo": "https://schema.beckn.io/VerificationOffer#",
+
+    "VerificationOffer": "vo:VerificationOffer",
+    "EligibilityConstraint": "vo:EligibilityConstraint",
+    "PricingModel": "vo:PricingModel",
+    "ServiceLevel": "vo:ServiceLevel",
+    "ConsentMechanism": "vo:ConsentMechanism",
+    "EligibilityConstraintType": "vo:EligibilityConstraintType",
+
+    "turnaroundTime": "vo:turnaroundTime",
+    "resultValidityPeriod": "vo:resultValidityPeriod",
+    "pricingModel": "vo:pricingModel",
+    "bulkDiscountThreshold": "vo:bulkDiscountThreshold",
+    "eligibilityConstraints": "vo:eligibilityConstraints",
+    "serviceLevel": "vo:serviceLevel",
+    "dataRetentionPolicy": "vo:dataRetentionPolicy",
+    "supportedConsentMechanisms": "vo:supportedConsentMechanisms",
+    "type": "vo:constraintType",
+    "value": "vo:constraintValue",
+    "description": "vo:constraintDescription",
+    "constraintType": "vo:constraintType",
+    "constraintValue": "vo:constraintValue",
+    "constraintDescription": "vo:constraintDescription"
+  }
+}

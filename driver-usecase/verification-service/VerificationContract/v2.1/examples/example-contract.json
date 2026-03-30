@@ -1,0 +1,227 @@
+{
+  "context": {
+    "action": "on_confirm",
+    "domain": "verification",
+    "version": "2.0.0",
+    "bapId": "employer-platform.example.com",
+    "bapUri": "https://employer-platform.example.com/beckn",
+    "bppId": "verify-india.example.com",
+    "bppUri": "https://verify-india.example.com/beckn",
+    "transactionId": "txn-dl-verify-001",
+    "messageId": "msg-confirm-001",
+    "timestamp": "2026-03-30T10:15:00Z",
+    "schemaContext": [
+      "https://schema.beckn.io/VerificationResource/context.jsonld",
+      "https://schema.beckn.io/VerificationOffer/context.jsonld",
+      "https://schema.beckn.io/VerificationContract/context.jsonld",
+      "https://schema.beckn.io/VerificationPerformance/context.jsonld"
+    ]
+  },
+  "message": {
+    "contract": {
+      "id": "contract-dl-verify-ravi-001",
+      "descriptor": {
+        "name": "Driving Licence Verification — Ravi Kumar",
+        "shortDesc": "Verification of driving licence for employment onboarding at Delhi Bus Operator"
+      },
+      "status": {
+        "code": "ACTIVE"
+      },
+      "participants": [
+        {
+          "id": "participant-employer-001",
+          "descriptor": {
+            "name": "Delhi Metro Bus Services Pvt. Ltd."
+          },
+          "participantAttributes": {
+            "@context": "https://schema.beckn.io/VerificationContract/context.jsonld",
+            "@type": "vc:VerificationContract",
+            "organizationType": "EMPLOYER",
+            "referenceId": "DMBS-ONBOARD-2026-0342"
+          }
+        },
+        {
+          "id": "participant-verifier-001",
+          "descriptor": {
+            "name": "VerifyIndia Pvt. Ltd."
+          }
+        },
+        {
+          "id": "participant-subject-ravi",
+          "descriptor": {
+            "name": "Ravi Kumar"
+          }
+        }
+      ],
+      "commitments": [
+        {
+          "id": "commitment-dl-001",
+          "status": {
+            "code": "ACTIVE"
+          },
+          "resources": [
+            {
+              "id": "res-dl-verify-001",
+              "quantity": {
+                "count": 1
+              }
+            }
+          ],
+          "offer": {
+            "id": "offer-dl-premium-001",
+            "resourceIds": ["res-dl-verify-001"]
+          }
+        }
+      ],
+      "consideration": [
+        {
+          "id": "consideration-dl-premium-001",
+          "status": {
+            "code": "AGREED"
+          },
+          "considerationAttributes": {
+            "@context": "https://schema.beckn.io/core/v2/context.jsonld#generalised",
+            "@type": "beckn:Attributes",
+            "amount": {
+              "value": "75.00",
+              "currency": "INR"
+            }
+          }
+        }
+      ],
+      "performance": [
+        {
+          "id": "perf-dl-verify-ravi-001",
+          "status": {
+            "code": "COMPLETED"
+          },
+          "commitmentIds": ["commitment-dl-001"],
+          "performanceAttributes": {
+            "@context": "https://schema.beckn.io/VerificationPerformance/context.jsonld",
+            "@type": "vp:VerificationPerformance",
+            "verificationResult": {
+              "status": "VERIFIED",
+              "matchScore": 1.0,
+              "remarks": "Driving licence details confirmed against Parivahan Sewa database."
+            },
+            "processingSteps": [
+              {
+                "stepName": "INPUT_VALIDATION",
+                "status": "COMPLETED",
+                "timestamp": "2026-03-30T10:15:05Z",
+                "details": "Licence number format validated. Date of birth format validated."
+              },
+              {
+                "stepName": "SOURCE_QUERY",
+                "status": "COMPLETED",
+                "timestamp": "2026-03-30T10:15:08Z",
+                "details": "Query sent to Parivahan Sewa API. Response received in 2.3 seconds."
+              },
+              {
+                "stepName": "DATA_EXTRACTION",
+                "status": "COMPLETED",
+                "timestamp": "2026-03-30T10:15:09Z",
+                "details": "Holder details, vehicle classes, and validity extracted from API response."
+              },
+              {
+                "stepName": "DATA_COMPARISON",
+                "status": "COMPLETED",
+                "timestamp": "2026-03-30T10:15:10Z",
+                "details": "Name and date of birth match confirmed. Licence is active and not expired."
+              },
+              {
+                "stepName": "RESULT_COMPILATION",
+                "status": "COMPLETED",
+                "timestamp": "2026-03-30T10:15:11Z",
+                "details": "Verification result compiled and signed."
+              }
+            ],
+            "verifiedData": {
+              "holderName": "RAVI KUMAR",
+              "fatherOrHusbandName": "SURESH KUMAR",
+              "dateOfBirth": "1994-05-15",
+              "licenceNumber": "UP5020180012345",
+              "issueDate": "2018-03-20",
+              "expiryDate": "2038-03-19",
+              "vehicleClasses": "LMV, TRANS",
+              "issuingAuthority": "RTO Kanpur, Uttar Pradesh",
+              "status": "ACTIVE",
+              "address": "123, Govind Nagar, Kanpur, Uttar Pradesh 208006"
+            },
+            "evidence": [
+              {
+                "type": "SIGNED_CERTIFICATE",
+                "url": "https://verify-india.example.com/evidence/cert-dl-ravi-001.pdf",
+                "hash": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2",
+                "description": "Digitally signed verification certificate for DL UP5020180012345",
+                "createdAt": "2026-03-30T10:15:11Z"
+              },
+              {
+                "type": "SOURCE_RESPONSE_HASH",
+                "hash": "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5",
+                "description": "SHA-256 hash of the raw Parivahan Sewa API response",
+                "createdAt": "2026-03-30T10:15:08Z"
+              }
+            ],
+            "confidenceScore": 1.0,
+            "verifiedAt": "2026-03-30T10:15:11Z",
+            "validUntil": "2026-06-28T10:15:11Z"
+          }
+        }
+      ],
+      "settlements": [
+        {
+          "id": "settlement-dl-ravi-001",
+          "considerationId": "consideration-dl-premium-001",
+          "status": "DRAFT",
+          "settlementAttributes": {
+            "@context": "https://schema.beckn.io/core/v2/context.jsonld#generalised",
+            "@type": "beckn:Attributes"
+          }
+        }
+      ],
+      "contractAttributes": {
+        "@context": "https://schema.beckn.io/VerificationContract/context.jsonld",
+        "@type": "vc:VerificationContract",
+        "subject": {
+          "name": "Ravi Kumar",
+          "dateOfBirth": "1994-05-15",
+          "identifiers": [
+            {
+              "type": "LICENCE_NUMBER",
+              "value": "UP5020180012345",
+              "maskedValue": "UP50XXXXXXX2345"
+            },
+            {
+              "type": "MOBILE",
+              "value": "9876543210",
+              "maskedValue": "XXXXXX3210"
+            }
+          ]
+        },
+        "purpose": {
+          "code": "EMPLOYMENT_ONBOARDING",
+          "description": "Verification of driving licence for onboarding as a commercial bus driver at Delhi Metro Bus Services."
+        },
+        "consentReference": {
+          "consentId": "consent-ravi-dl-2026-001",
+          "mechanism": "OTP",
+          "grantedAt": "2026-03-30T10:10:00Z",
+          "expiresAt": "2026-03-30T11:10:00Z",
+          "scope": ["DRIVING_LICENCE"]
+        },
+        "aggregateResult": {
+          "status": "VERIFIED",
+          "summary": "Driving licence UP5020180012345 verified. Licence is active, valid for LMV and TRANS vehicle classes, and expires on 2038-03-19.",
+          "completedAt": "2026-03-30T10:15:11Z"
+        },
+        "requestedBy": {
+          "organizationName": "Delhi Metro Bus Services Pvt. Ltd.",
+          "organizationType": "EMPLOYER",
+          "referenceId": "DMBS-ONBOARD-2026-0342"
+        },
+        "expiresAt": "2026-06-28T10:15:11Z"
+      }
+    }
+  }
+}
