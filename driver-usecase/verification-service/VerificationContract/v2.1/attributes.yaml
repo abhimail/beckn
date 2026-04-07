@@ -15,8 +15,10 @@ components:
   schemas:
     VerificationContract:
       type: object
-      x-jsonld-context: "./context.jsonld"
       x-beckn-container: contractAttributes
+      x-jsonld:
+        "@context": "https://schema.beckn.io/VerificationContract/v2.1/context.jsonld"
+        "@type": "vc:VerificationContract"
       description: >
         Transaction-level metadata for a verification request contract.
         Captures who is being verified, why, under what consent, and the
@@ -45,6 +47,7 @@ components:
             - code
           properties:
             code:
+              x-jsonld-id: "vc:purposeCode"
               type: string
               description: >
                 Machine-readable purpose code. Well-known values:
@@ -52,6 +55,7 @@ components:
                 BACKGROUND_CHECK, CREDENTIAL_RENEWAL, INSURANCE_UNDERWRITING,
                 PLATFORM_ONBOARDING.
             description:
+              x-jsonld-id: "vc:purposeDescription"
               type: string
               description: Human-readable description of the verification purpose.
 
@@ -72,6 +76,7 @@ components:
           type: object
           properties:
             status:
+              x-jsonld-id: "vc:aggregateStatus"
               type: string
               description: >
                 Aggregate verification status. Values: VERIFIED,
@@ -83,9 +88,11 @@ components:
                 - INCONCLUSIVE
                 - EXPIRED
             summary:
+              x-jsonld-id: "vc:summary"
               type: string
               description: Human-readable summary of the aggregate result.
             completedAt:
+              x-jsonld-id: "vc:completedAt"
               type: string
               format: date-time
               description: Timestamp when the aggregate result was determined.
@@ -98,14 +105,17 @@ components:
           type: object
           properties:
             organizationName:
+              x-jsonld-id: "vc:organizationName"
               type: string
               description: Name of the requesting organization.
             organizationType:
+              x-jsonld-id: "vc:organizationType"
               type: string
               description: >
                 Type of organization. Values: EMPLOYER, PLATFORM, INSURER,
                 REGULATOR, FINANCIAL_INSTITUTION, OTHER.
             referenceId:
+              x-jsonld-id: "vc:referenceId"
               type: string
               description: >
                 Requester's internal reference for this verification
@@ -150,14 +160,17 @@ components:
               - value
             properties:
               type:
+                x-jsonld-id: "vc:identifierType"
                 type: string
                 description: >
                   Identifier type. Values: AADHAAR, PAN, MOBILE, EMAIL,
                   LICENCE_NUMBER, PASSPORT_NUMBER, VOTER_ID, EMPLOYEE_ID.
               value:
+                x-jsonld-id: "vc:identifierValue"
                 type: string
                 description: The identifier value.
               maskedValue:
+                x-jsonld-id: "vc:maskedValue"
                 type: string
                 description: >
                   A masked version of the identifier for display purposes

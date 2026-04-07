@@ -1,0 +1,36 @@
+sequenceDiagram
+    title UC4 — Skill Certificate Verification — Full Flow
+    participant RNP as Staffing Platform (Requesting NP)
+    participant GW as Beckn Gateway
+    participant PNP as Cert Verifier (Provider NP)
+
+    Note over RNP,PNP: Discovery
+    RNP->>GW: discover<br/>verificationType = SKILL_CERTIFICATE
+    GW->>PNP: discover
+    PNP-->>GW: on_discover<br/>resources[Skill Cert Verification]<br/>offers[₹30/req, PT1H SLA]
+    GW-->>RNP: on_discover
+
+    Note over RNP,PNP: Selection
+    RNP->>GW: select (commitment → Resource + Offer)
+    GW->>PNP: select
+    PNP-->>GW: on_select (consideration: ₹30)
+    GW-->>RNP: on_select
+
+    Note over RNP,PNP: Initialisation
+    RNP->>GW: init<br/>subject: Ankit Patel<br/>cert: ITI-GJ-2020-45678<br/>issuer: NCVT<br/>consent: OTP<br/>purpose: PLATFORM_ONBOARDING
+    GW->>PNP: init
+    PNP-->>GW: on_init
+    GW-->>RNP: on_init
+
+    Note over RNP,PNP: Confirmation
+    RNP->>GW: confirm (contract ACTIVE)
+    GW->>PNP: confirm
+    PNP-->>GW: on_confirm (performance PENDING)
+    GW-->>RNP: on_confirm
+
+    Note over RNP,PNP: Result
+    Note right of PNP: Queries NCVT registry<br/>Validates cert number,<br/>trade, institute, validity
+    RNP->>GW: status
+    GW->>PNP: status
+    PNP-->>GW: on_status<br/>VERIFIED<br/>tradeName: Electrician<br/>issuingInstitute: ITI Ahmedabad<br/>validUntil: 2030-12-31
+    GW-->>RNP: on_status

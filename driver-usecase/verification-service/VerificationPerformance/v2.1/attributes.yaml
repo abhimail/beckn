@@ -15,8 +15,10 @@ components:
   schemas:
     VerificationPerformance:
       type: object
-      x-jsonld-context: "./context.jsonld"
       x-beckn-container: performanceAttributes
+      x-jsonld:
+        "@context": "https://schema.beckn.io/VerificationPerformance/v2.1/context.jsonld"
+        "@type": "vp:VerificationPerformance"
       description: >
         Execution details for a single verification check within a contract.
         Each Performance unit corresponds to one verification type being
@@ -97,6 +99,7 @@ components:
           type: object
           properties:
             code:
+              x-jsonld-id: "vp:failureReasonCode"
               type: string
               description: >
                 Machine-readable failure code. Values: DATA_MISMATCH,
@@ -104,6 +107,7 @@ components:
                 CONSENT_EXPIRED, SUBJECT_NOT_FOUND, FRAUD_SUSPECTED,
                 MANUAL_REVIEW_REQUIRED, TIMEOUT.
             description:
+              x-jsonld-id: "vp:failureDescription"
               type: string
               description: Human-readable explanation of the failure.
 

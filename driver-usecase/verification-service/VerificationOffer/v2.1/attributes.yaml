@@ -15,8 +15,10 @@ components:
   schemas:
     VerificationOffer:
       type: object
-      x-jsonld-context: "./context.jsonld"
       x-beckn-container: offerAttributes
+      x-jsonld:
+        "@context": "https://schema.beckn.io/VerificationOffer/v2.1/context.jsonld"
+        "@type": "vo:VerificationOffer"
       description: >
         Commercial terms under which a verification service is offered.
         Covers pricing, turnaround guarantees, result validity, and any

@@ -1,0 +1,622 @@
+{
+  "info": {
+    "name": "Beckn Verification Service — E2E Testing",
+    "description": "End-to-end testing collection for Beckn Verification Service v2.1 with critical fixes from beckn.yaml v2.0 audit",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "gateway_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "requesting_np_callback_url",
+      "value": "http://localhost:3001/callback",
+      "type": "string"
+    },
+    {
+      "key": "provider_np_callback_url",
+      "value": "http://localhost:3002/callback",
+      "type": "string"
+    },
+    {
+      "key": "bapId",
+      "value": "requesting-np.com",
+      "type": "string"
+    },
+    {
+      "key": "bapUri",
+      "value": "http://localhost:3001",
+      "type": "string"
+    },
+    {
+      "key": "bppId",
+      "value": "provider-np.com",
+      "type": "string"
+    },
+    {
+      "key": "bppUri",
+      "value": "http://localhost:3002",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Requesting NP → Network",
+      "description": "Requests initiated by Requesting Network Participant",
+      "item": [
+        {
+          "name": "UC2 Identity Verification (Aadhaar eKYC)",
+          "description": "Aadhaar eKYC verification flow for Priya Sharma",
+          "item": [
+            {
+              "name": "discover - Find identity verification services",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{requesting_np_token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"discover\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"transactionId\": \"txn-aadhaar-001\",\n    \"messageId\": \"msg-discover-001\",\n    \"timestamp\": \"2026-04-07T10:00:00Z\"\n  },\n  \"message\": {\n    \"intent\": {\n      \"textSearch\": \"aadhaar ekyc identity verification\",\n      \"filters\": {\n        \"type\": \"jsonpath\",\n        \"expression\": \"$.resourceAttributes.verificationType.code == 'IDENTITY'\"\n      }\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "select - Choose UIDAI provider",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{requesting_np_token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"select\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-aadhaar-001\",\n    \"messageId\": \"msg-select-001\",\n    \"timestamp\": \"2026-04-07T10:01:00Z\"\n  },\n  \"message\": {\n    \"catalog\": {\n      \"id\": \"uidai-catalog\",\n      \"descriptor\": {\n        \"name\": \"UIDAI eKYC Services\"\n      },\n      \"provider\": {\n        \"id\": \"uidai-provider\",\n        \"descriptor\": {\n          \"name\": \"Unique Identification Authority of India\"\n        }\n      },\n      \"resources\": [\n        {\n          \"id\": \"aadhaar-ekyc\",\n          \"descriptor\": {\n            \"name\": \"Aadhaar eKYC Verification\"\n          },\n          \"resourceAttributes\": {\n            \"@context\": \"https://schema.beckn.io/verification-service/VerificationResource/v2.1/context.jsonld\",\n            \"@type\": \"vr:VerificationResource\",\n            \"verificationType\": {\n              \"code\": \"IDENTITY\"\n            },\n            \"verificationMethod\": \"AADHAAR_EKYC\"\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "init - Initialize Aadhaar verification",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{requesting_np_token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"init\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-aadhaar-001\",\n    \"messageId\": \"msg-init-001\",\n    \"timestamp\": \"2026-04-07T10:02:00Z\"\n  },\n  \"message\": {\n    \"order\": {\n      \"id\": \"order-aadhaar-001\",\n      \"descriptor\": {\n        \"name\": \"Aadhaar eKYC for Priya Sharma\"\n      },\n      \"provider\": {\n        \"id\": \"uidai-provider\"\n      },\n      \"resources\": [\n        {\n          \"id\": \"aadhaar-ekyc\",\n          \"quantity\": {\n            \"count\": 1\n          }\n        }\n      ],\n      \"offers\": [\n        {\n          \"id\": \"offer-aadhaar-ekyc\",\n          \"descriptor\": {\n            \"name\": \"Aadhaar eKYC Service\"\n          }\n        }\n      ],\n      \"participants\": [\n        {\n          \"id\": \"p1\",\n          \"descriptor\": {\n            \"name\": \"Priya Sharma\"\n          },\n          \"participantAttributes\": {\n            \"@context\": \"https://schema.beckn.io/verification-service/VerificationContract/v2.1/context.jsonld\",\n            \"@type\": \"vc:VerificationContract\",\n            \"aadhaarNumber\": \"9876-5432-1098\",\n            \"verificationType\": \"IDENTITY\",\n            \"verificationMethod\": \"AADHAAR_EKYC\",\n            \"usageContext\": \"KYC_COMPLIANCE\"\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "confirm - Submit verification request",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{requesting_np_token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"confirm\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-aadhaar-001\",\n    \"messageId\": \"msg-confirm-001\",\n    \"timestamp\": \"2026-04-07T10:03:00Z\"\n  },\n  \"message\": {\n    \"order\": {\n      \"id\": \"order-aadhaar-001\",\n      \"descriptor\": {\n        \"name\": \"Aadhaar eKYC for Priya Sharma\"\n      },\n      \"provider\": {\n        \"id\": \"uidai-provider\"\n      },\n      \"resources\": [\n        {\n          \"id\": \"aadhaar-ekyc\",\n          \"quantity\": {\n            \"count\": 1\n          }\n        }\n      ],\n      \"offers\": [\n        {\n          \"id\": \"offer-aadhaar-ekyc\"\n        }\n      ],\n      \"participants\": [\n        {\n          \"id\": \"p1\",\n          \"descriptor\": {\n            \"name\": \"Priya Sharma\"\n          },\n          \"participantAttributes\": {\n            \"@context\": \"https://schema.beckn.io/verification-service/VerificationContract/v2.1/context.jsonld\",\n            \"@type\": \"vc:VerificationContract\",\n            \"aadhaarNumber\": \"9876-5432-1098\",\n            \"verificationType\": \"IDENTITY\",\n            \"verificationMethod\": \"AADHAAR_EKYC\",\n            \"usageContext\": \"KYC_COMPLIANCE\"\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "status - Check verification status",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{requesting_np_token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"status\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-aadhaar-001\",\n    \"messageId\": \"msg-status-001\",\n    \"timestamp\": \"2026-04-07T10:04:00Z\"\n  },\n  \"message\": {\n    \"orderId\": \"order-aadhaar-001\"\n  }\n}"
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "UC1 Driving Licence Verification",
+          "description": "OTP-based driving licence verification for Ravi Kumar",
+          "item": [
+            {
+              "name": "discover - Find DL verification services",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"discover\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"transactionId\": \"txn-dl-001\",\n    \"messageId\": \"msg-discover-dl-001\",\n    \"timestamp\": \"2026-04-07T10:15:00Z\"\n  },\n  \"message\": {\n    \"intent\": {\n      \"textSearch\": \"driving licence verification otp\"\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "select - Choose Parivahan provider",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"select\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-dl-001\",\n    \"messageId\": \"msg-select-dl-001\",\n    \"timestamp\": \"2026-04-07T10:16:00Z\"\n  },\n  \"message\": {\n    \"catalog\": {\n      \"id\": \"parivahan-catalog\",\n      \"descriptor\": {\n        \"name\": \"Parivahan Sewa DL Services\"\n      },\n      \"provider\": {\n        \"id\": \"parivahan-provider\",\n        \"descriptor\": {\n          \"name\": \"Parivahan Sewa\"\n        }\n      },\n      \"resources\": [\n        {\n          \"id\": \"dl-otp\",\n          \"descriptor\": {\n            \"name\": \"Driving Licence OTP Verification\"\n          },\n          \"resourceAttributes\": {\n            \"@context\": \"https://schema.beckn.io/verification-service/VerificationResource/v2.1/context.jsonld\",\n            \"@type\": \"vr:VerificationResource\",\n            \"verificationType\": {\n              \"code\": \"DOCUMENT\"\n            },\n            \"verificationMethod\": \"OTP\"\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "init - Initialize DL verification",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"init\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-dl-001\",\n    \"messageId\": \"msg-init-dl-001\",\n    \"timestamp\": \"2026-04-07T10:17:00Z\"\n  },\n  \"message\": {\n    \"order\": {\n      \"id\": \"order-dl-001\",\n      \"descriptor\": {\n        \"name\": \"DL Verification for Ravi Kumar\"\n      },\n      \"provider\": {\n        \"id\": \"parivahan-provider\"\n      },\n      \"resources\": [\n        {\n          \"id\": \"dl-otp\",\n          \"quantity\": {\n            \"count\": 1\n          }\n        }\n      ],\n      \"participants\": [\n        {\n          \"id\": \"p2\",\n          \"descriptor\": {\n            \"name\": \"Ravi Kumar\"\n          },\n          \"participantAttributes\": {\n            \"@context\": \"https://schema.beckn.io/verification-service/VerificationContract/v2.1/context.jsonld\",\n            \"@type\": \"vc:VerificationContract\",\n            \"driversLicenceNumber\": \"UP0520240001234\",\n            \"verificationType\": \"DOCUMENT\",\n            \"verificationMethod\": \"OTP\",\n            \"usageContext\": \"EMPLOYMENT_ONBOARDING\"\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "UC3 Bank Account Verification",
+          "description": "Bank account verification via IMPS for Ravi Kumar",
+          "item": [
+            {
+              "name": "discover - Find bank verification services",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"discover\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"transactionId\": \"txn-bank-001\",\n    \"messageId\": \"msg-discover-bank-001\",\n    \"timestamp\": \"2026-04-07T10:30:00Z\"\n  },\n  \"message\": {\n    \"intent\": {\n      \"textSearch\": \"bank account verification\"\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "select - Choose NPCI provider",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"select\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-bank-001\",\n    \"messageId\": \"msg-select-bank-001\",\n    \"timestamp\": \"2026-04-07T10:31:00Z\"\n  },\n  \"message\": {\n    \"catalog\": {\n      \"id\": \"npci-catalog\",\n      \"descriptor\": {\n        \"name\": \"NPCI Bank Verification Services\"\n      },\n      \"provider\": {\n        \"id\": \"npci-provider\",\n        \"descriptor\": {\n          \"name\": \"NPCI\"\n        }\n      },\n      \"resources\": [\n        {\n          \"id\": \"bank-imps\",\n          \"descriptor\": {\n            \"name\": \"Bank Account IMPS Verification\"\n          },\n          \"resourceAttributes\": {\n            \"@context\": \"https://schema.beckn.io/verification-service/VerificationResource/v2.1/context.jsonld\",\n            \"@type\": \"vr:VerificationResource\",\n            \"verificationType\": {\n              \"code\": \"ACCOUNT\"\n            },\n            \"verificationMethod\": \"IMPS\"\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "init - Initialize bank verification",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"init\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-bank-001\",\n    \"messageId\": \"msg-init-bank-001\",\n    \"timestamp\": \"2026-04-07T10:32:00Z\"\n  },\n  \"message\": {\n    \"order\": {\n      \"id\": \"order-bank-001\",\n      \"descriptor\": {\n        \"name\": \"Bank Account Verification for Ravi Kumar\"\n      },\n      \"provider\": {\n        \"id\": \"npci-provider\"\n      },\n      \"resources\": [\n        {\n          \"id\": \"bank-imps\",\n          \"quantity\": {\n            \"count\": 1\n          }\n        }\n      ],\n      \"participants\": [\n        {\n          \"id\": \"p3\",\n          \"descriptor\": {\n            \"name\": \"Ravi Kumar\"\n          },\n          \"participantAttributes\": {\n            \"@context\": \"https://schema.beckn.io/verification-service/VerificationContract/v2.1/context.jsonld\",\n            \"@type\": \"vc:VerificationContract\",\n            \"bankAccountNumber\": \"12345678901234\",\n            \"ifscCode\": \"SBIN0001234\",\n            \"verificationType\": \"ACCOUNT\",\n            \"verificationMethod\": \"IMPS\"\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "UC4 Skill Certification Verification",
+          "description": "ITI skill certification verification for Ankit Patel",
+          "item": [
+            {
+              "name": "discover - Find skill certification services",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"discover\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"transactionId\": \"txn-skill-001\",\n    \"messageId\": \"msg-discover-skill-001\",\n    \"timestamp\": \"2026-04-07T10:45:00Z\"\n  },\n  \"message\": {\n    \"intent\": {\n      \"textSearch\": \"ITI skill certification\"\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "select - Choose NCVT provider",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"select\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-skill-001\",\n    \"messageId\": \"msg-select-skill-001\",\n    \"timestamp\": \"2026-04-07T10:46:00Z\"\n  },\n  \"message\": {\n    \"catalog\": {\n      \"id\": \"ncvt-catalog\",\n      \"descriptor\": {\n        \"name\": \"NCVT Skill Verification Services\"\n      },\n      \"provider\": {\n        \"id\": \"ncvt-provider\",\n        \"descriptor\": {\n          \"name\": \"National Council of Vocational Training\"\n        }\n      },\n      \"resources\": [\n        {\n          \"id\": \"skill-cert\",\n          \"descriptor\": {\n            \"name\": \"ITI Skill Certificate Verification\"\n          },\n          \"resourceAttributes\": {\n            \"@context\": \"https://schema.beckn.io/verification-service/VerificationResource/v2.1/context.jsonld\",\n            \"@type\": \"vr:VerificationResource\",\n            \"verificationType\": {\n              \"code\": \"CREDENTIAL\"\n            },\n            \"verificationMethod\": \"OTP\"\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "init - Initialize skill certification verification",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"init\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-skill-001\",\n    \"messageId\": \"msg-init-skill-001\",\n    \"timestamp\": \"2026-04-07T10:47:00Z\"\n  },\n  \"message\": {\n    \"order\": {\n      \"id\": \"order-skill-001\",\n      \"descriptor\": {\n        \"name\": \"ITI Skill Verification for Ankit Patel\"\n      },\n      \"provider\": {\n        \"id\": \"ncvt-provider\"\n      },\n      \"resources\": [\n        {\n          \"id\": \"skill-cert\",\n          \"quantity\": {\n            \"count\": 1\n          }\n        }\n      ],\n      \"participants\": [\n        {\n          \"id\": \"p4\",\n          \"descriptor\": {\n            \"name\": \"Ankit Patel\"\n          },\n          \"participantAttributes\": {\n            \"@context\": \"https://schema.beckn.io/verification-service/VerificationContract/v2.1/context.jsonld\",\n            \"@type\": \"vc:VerificationContract\",\n            \"certificateNumber\": \"ITI-GJ-2020-45678\",\n            \"verificationType\": \"CREDENTIAL\",\n            \"verificationMethod\": \"OTP\",\n            \"usageContext\": \"PLATFORM_ONBOARDING\"\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Provider NP → Network",
+      "description": "Responses and confirmations from Provider Network Participant",
+      "item": [
+        {
+          "name": "UC2 Identity Verification (Aadhaar eKYC)",
+          "description": "Provider responses for Aadhaar eKYC verification",
+          "item": [
+            {
+              "name": "on_discover - Return catalog of services",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{provider_np_token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"on_discover\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-aadhaar-001\",\n    \"messageId\": \"msg-on-discover-001\",\n    \"timestamp\": \"2026-04-07T10:00:30Z\"\n  },\n  \"message\": {\n    \"catalog\": {\n      \"id\": \"uidai-catalog\",\n      \"descriptor\": {\n        \"name\": \"UIDAI eKYC Services\"\n      },\n      \"provider\": {\n        \"id\": \"uidai-provider\",\n        \"descriptor\": {\n          \"name\": \"Unique Identification Authority of India\"\n        }\n      },\n      \"resources\": [\n        {\n          \"id\": \"aadhaar-ekyc\",\n          \"descriptor\": {\n            \"name\": \"Aadhaar eKYC Verification\",\n            \"code\": \"AADHAAR_EKYC\"\n          },\n          \"resourceAttributes\": {\n            \"@context\": \"https://schema.beckn.io/verification-service/VerificationResource/v2.1/context.jsonld\",\n            \"@type\": \"vr:VerificationResource\",\n            \"verificationType\": {\n              \"code\": \"IDENTITY\"\n            },\n            \"verificationMethod\": \"AADHAAR_EKYC\"\n          }\n        }\n      ],\n      \"offers\": [\n        {\n          \"id\": \"offer-aadhaar-ekyc\",\n          \"descriptor\": {\n            \"name\": \"Aadhaar eKYC Service\"\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "on_select - Confirm service selection",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{provider_np_token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"on_select\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-aadhaar-001\",\n    \"messageId\": \"msg-on-select-001\",\n    \"timestamp\": \"2026-04-07T10:01:30Z\"\n  },\n  \"message\": {\n    \"order\": {\n      \"id\": \"order-aadhaar-001\",\n      \"descriptor\": {\n        \"name\": \"Aadhaar eKYC for Priya Sharma\"\n      },\n      \"provider\": {\n        \"id\": \"uidai-provider\",\n        \"descriptor\": {\n          \"name\": \"Unique Identification Authority of India\"\n        }\n      },\n      \"resources\": [\n        {\n          \"id\": \"aadhaar-ekyc\",\n          \"quantity\": {\n            \"count\": 1\n          }\n        }\n      ],\n      \"offers\": [\n        {\n          \"id\": \"offer-aadhaar-ekyc\"\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "on_init - Return pricing and quote",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{provider_np_token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"on_init\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-aadhaar-001\",\n    \"messageId\": \"msg-on-init-001\",\n    \"timestamp\": \"2026-04-07T10:02:30Z\"\n  },\n  \"message\": {\n    \"order\": {\n      \"id\": \"order-aadhaar-001\",\n      \"descriptor\": {\n        \"name\": \"Aadhaar eKYC for Priya Sharma\"\n      },\n      \"provider\": {\n        \"id\": \"uidai-provider\",\n        \"descriptor\": {\n          \"name\": \"Unique Identification Authority of India\"\n        }\n      },\n      \"resources\": [\n        {\n          \"id\": \"aadhaar-ekyc\",\n          \"quantity\": {\n            \"count\": 1\n          }\n        }\n      ],\n      \"commitments\": [\n        {\n          \"id\": \"commitment-aadhaar-001\",\n          \"descriptor\": {\n            \"name\": \"Aadhaar Verification SLA\"\n          },\n          \"status\": {\n            \"descriptor\": {\n              \"code\": \"ACTIVE\"\n            }\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "on_confirm - Initiate verification process",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{provider_np_token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"on_confirm\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-aadhaar-001\",\n    \"messageId\": \"msg-on-confirm-001\",\n    \"timestamp\": \"2026-04-07T10:03:30Z\"\n  },\n  \"message\": {\n    \"order\": {\n      \"id\": \"order-aadhaar-001\",\n      \"descriptor\": {\n        \"name\": \"Aadhaar eKYC for Priya Sharma\"\n      },\n      \"provider\": {\n        \"id\": \"uidai-provider\"\n      },\n      \"resources\": [\n        {\n          \"id\": \"aadhaar-ekyc\",\n          \"quantity\": {\n            \"count\": 1\n          }\n        }\n      ],\n      \"participants\": [\n        {\n          \"id\": \"p1\",\n          \"descriptor\": {\n            \"name\": \"Priya Sharma\"\n          },\n          \"participantAttributes\": {\n            \"@context\": \"https://schema.beckn.io/verification-service/VerificationContract/v2.1/context.jsonld\",\n            \"@type\": \"vc:VerificationContract\",\n            \"aadhaarNumber\": \"9876-5432-1098\",\n            \"verificationType\": \"IDENTITY\",\n            \"verificationMethod\": \"AADHAAR_EKYC\",\n            \"usageContext\": \"KYC_COMPLIANCE\"\n          }\n        }\n      ],\n      \"commitments\": [\n        {\n          \"id\": \"commitment-aadhaar-001\",\n          \"descriptor\": {\n            \"name\": \"Aadhaar Verification\"\n          },\n          \"status\": {\n            \"descriptor\": {\n              \"code\": \"ACTIVE\"\n            }\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "on_status - Return verification result",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{provider_np_token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"on_status\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-aadhaar-001\",\n    \"messageId\": \"msg-on-status-001\",\n    \"timestamp\": \"2026-04-07T10:04:30Z\"\n  },\n  \"message\": {\n    \"order\": {\n      \"id\": \"order-aadhaar-001\",\n      \"state\": \"Completed\",\n      \"descriptor\": {\n        \"name\": \"Aadhaar eKYC Verification Complete\"\n      },\n      \"provider\": {\n        \"id\": \"uidai-provider\"\n      },\n      \"resources\": [\n        {\n          \"id\": \"aadhaar-ekyc\",\n          \"quantity\": {\n            \"count\": 1\n          }\n        }\n      ],\n      \"settlements\": [\n        {\n          \"id\": \"settlement-aadhaar-001\",\n          \"descriptor\": {\n            \"name\": \"Verification Settlement\"\n          },\n          \"status\": \"COMPLETE\"\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "UC1 Driving Licence Verification",
+          "description": "Provider responses for DL verification",
+          "item": [
+            {
+              "name": "on_discover - Return DL services",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"on_discover\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-dl-001\",\n    \"messageId\": \"msg-on-discover-dl-001\",\n    \"timestamp\": \"2026-04-07T10:15:30Z\"\n  },\n  \"message\": {\n    \"catalog\": {\n      \"id\": \"parivahan-catalog\",\n      \"descriptor\": {\n        \"name\": \"Parivahan Sewa DL Services\"\n      },\n      \"provider\": {\n        \"id\": \"parivahan-provider\",\n        \"descriptor\": {\n          \"name\": \"Parivahan Sewa\"\n        }\n      },\n      \"resources\": [\n        {\n          \"id\": \"dl-otp\",\n          \"descriptor\": {\n            \"name\": \"Driving Licence OTP Verification\"\n          },\n          \"resourceAttributes\": {\n            \"@context\": \"https://schema.beckn.io/verification-service/VerificationResource/v2.1/context.jsonld\",\n            \"@type\": \"vr:VerificationResource\",\n            \"verificationType\": {\n              \"code\": \"DOCUMENT\"\n            },\n            \"verificationMethod\": \"OTP\"\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "on_select - Confirm DL selection",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"on_select\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-dl-001\",\n    \"messageId\": \"msg-on-select-dl-001\",\n    \"timestamp\": \"2026-04-07T10:16:30Z\"\n  },\n  \"message\": {\n    \"order\": {\n      \"id\": \"order-dl-001\",\n      \"descriptor\": {\n        \"name\": \"DL Verification for Ravi Kumar\"\n      },\n      \"provider\": {\n        \"id\": \"parivahan-provider\"\n      },\n      \"resources\": [\n        {\n          \"id\": \"dl-otp\",\n          \"quantity\": {\n            \"count\": 1\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "on_init - Confirm DL pricing",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"on_init\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-dl-001\",\n    \"messageId\": \"msg-on-init-dl-001\",\n    \"timestamp\": \"2026-04-07T10:17:30Z\"\n  },\n  \"message\": {\n    \"order\": {\n      \"id\": \"order-dl-001\",\n      \"descriptor\": {\n        \"name\": \"DL Verification for Ravi Kumar\"\n      },\n      \"provider\": {\n        \"id\": \"parivahan-provider\"\n      },\n      \"resources\": [\n        {\n          \"id\": \"dl-otp\",\n          \"quantity\": {\n            \"count\": 1\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "UC3 Bank Account Verification",
+          "description": "Provider responses for bank verification",
+          "item": [
+            {
+              "name": "on_discover - Return bank services",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"on_discover\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-bank-001\",\n    \"messageId\": \"msg-on-discover-bank-001\",\n    \"timestamp\": \"2026-04-07T10:30:30Z\"\n  },\n  \"message\": {\n    \"catalog\": {\n      \"id\": \"npci-catalog\",\n      \"descriptor\": {\n        \"name\": \"NPCI Bank Verification Services\"\n      },\n      \"provider\": {\n        \"id\": \"npci-provider\",\n        \"descriptor\": {\n          \"name\": \"NPCI\"\n        }\n      },\n      \"resources\": [\n        {\n          \"id\": \"bank-imps\",\n          \"descriptor\": {\n            \"name\": \"Bank Account IMPS Verification\"\n          },\n          \"resourceAttributes\": {\n            \"@context\": \"https://schema.beckn.io/verification-service/VerificationResource/v2.1/context.jsonld\",\n            \"@type\": \"vr:VerificationResource\",\n            \"verificationType\": {\n              \"code\": \"ACCOUNT\"\n            },\n            \"verificationMethod\": \"IMPS\"\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "on_select - Confirm bank selection",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"on_select\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-bank-001\",\n    \"messageId\": \"msg-on-select-bank-001\",\n    \"timestamp\": \"2026-04-07T10:31:30Z\"\n  },\n  \"message\": {\n    \"order\": {\n      \"id\": \"order-bank-001\",\n      \"descriptor\": {\n        \"name\": \"Bank Account Verification for Ravi Kumar\"\n      },\n      \"provider\": {\n        \"id\": \"npci-provider\"\n      },\n      \"resources\": [\n        {\n          \"id\": \"bank-imps\",\n          \"quantity\": {\n            \"count\": 1\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "on_init - Confirm bank pricing",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"on_init\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-bank-001\",\n    \"messageId\": \"msg-on-init-bank-001\",\n    \"timestamp\": \"2026-04-07T10:32:30Z\"\n  },\n  \"message\": {\n    \"order\": {\n      \"id\": \"order-bank-001\",\n      \"descriptor\": {\n        \"name\": \"Bank Account Verification for Ravi Kumar\"\n      },\n      \"provider\": {\n        \"id\": \"npci-provider\"\n      },\n      \"resources\": [\n        {\n          \"id\": \"bank-imps\",\n          \"quantity\": {\n            \"count\": 1\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "UC4 Skill Certification Verification",
+          "description": "Provider responses for skill verification",
+          "item": [
+            {
+              "name": "on_discover - Return skill services",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"on_discover\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-skill-001\",\n    \"messageId\": \"msg-on-discover-skill-001\",\n    \"timestamp\": \"2026-04-07T10:45:30Z\"\n  },\n  \"message\": {\n    \"catalog\": {\n      \"id\": \"ncvt-catalog\",\n      \"descriptor\": {\n        \"name\": \"NCVT Skill Verification Services\"\n      },\n      \"provider\": {\n        \"id\": \"ncvt-provider\",\n        \"descriptor\": {\n          \"name\": \"National Council of Vocational Training\"\n        }\n      },\n      \"resources\": [\n        {\n          \"id\": \"skill-cert\",\n          \"descriptor\": {\n            \"name\": \"ITI Skill Certificate Verification\"\n          },\n          \"resourceAttributes\": {\n            \"@context\": \"https://schema.beckn.io/verification-service/VerificationResource/v2.1/context.jsonld\",\n            \"@type\": \"vr:VerificationResource\",\n            \"verificationType\": {\n              \"code\": \"CREDENTIAL\"\n            },\n            \"verificationMethod\": \"OTP\"\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "on_select - Confirm skill selection",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"on_select\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-skill-001\",\n    \"messageId\": \"msg-on-select-skill-001\",\n    \"timestamp\": \"2026-04-07T10:46:30Z\"\n  },\n  \"message\": {\n    \"order\": {\n      \"id\": \"order-skill-001\",\n      \"descriptor\": {\n        \"name\": \"ITI Skill Verification for Ankit Patel\"\n      },\n      \"provider\": {\n        \"id\": \"ncvt-provider\"\n      },\n      \"resources\": [\n        {\n          \"id\": \"skill-cert\",\n          \"quantity\": {\n            \"count\": 1\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "on_init - Confirm skill pricing",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"domain\": \"verification-service:2.0.0\",\n    \"action\": \"on_init\",\n    \"bapId\": \"{{bapId}}\",\n    \"bapUri\": \"{{bapUri}}\",\n    \"bppId\": \"{{bppId}}\",\n    \"bppUri\": \"{{bppUri}}\",\n    \"transactionId\": \"txn-skill-001\",\n    \"messageId\": \"msg-on-init-skill-001\",\n    \"timestamp\": \"2026-04-07T10:47:30Z\"\n  },\n  \"message\": {\n    \"order\": {\n      \"id\": \"order-skill-001\",\n      \"descriptor\": {\n        \"name\": \"ITI Skill Verification for Ankit Patel\"\n      },\n      \"provider\": {\n        \"id\": \"ncvt-provider\"\n      },\n      \"resources\": [\n        {\n          \"id\": \"skill-cert\",\n          \"quantity\": {\n            \"count\": 1\n          }\n        }\n      ]\n    }\n  }\n}"
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -33,6 +33,17 @@
     "referenceId": "vc:referenceId",
     "completedAt": "vc:completedAt",
     "summary": "vc:summary",
-    "maskedValue": "vc:maskedValue"
+    "maskedValue": "vc:maskedValue",
+
+    "code": "vc:purposeCode",
+    "purposeCode": "vc:purposeCode",
+    "description": "vc:purposeDescription",
+    "purposeDescription": "vc:purposeDescription",
+    "status": "vc:aggregateStatus",
+    "aggregateStatus": "vc:aggregateStatus",
+    "type": "vc:identifierType",
+    "identifierType": "vc:identifierType",
+    "value": "vc:identifierValue",
+    "identifierValue": "vc:identifierValue"
   }
 }

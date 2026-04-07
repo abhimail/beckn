@@ -1,0 +1,169 @@
+{
+  "context": {
+    "action": "on_discover",
+    "domain": "verification",
+    "version": "2.0.0",
+    "bapId": "employer-platform.example.com",
+    "bapUri": "https://employer-platform.example.com/beckn",
+    "bppId": "verify-india.example.com",
+    "bppUri": "https://verify-india.example.com/beckn",
+    "transactionId": "txn-offer-discover-001",
+    "messageId": "msg-offer-discover-001",
+    "timestamp": "2026-03-30T10:00:00Z",
+    "schemaContext": [
+      "https://schema.beckn.io/VerificationResource/v2.1/context.jsonld",
+      "https://schema.beckn.io/VerificationOffer/v2.1/context.jsonld"
+    ]
+  },
+  "message": {
+    "catalogs": [
+      {
+        "id": "catalog-verify-india-001",
+        "descriptor": {
+          "name": "VerifyIndia Trust Services",
+          "shortDesc": "Comprehensive identity and credential verification services for India"
+        },
+        "provider": {
+          "id": "provider-verify-india",
+          "descriptor": {
+            "name": "VerifyIndia Pvt. Ltd.",
+            "shortDesc": "Government-authorised verification service provider"
+          }
+        },
+        "resources": [
+          {
+            "id": "res-dl-verify-001",
+            "descriptor": {
+              "name": "Driving Licence Verification",
+              "shortDesc": "Real-time verification of Indian driving licences against Parivahan Sewa"
+            }
+          },
+          {
+            "id": "res-aadhaar-verify-001",
+            "descriptor": {
+              "name": "Aadhaar Identity Verification",
+              "shortDesc": "eKYC-based identity verification using Aadhaar"
+            }
+          },
+          {
+            "id": "res-bank-verify-001",
+            "descriptor": {
+              "name": "Bank Account Verification",
+              "shortDesc": "Verify bank account ownership via penny drop or NPCI validation"
+            }
+          }
+        ],
+        "offers": [
+          {
+            "id": "offer-dl-standard-001",
+            "descriptor": {
+              "name": "DL Verification — Standard",
+              "shortDesc": "Standard driving licence verification with 30-minute turnaround"
+            },
+            "resourceIds": ["res-dl-verify-001"],
+            "considerationIds": ["consideration-dl-standard-001"],
+            "offerAttributes": {
+              "@context": "https://schema.beckn.io/VerificationOffer/v2.1/context.jsonld",
+              "@type": "vo:VerificationOffer",
+              "turnaroundTime": "PT30M",
+              "resultValidityPeriod": "P90D",
+              "pricingModel": "PER_REQUEST",
+              "serviceLevel": "STANDARD",
+              "dataRetentionPolicy": "P30D",
+              "supportedConsentMechanisms": ["OTP", "DIGITAL_SIGNATURE"]
+            }
+          },
+          {
+            "id": "offer-dl-premium-001",
+            "descriptor": {
+              "name": "DL Verification — Premium",
+              "shortDesc": "Priority driving licence verification with 5-minute turnaround"
+            },
+            "resourceIds": ["res-dl-verify-001"],
+            "considerationIds": ["consideration-dl-premium-001"],
+            "offerAttributes": {
+              "@context": "https://schema.beckn.io/VerificationOffer/v2.1/context.jsonld",
+              "@type": "vo:VerificationOffer",
+              "turnaroundTime": "PT5M",
+              "resultValidityPeriod": "P90D",
+              "pricingModel": "PER_REQUEST",
+              "serviceLevel": "PREMIUM",
+              "dataRetentionPolicy": "P7D",
+              "supportedConsentMechanisms": ["OTP", "DIGITAL_SIGNATURE", "AADHAAR_EKYC"]
+            }
+          },
+          {
+            "id": "offer-aadhaar-standard-001",
+            "descriptor": {
+              "name": "Aadhaar eKYC — Standard",
+              "shortDesc": "Standard Aadhaar identity verification via OTP"
+            },
+            "resourceIds": ["res-aadhaar-verify-001"],
+            "considerationIds": ["consideration-aadhaar-001"],
+            "offerAttributes": {
+              "@context": "https://schema.beckn.io/VerificationOffer/v2.1/context.jsonld",
+              "@type": "vo:VerificationOffer",
+              "turnaroundTime": "PT2M",
+              "resultValidityPeriod": "P180D",
+              "pricingModel": "PER_REQUEST",
+              "serviceLevel": "STANDARD",
+              "dataRetentionPolicy": "P0D",
+              "supportedConsentMechanisms": ["AADHAAR_EKYC", "OTP"]
+            }
+          },
+          {
+            "id": "offer-bank-standard-001",
+            "descriptor": {
+              "name": "Bank Account Verification — Standard",
+              "shortDesc": "Penny-drop bank account verification"
+            },
+            "resourceIds": ["res-bank-verify-001"],
+            "considerationIds": ["consideration-bank-001"],
+            "offerAttributes": {
+              "@context": "https://schema.beckn.io/VerificationOffer/v2.1/context.jsonld",
+              "@type": "vo:VerificationOffer",
+              "turnaroundTime": "PT10M",
+              "resultValidityPeriod": "P30D",
+              "pricingModel": "PER_REQUEST",
+              "serviceLevel": "STANDARD",
+              "dataRetentionPolicy": "P30D",
+              "supportedConsentMechanisms": ["OTP", "DIGITAL_SIGNATURE"]
+            }
+          },
+          {
+            "id": "offer-dl-enterprise-001",
+            "descriptor": {
+              "name": "DL Verification — Enterprise Bundle",
+              "shortDesc": "Bulk driving licence verification with tiered pricing for 100+ requests"
+            },
+            "resourceIds": ["res-dl-verify-001"],
+            "considerationIds": ["consideration-dl-enterprise-001"],
+            "offerAttributes": {
+              "@context": "https://schema.beckn.io/VerificationOffer/v2.1/context.jsonld",
+              "@type": "vo:VerificationOffer",
+              "turnaroundTime": "PT15M",
+              "resultValidityPeriod": "P90D",
+              "pricingModel": "TIERED",
+              "bulkDiscountThreshold": 100,
+              "serviceLevel": "ENTERPRISE",
+              "dataRetentionPolicy": "P60D",
+              "supportedConsentMechanisms": ["OTP", "DIGITAL_SIGNATURE", "AADHAAR_EKYC"],
+              "eligibilityConstraints": [
+                {
+                  "type": "INDUSTRY",
+                  "value": "TRANSPORT",
+                  "description": "Available only to transportation and logistics companies"
+                },
+                {
+                  "type": "ROLE",
+                  "value": "EMPLOYER",
+                  "description": "Available only to registered employer participants"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -38,6 +38,10 @@
     "hash": "vp:hash",
     "description": "vp:evidenceDescription",
     "evidenceDescription": "vp:evidenceDescription",
-    "createdAt": "vp:createdAt"
+    "createdAt": "vp:createdAt",
+
+    "code": "vp:failureReasonCode",
+    "failureReasonCode": "vp:failureReasonCode",
+    "failureDescription": "vp:failureDescription"
   }
 }

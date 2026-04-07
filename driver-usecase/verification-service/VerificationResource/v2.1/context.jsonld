@@ -25,6 +25,15 @@
     "displayName": "vr:displayName",
     "fieldType": "vr:fieldType",
     "isRequired": "vr:isRequired",
-    "validationPattern": "vr:validationPattern"
+    "validationPattern": "vr:validationPattern",
+
+    "code": "vr:code",
+    "name": "vr:codedName",
+    "codedName": "vr:codedName",
+    "url": "vr:sourceUrl",
+    "sourceUrl": "vr:sourceUrl",
+    "type": "vr:sourceType",
+    "sourceType": "vr:sourceType",
+    "sourceName": "vr:sourceName"
   }
 }

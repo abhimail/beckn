@@ -1,0 +1,38 @@
+sequenceDiagram
+    title UC2 — Identity Verification (Aadhaar KYC) — Full Flow
+    participant RNP as Gig Platform (Requesting NP)
+    participant GW as Beckn Gateway
+    participant PNP as KYC Provider (Provider NP)
+
+    Note over RNP,PNP: Phase 1 — Discovery
+    RNP->>GW: discover<br/>intent: verificationType = IDENTITY<br/>textSearch: "aadhaar identity verification"
+    GW->>PNP: discover (forwarded)
+    PNP-->>GW: on_discover<br/>catalog with resources[Aadhaar KYC]<br/>offers[pricing: ₹25/req, SLA: PT15M]
+    GW-->>RNP: on_discover
+
+    Note over RNP,PNP: Phase 2 — Selection & Pricing
+    RNP->>GW: select<br/>contract.commitments[resourceId, offerId]
+    GW->>PNP: select (forwarded)
+    PNP-->>GW: on_select<br/>contract with consideration[₹25, DRAFT]
+    GW-->>RNP: on_select
+
+    Note over RNP,PNP: Phase 3 — Initialisation (Subject + Consent)
+    RNP->>GW: init<br/>contract.participants[REQUESTER, VERIFIER, SUBJECT]<br/>contractAttributes: subject(Priya, Aadhaar),<br/>consent(AADHAAR_EKYC), purpose(KYC_COMPLIANCE)
+    GW->>PNP: init (forwarded)
+    PNP-->>GW: on_init<br/>contract initialised, performance PENDING
+    GW-->>RNP: on_init
+
+    Note over RNP,PNP: Phase 4 — Confirmation
+    RNP->>GW: confirm<br/>contract.status: { code: ACTIVE }<br/>consideration: COMMITTED
+    GW->>PNP: confirm (forwarded)
+    PNP-->>GW: on_confirm<br/>contract ACTIVE<br/>performance PENDING<br/>settlement DRAFT
+    GW-->>RNP: on_confirm
+
+    Note over RNP,PNP: Phase 5 — Verification Execution & Result
+    Note right of PNP: Provider NP queries UIDAI API<br/>Validates Aadhaar<br/>Extracts: name, dob,<br/>gender, address
+    RNP->>GW: status<br/>contract.id: contract-kyc-001
+    GW->>PNP: status (forwarded)
+    PNP-->>GW: on_status<br/>contract COMPLETE<br/>performanceAttributes:<br/>  result: VERIFIED (0.98)<br/>  verifiedData: {name, dob, gender, address}<br/>  evidence: SOURCE_RESPONSE_HASH<br/>settlement: COMPLETE
+    GW-->>RNP: on_status
+
+    Note over RNP: Platform completes<br/>Priya's KYC onboarding

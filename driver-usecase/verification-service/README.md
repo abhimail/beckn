@@ -19,8 +19,8 @@ certificates, educational credentials, health worker licences, and more.
 
 | Role | Beckn Entity | Description |
 |------|-------------|-------------|
-| Requesting Platform | BAP | Employers, platforms, or organisations that need to verify individuals |
-| Verification Provider | BPP | Entities that perform verification against authoritative sources |
+| Requesting Platform | Requesting NP | Employers, platforms, or organisations that need to verify individuals |
+| Verification Provider | Provider NP | Entities that perform verification against authoritative sources |
 | Subject | Referenced in Contract as a Participant (role: SUBJECT) | The individual being verified |
 
 ## Schemas in this Pack

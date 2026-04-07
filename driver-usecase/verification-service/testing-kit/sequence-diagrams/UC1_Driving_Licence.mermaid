@@ -1,0 +1,36 @@
+sequenceDiagram
+    title UC1 — Driving Licence Verification — Full Flow
+    participant RNP as Employer HR (Requesting NP)
+    participant GW as Beckn Gateway
+    participant PNP as DL Verifier (Provider NP)
+
+    Note over RNP,PNP: Discovery
+    RNP->>GW: discover<br/>verificationType = DRIVING_LICENCE
+    GW->>PNP: discover
+    PNP-->>GW: on_discover<br/>resources[DL Verification]<br/>offers[₹50/req, PT30M SLA]
+    GW-->>RNP: on_discover
+
+    Note over RNP,PNP: Selection
+    RNP->>GW: select (commitment → Resource + Offer)
+    GW->>PNP: select
+    PNP-->>GW: on_select (consideration: ₹50)
+    GW-->>RNP: on_select
+
+    Note over RNP,PNP: Initialisation
+    RNP->>GW: init<br/>subject: Ravi Kumar<br/>licence: UP0520240001234<br/>consent: OTP<br/>purpose: EMPLOYMENT_ONBOARDING
+    GW->>PNP: init
+    PNP-->>GW: on_init (contract initialised)
+    GW-->>RNP: on_init
+
+    Note over RNP,PNP: Confirmation
+    RNP->>GW: confirm (contract ACTIVE)
+    GW->>PNP: confirm
+    PNP-->>GW: on_confirm (performance PENDING)
+    GW-->>RNP: on_confirm
+
+    Note over RNP,PNP: Result
+    Note right of PNP: Queries Parivahan Sewa<br/>Extracts: holder, classes,<br/>expiry, issuing RTO
+    RNP->>GW: status
+    GW->>PNP: status
+    PNP-->>GW: on_status<br/>VERIFIED<br/>holderName, vehicleClasses,<br/>expiryDate, issuingAuthority
+    GW-->>RNP: on_status

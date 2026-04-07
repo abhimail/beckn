@@ -15,8 +15,10 @@ components:
   schemas:
     VerificationResource:
       type: object
-      x-jsonld-context: "./context.jsonld"
       x-beckn-container: resourceAttributes
+      x-jsonld:
+        "@context": "https://schema.beckn.io/VerificationResource/v2.1/context.jsonld"
+        "@type": "vr:VerificationResource"
       description: >
         Attributes describing a verification service type. Captures what is
         verified, what inputs are required, which jurisdictions are supported,
@@ -35,6 +37,7 @@ components:
             - code
           properties:
             code:
+              x-jsonld-id: "vr:code"
               type: string
               description: >
                 Machine-readable verification type code. Well-known values include
@@ -42,6 +45,7 @@ components:
                 EDUCATION_CREDENTIAL, HEALTH_LICENCE, ADDRESS, EMPLOYMENT_HISTORY,
                 CRIMINAL_RECORD.
             name:
+              x-jsonld-id: "vr:codedName"
               type: string
               description: Human-readable name of the verification type.
 
@@ -58,12 +62,14 @@ components:
               - code
             properties:
               code:
+                x-jsonld-id: "vr:code"
                 type: string
                 description: >
                   Machine-readable document type code. Examples: AADHAAR, PAN,
                   DRIVING_LICENCE, PASSPORT, VOTER_ID, BANK_STATEMENT,
                   SKILL_CERT, DEGREE_CERT, REGISTRATION_CERT.
               name:
+                x-jsonld-id: "vr:codedName"
                 type: string
                 description: Human-readable name of the document type.
 
@@ -79,9 +85,11 @@ components:
               - code
             properties:
               code:
+                x-jsonld-id: "vr:code"
                 type: string
                 description: ISO 3166-1 alpha-2 country code or ISO 3166-2 subdivision code.
               name:
+                x-jsonld-id: "vr:codedName"
                 type: string
                 description: Human-readable jurisdiction name.
 
@@ -117,13 +125,16 @@ components:
           type: object
           properties:
             name:
+              x-jsonld-id: "vr:sourceName"
               type: string
               description: Name of the authoritative source (e.g., "Parivahan Sewa", "UIDAI", "NSDL").
             url:
+              x-jsonld-id: "vr:sourceUrl"
               type: string
               format: uri
               description: URL of the authoritative source (if publicly known).
             type:
+              x-jsonld-id: "vr:sourceType"
               type: string
               description: >
                 Type of source. Values: GOVERNMENT_DATABASE, FINANCIAL_INSTITUTION,
@@ -147,9 +158,11 @@ components:
             type: object
             properties:
               code:
+                x-jsonld-id: "vr:code"
                 type: string
                 description: Standard code (e.g., "ISO_27001", "GDPR", "DPDPA_2023").
               name:
+                x-jsonld-id: "vr:codedName"
                 type: string
                 description: Human-readable name of the compliance standard.
 

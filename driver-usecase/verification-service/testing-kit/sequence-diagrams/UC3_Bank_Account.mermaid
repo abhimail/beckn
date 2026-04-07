@@ -1,0 +1,36 @@
+sequenceDiagram
+    title UC3 — Bank Account Verification — Full Flow
+    participant RNP as Employer HR (Requesting NP)
+    participant GW as Beckn Gateway
+    participant PNP as Bank Verifier (Provider NP)
+
+    Note over RNP,PNP: Discovery
+    RNP->>GW: discover<br/>verificationType = BANK_ACCOUNT
+    GW->>PNP: discover
+    PNP-->>GW: on_discover<br/>resources[Bank Account Verification]<br/>offers[₹15/req, PT10M SLA]
+    GW-->>RNP: on_discover
+
+    Note over RNP,PNP: Selection
+    RNP->>GW: select (commitment → Resource + Offer)
+    GW->>PNP: select
+    PNP-->>GW: on_select (consideration: ₹15)
+    GW-->>RNP: on_select
+
+    Note over RNP,PNP: Initialisation
+    RNP->>GW: init<br/>subject: Ravi Kumar<br/>account: 12345678901234<br/>IFSC: SBIN0001234<br/>consent: OTP
+    GW->>PNP: init
+    PNP-->>GW: on_init
+    GW-->>RNP: on_init
+
+    Note over RNP,PNP: Confirmation
+    RNP->>GW: confirm (contract ACTIVE)
+    GW->>PNP: confirm
+    PNP-->>GW: on_confirm (performance PENDING)
+    GW-->>RNP: on_confirm
+
+    Note over RNP,PNP: Result
+    Note right of PNP: NPCI/IMPS penny-drop<br/>Confirms account holder<br/>and account status
+    RNP->>GW: status
+    GW->>PNP: status
+    PNP-->>GW: on_status<br/>VERIFIED<br/>accountHolderName,<br/>accountStatus: ACTIVE
+    GW-->>RNP: on_status
